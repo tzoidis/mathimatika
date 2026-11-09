@@ -3,6 +3,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useApp } from '../app/AppContext.tsx';
+import { availableGenerators } from '../app/curriculum.ts';
 import { mulberry32, newSeed } from '../engine/rng.ts';
 import type { AnswerLog, Round, RoundKind } from '../engine/types.ts';
 import { exerciseForRound } from '../exercises/registry.ts';
@@ -10,14 +11,15 @@ import { completeRound, recordAnswer } from '../storage/progress.ts';
 
 export function RoundPlayer({ roundKind, onComplete }: { roundKind: RoundKind; onComplete(): void }) {
   const app = useApp();
-  const { db, child } = app;
-  const entry = exerciseForRound(roundKind);
+  const { db, child, settings } = app;
+  const generators = availableGenerators(settings.grade, settings.upToUnit);
+  const entry = exerciseForRound(roundKind, generators);
   const [round, setRound] = useState<Round | null>(null);
   const finished = useRef(false);
 
   useEffect(() => {
     const seed = newSeed();
-    setRound({ ...entry.module.generate({ roundKind, level: 1, rng: mulberry32(seed) }), seed });
+    setRound({ ...entry.module.generate({ roundKind, level: 1, rng: mulberry32(seed), generators }), seed });
     // generate once per mounted round (Session remounts per round via key)
   }, []);
 

@@ -35,8 +35,17 @@ function duplicates<T>(values: T[]): T[] {
 }
 
 /** Everything wrong with one grade's graph and book map; empty when they are sound. */
-export function validateCurriculum(graph: SkillGraph, curriculum: Curriculum): string[] {
+export function validateCurriculum(graph: SkillGraph, curriculum: Curriculum, generators?: readonly { id: string; skill: SkillId }[]): string[] {
   const errors: string[] = [];
+  if (generators) {
+    for (const skill of graph.skills) {
+      for (const id of skill.generators) {
+        const generator = generators.find((g) => g.id === id);
+        if (!generator) errors.push(`${skill.id}: generator ${id} does not exist`);
+        else if (generator.skill !== skill.id) errors.push(`${skill.id}: generator ${id} is for ${generator.skill}`);
+      }
+    }
+  }
   const ids = new Set(graph.skills.map((s) => s.id));
   const kinds = new Set<string>(REPRESENTATION_KINDS);
 

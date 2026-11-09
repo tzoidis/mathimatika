@@ -469,6 +469,196 @@ button {
   box-shadow: 0 8px 0 var(--card-edge);
 }
 
+.keypad-round {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.keypad-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.keypad-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.keypad-question {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.keypad-round .numpad {
+  grid-template-columns: repeat(3, 96px);
+}
+
+.keypad-round .numpad-key {
+  height: 76px;
+  font-family: 'Glossa Reading', system-ui, sans-serif;
+  font-size: 40px;
+  background: var(--card);
+}
+
+.keypad-round .numpad-key--ok {
+  background: var(--accent);
+}
+
+@media (orientation: landscape) {
+  .keypad-body {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .left-handed .keypad-body {
+    flex-direction: row-reverse;
+  }
+}
+
+.scene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.expression {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: 'Glossa Reading', system-ui, sans-serif;
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* where the answer goes; shown answers are outlined, never coloured as a mark */
+.slot {
+  min-width: 112px;
+  height: 96px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  border: 4px solid var(--accent);
+  background: var(--card);
+  font-family: 'Glossa Reading', system-ui, sans-serif;
+  font-size: 72px;
+  font-weight: 700;
+}
+
+.slot--shown {
+  border-style: dashed;
+  color: var(--accent);
+}
+
+.dot {
+  display: block;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.dot--hollow {
+  background: transparent;
+  border: 3px dashed var(--accent);
+}
+
+.dots {
+  display: grid;
+  grid-template-columns: repeat(5, 32px);
+  gap: 8px;
+}
+
+.dot-groups {
+  display: flex;
+  gap: 48px;
+}
+
+.ten-frames {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ten-frame {
+  display: grid;
+  grid-template-columns: repeat(5, 48px);
+  border: 3px solid var(--card-edge);
+  border-radius: 8px;
+  background: var(--card);
+}
+
+.frame-cell {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--card-edge);
+}
+
+.scatter {
+  display: grid;
+  grid-template-columns: repeat(6, 48px);
+}
+
+.scatter-cell {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.house {
+  width: 288px;
+  font-family: 'Glossa Reading', system-ui, sans-serif;
+  font-size: 72px;
+  font-weight: 700;
+}
+
+.house-roof {
+  height: 128px;
+  padding-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  background: var(--accent-soft);
+  line-height: 1;
+}
+
+.house-rooms {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 4px solid var(--card-edge);
+  border-top: 0;
+  background: var(--card);
+}
+
+.house-rooms .room {
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.house-rooms .room + .room {
+  border-left: 4px solid var(--card-edge);
+}
+
 /* filled and hollow, not colour alone (PRD §7) */
 .round-dots {
   list-style: none;

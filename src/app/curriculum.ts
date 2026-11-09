@@ -3,7 +3,10 @@
 import bookMap1 from '../content/book-map.1.json';
 import letters from '../content/letters.json';
 import skills1 from '../content/skills.1.json';
+import { skillAvailability } from '../engine/curriculum.ts';
 import type { Curriculum, Grade, SkillGraph } from '../engine/types.ts';
+import { generatorById } from '../math-core/generators/index.ts';
+import type { PlayableGenerator } from '../math-core/generators/types.ts';
 
 export interface GradeContent {
   graph: SkillGraph;
@@ -15,5 +18,15 @@ const CONTENT: Partial<Record<Grade, GradeContent>> = {
 };
 
 export const gradeContent = (grade: Grade): GradeContent | null => CONTENT[grade] ?? null;
+
+/** The generators of everything the class has reached, in book order. */
+export function availableGenerators(grade: Grade, upToUnit: string | null): PlayableGenerator[] {
+  const content = gradeContent(grade);
+  if (!content) return [];
+  const { available } = skillAvailability(content.graph, content.curriculum, upToUnit);
+  return available.flatMap((id) =>
+    (content.graph.skills.find((s) => s.id === id)?.generators ?? []).flatMap((generatorId) => generatorById(generatorId) ?? []),
+  );
+}
 
 export const LETTER_UNITS: { title: string; graphemes: string[] }[] = letters.units;

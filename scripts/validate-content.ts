@@ -1,11 +1,12 @@
-// Checks src/content/*.json (runs in CI). «Every skill has a generator» (PRD §9) starts
-// to apply in ΜΘ3-ΜΘ4, when generators exist; add that check to validateCurriculum then.
+// Checks src/content/*.json (runs in CI). «Every skill has a generator» (PRD §9) cannot
+// hold until the remaining generators exist (ΜΘ4); until then a named one must be real.
 
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { numberClips } from '../src/audio/numberClips.ts';
 import { validateCurriculum } from '../src/engine/curriculum.ts';
 import type { Curriculum, SkillGraph } from '../src/engine/types.ts';
+import { GENERATORS } from '../src/math-core/generators/index.ts';
 
 const root = join(import.meta.dirname, '..');
 const contentDir = join(root, 'src', 'content');
@@ -59,7 +60,7 @@ for (const name of graphFiles) {
   }
   const graph = read<SkillGraph>(name);
   skillCount += graph.skills.length;
-  errors.push(...validateCurriculum(graph, read<Curriculum>(mapName)).map((e) => `${name}: ${e}`));
+  errors.push(...validateCurriculum(graph, read<Curriculum>(mapName), GENERATORS).map((e) => `${name}: ${e}`));
 }
 
 const letters = read<{ units: { graphemes: string[] }[] }>('letters.json').units.flatMap((u) => u.graphemes);

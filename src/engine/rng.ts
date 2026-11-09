@@ -25,6 +25,11 @@ export function shuffle<T>(items: readonly T[], rng: () => number): T[] {
   return out;
 }
 
+/** A whole number from lo to hi, both included. */
+export function randInt(lo: number, hi: number, rng: () => number): number {
+  return lo + Math.floor(rng() * (hi - lo + 1));
+}
+
 export function pick<T>(items: readonly T[], rng: () => number): T {
   if (items.length === 0) throw new Error('pick from empty list');
   return items[Math.floor(rng() * items.length)]!;

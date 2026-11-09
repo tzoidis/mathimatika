@@ -54,7 +54,7 @@ Node ≥ 22.18 (scripts in `scripts/` run as plain `.ts` via Node type stripping
 ## Conventions
 
 - The pure session flow is `src/engine/session.ts`: 3 fixed rounds (warm-up, workshop, mix) × 5 questions, no station choice in grades 1-2.
-- `src/exercises/registry.ts` decides what a round plays; until ΜΘ3 it is `placeholder`, which writes no answers or stars (`countsForProgress: false`).
+- `src/exercises/registry.ts` decides what a round plays: `keypad` when the chapter set by the parent makes generators available, otherwise `placeholder`, which writes no answers or stars (`countsForProgress: false`). A skill names its generators in `skills.<grade>.json`; `src/math-core/generators/` holds them. Until the adaptive engine (ΜΘ6), `planRound` treats the two newest generators as the current unit.
 - `AnswerLog` has the same shape as Glossa's (PRD §9). Exercises leave `childId` empty; the session fills it.
 - Theme is data per age band: `src/app/theme.ts` sets `<html data-band>`, and the tokens are in `src/index.css`. Only `early` exists so far.
 - Number words: every form is written out in `src/content/numberWords.json` (Greek stays out of code); `numberToGreekWords` only assembles them. `numberRequest(n, gender, case)` picks the clip; 0-100 have clips, anything else falls back to the local voice.

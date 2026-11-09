@@ -1,4 +1,10 @@
 {
+  "hint/count-again": {
+    "text": "Μέτρησέ τα ξανά, ένα ένα, με το δάχτυλο.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/count-from-next": {
     "text": "Μέτρησες και τον πρώτο αριθμό; Ξεκίνα από τον επόμενο.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -19,6 +25,12 @@
   },
   "hint/hmm": {
     "text": "Χμμ, για να δούμε.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "hint/house-parts": {
+    "text": "Το σπιτάκι έχει δύο μέρη. Το ένα το βλέπεις. Πόσο είναι το άλλο;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -65,6 +77,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "hint/teen-digits": {
+    "text": "Στους αριθμούς μετά το δέκα, πρώτα γράφουμε το ένα.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/together": {
     "text": "Ας το δούμε μαζί.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -79,6 +97,12 @@
   },
   "instruction/add": {
     "text": "Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/and": {
+    "text": "και",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"

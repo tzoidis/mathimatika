@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import book from '../content/book-map.1.json';
 import graphFile from '../content/skills.1.json';
+import { GENERATORS } from '../math-core/generators/index.ts';
 import { findCycle, skillAvailability, validateCurriculum } from './curriculum.ts';
 import type { Curriculum, Skill, SkillGraph, SkillId } from './types.ts';
 
@@ -16,7 +17,14 @@ const fixture = (skills: Skill[], units: [string, string[]][]) => {
 
 describe('grade 1 content', () => {
   it('is sound', () => {
-    expect(validateCurriculum(graph, map)).toEqual([]);
+    expect(validateCurriculum(graph, map, GENERATORS)).toEqual([]);
+  });
+
+  it('names a generator that exists, for the right skill', () => {
+    const [g, c] = fixture([{ ...skill('1.a'), generators: ['nope', 'count.to5'] }], [['u', ['1.a']]]);
+    const errors = validateCurriculum(g, c, GENERATORS).join();
+    expect(errors).toContain('generator nope does not exist');
+    expect(errors).toContain('generator count.to5 is for 1.num.count.to5');
   });
 
   it('has the 64 chapters of the two volumes, one by one', () => {
