@@ -5,7 +5,7 @@ import { Dexie, type EntityTable } from 'dexie';
 import type { AnswerLog } from '../engine/types.ts';
 import { BACKUPS_DB_NAME, exportTables, saveMigrationBackup } from './backup.ts';
 import { MIGRATIONS, type Migration } from './migrations.ts';
-import { DEFAULT_CHILD_ID, defaultSettings, localDate, type Child, type DailyTime, type Settings } from './schema.ts';
+import { DEFAULT_CHILD_ID, defaultSettings, localDate, type Child, type DailyTime, type Settings, type WorldItem } from './schema.ts';
 
 export const DB_NAME = 'mathimatika';
 
@@ -14,6 +14,7 @@ export class MathDb extends Dexie {
   declare settings: EntityTable<Settings, 'childId'>;
   declare answers: EntityTable<AnswerLog, 'id'>;
   declare dailyTime: EntityTable<DailyTime, 'id'>;
+  declare world: EntityTable<WorldItem, 'id'>;
 
   constructor(name: string, migrations: Migration[]) {
     super(name);

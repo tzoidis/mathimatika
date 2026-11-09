@@ -1,14 +1,14 @@
-// Home: one big button starts the session. The Workshop joins it in ΜΘ5.
+// Home: one big button starts the session; the other opens the Workshop.
 
 import { useEffect, useState } from 'react';
 import { useApp } from '../app/AppContext.tsx';
 import { t } from '../i18n.ts';
 import { getDailyTime } from '../storage/db.ts';
 import { IconButton } from '../ui/IconButton.tsx';
-import { LockIcon, NextIcon } from '../ui/Icons.tsx';
+import { LockIcon, NextIcon, WorkshopIcon } from '../ui/Icons.tsx';
 import { Mascot } from '../ui/Mascot.tsx';
 
-export function Home({ onPlay, onParent }: { onPlay(): void; onParent(): void }) {
+export function Home({ onPlay, onWorkshop, onParent }: { onPlay(): void; onWorkshop(): void; onParent(): void }) {
   const { db, child, settings, audio } = useApp();
   const [limitReached, setLimitReached] = useState<boolean | null>(null);
 
@@ -40,6 +40,9 @@ export function Home({ onPlay, onParent }: { onPlay(): void; onParent(): void })
           <Mascot mood="happy" size={200} />
           <IconButton label={t('nav.play')} variant="primary" onClick={onPlay}>
             <NextIcon />
+          </IconButton>
+          <IconButton label={t('nav.workshop')} onClick={onWorkshop}>
+            <WorkshopIcon />
           </IconButton>
         </div>
       )}

@@ -34,6 +34,10 @@ export const MIGRATIONS: Migration[] = [
       s.seenDemos ??= [];
     }),
   },
+  {
+    version: 4,
+    stores: { world: 'id, childId' },
+  },
 ];
 
 export const SCHEMA_VERSION = MIGRATIONS[MIGRATIONS.length - 1]!.version;

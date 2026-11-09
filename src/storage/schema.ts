@@ -31,6 +31,15 @@ export interface Settings {
   lastBackupAt: number | null;
 }
 
+/** Something the child chose for the Workshop. */
+export interface WorldItem {
+  /** `${childId}:${itemId}`, so an item can be owned only once */
+  id: string;
+  childId: string;
+  itemId: string;
+  placedAt: number;
+}
+
 export interface DailyTime {
   /** `${childId}:${date}` */
   id: string;

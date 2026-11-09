@@ -9,6 +9,9 @@ export const QUESTIONS_PER_ROUND = 5;
 export const ROUND_KINDS: readonly RoundKind[] = ['warmup', 'workshop', 'mix'];
 export const ROUNDS_PER_SESSION = ROUND_KINDS.length;
 
+/** PRD §6: at most one fluency round a session; every other session plays the mix instead. */
+export const isFluencySession = (roundsPlayed: number): boolean => Math.floor(roundsPlayed / ROUNDS_PER_SESSION) % 2 === 0;
+
 export type Phase = { kind: 'play'; roundKind: RoundKind } | { kind: 'break' } | { kind: 'done'; reason: 'complete' | 'limit' };
 
 export interface SessionState {

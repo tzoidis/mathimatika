@@ -1001,6 +1001,107 @@ button {
   font-weight: 600;
 }
 
+.home-body .icon-button--plain {
+  margin-top: 8px;
+}
+
+.done-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.tempo-choice {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+
+.tempo-tile {
+  width: 220px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 32px;
+  border: 3px solid var(--card-edge);
+  background: var(--card);
+  box-shadow: 0 6px 0 var(--card-edge);
+}
+
+.workshop {
+  height: 100%;
+  padding: var(--gutter);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+}
+
+.star-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Glossa Reading', system-ui, sans-serif;
+  font-size: 40px;
+}
+
+.workshop-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.workshop-scene {
+  width: 100%;
+  max-width: 860px;
+  height: auto;
+  border-radius: 24px;
+  border: 3px solid var(--card-edge);
+}
+
+.workshop-choices {
+  display: flex;
+  gap: 24px;
+}
+
+.workshop-choice {
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  border: 3px solid var(--accent);
+  background: var(--card);
+  box-shadow: 0 5px 0 var(--accent-edge);
+}
+
+.garden {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+}
+
+.garden-bed {
+  display: grid;
+  padding: 8px;
+  border-radius: 12px;
+  background: #e8d7b0;
+}
+
+.garden-cell {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* filled and hollow, not colour alone (PRD §7) */
 .round-dots {
   list-style: none;

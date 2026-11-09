@@ -5,10 +5,11 @@ import { Home } from './screens/Home.tsx';
 import { Parent } from './screens/parent/Parent.tsx';
 import { Session } from './screens/Session.tsx';
 import { Start } from './screens/Start.tsx';
+import { Workshop } from './screens/workshop/Workshop.tsx';
 import { ErrorBoundary } from './ui/ErrorBoundary.tsx';
 import { Mascot } from './ui/Mascot.tsx';
 
-type Screen = { name: 'start' } | { name: 'home' } | { name: 'session' } | { name: 'parent'; from: 'start' | 'home' };
+type Screen = { name: 'start' } | { name: 'home' } | { name: 'session' } | { name: 'workshop' } | { name: 'parent'; from: 'start' | 'home' };
 
 function Screens() {
   const { settings } = useApp();
@@ -23,8 +24,9 @@ function Screens() {
     <div className={`app ${settings.leftHanded ? 'left-handed' : ''}`}>
       <ErrorBoundary onHome={home}>
         {screen.name === 'start' && <Start onGo={home} onParent={() => setScreen({ name: 'parent', from: 'start' })} />}
-        {screen.name === 'home' && <Home onPlay={() => setScreen({ name: 'session' })} onParent={() => setScreen({ name: 'parent', from: 'home' })} />}
-        {screen.name === 'session' && <Session onHome={home} />}
+        {screen.name === 'home' && <Home onPlay={() => setScreen({ name: 'session' })} onWorkshop={() => setScreen({ name: 'workshop' })} onParent={() => setScreen({ name: 'parent', from: 'home' })} />}
+        {screen.name === 'session' && <Session onHome={home} onWorkshop={() => setScreen({ name: 'workshop' })} />}
+        {screen.name === 'workshop' && <Workshop onHome={home} />}
         {/* back to «Πάμε!» when opened there: its tap is what unlocks the sound */}
         {screen.name === 'parent' && <Parent onClose={() => (screen.from === 'start' ? setScreen({ name: 'start' }) : home())} />}
       </ErrorBoundary>

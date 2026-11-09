@@ -3,7 +3,7 @@
 
 import { t, type UiKey } from '../../i18n.ts';
 
-const TOPICS = ['status', 'session', 'time', 'data'] as const;
+const TOPICS = ['status', 'world', 'session', 'time', 'data'] as const;
 
 export function GuideSection({ open }: { open: boolean }) {
   return (

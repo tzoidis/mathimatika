@@ -1,0 +1,17 @@
+{
+  "price": 3,
+  "items": [
+    { "id": "bench", "title": "Πάγκος" },
+    { "id": "lamp", "title": "Λάμπα" },
+    { "id": "toolbox", "title": "Εργαλειοθήκη" },
+    { "id": "clock", "title": "Ρολόι" },
+    { "id": "shelf", "title": "Ράφι με βάζα" },
+    { "id": "scale", "title": "Ζυγαριά" },
+    { "id": "flowers", "title": "Γλάστρα" },
+    { "id": "stall", "title": "Πάγκος της Αγοράς" },
+    { "id": "basket", "title": "Καλάθι με μήλα" },
+    { "id": "cashbox", "title": "Ταμείο" },
+    { "id": "bird", "title": "Πουλάκι" },
+    { "id": "mill", "title": "Μύλος" }
+  ]
+}

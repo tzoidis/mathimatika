@@ -63,6 +63,8 @@ Node ≥ 22.18 (scripts in `scripts/` run as plain `.ts` via Node type stripping
 - Grade 1 map: the 64 chapters of the book in `docs/` (git-ignored, the repo is public). Review and assessment chapters have `review: true` and no skills. The numerals follow that book: επτά, οκτώ, εννέα.
 - A manipulative shows its `demo` states once, the first time it appears; `settings.seenDemos` remembers which.
 - Ordinals are read off a picture and typed: ten floors at 96px would not fit a tablet.
+- The mix round is the musical chain every other session (`isFluencySession`) once enough facts are open; `src/math-core/facts.ts` says which. The notes are made by the device (`src/audio/melody.ts`), not clips. The garden is derived from the answers of `fluency`, never from latency.
+- Stars are spent in the Workshop (`workshop.json`, `buyItem`): 3 stars pick one of the next two items. The drawings are ours, in `src/screens/workshop/art.tsx`.
 - Migrations are append-only; `openDb` snapshots before upgrading. Tables for the review queue (ΜΘ6) and the world (ΜΘ5) are added in those milestones.
 - `src/content/audio-catalog.json` records what each clip was made from; `validate-content` fails if a phrase changed without its clip.
 

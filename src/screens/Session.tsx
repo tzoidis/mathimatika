@@ -6,14 +6,14 @@ import { sessionReducer, startSession } from '../engine/session.ts';
 import { t } from '../i18n.ts';
 import { addDailyTime } from '../storage/db.ts';
 import { IconButton } from '../ui/IconButton.tsx';
-import { HomeIcon, StarIcon } from '../ui/Icons.tsx';
+import { HomeIcon, StarIcon, WorkshopIcon } from '../ui/Icons.tsx';
 import { Mascot } from '../ui/Mascot.tsx';
 import { BreakView } from './BreakView.tsx';
 import { RoundPlayer } from './RoundPlayer.tsx';
 
 const TICK_MS = 15_000;
 
-export function Session({ onHome }: { onHome(): void }) {
+export function Session({ onHome, onWorkshop }: { onHome(): void; onWorkshop(): void }) {
   const { db, child, settings, audio } = useApp();
   const [state, dispatch] = useReducer(sessionReducer, undefined, startSession);
   const { phase } = state;
@@ -62,9 +62,14 @@ export function Session({ onHome }: { onHome(): void }) {
               ))}
             </div>
           )}
-          <IconButton label={t('nav.home')} variant="primary" onClick={onHome}>
-            <HomeIcon />
-          </IconButton>
+          <div className="done-actions">
+            <IconButton label={t('nav.home')} onClick={onHome}>
+              <HomeIcon />
+            </IconButton>
+            <IconButton label={t('nav.workshop')} variant="primary" onClick={onWorkshop}>
+              <WorkshopIcon />
+            </IconButton>
+          </div>
         </main>
       );
   }

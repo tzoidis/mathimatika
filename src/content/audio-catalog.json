@@ -275,6 +275,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "instruction/tempo-choose": {
+    "text": "Πώς θα παίξουμε; Σαν χελώνα ή σαν λαγός;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "instruction/tens-units": {
     "text": "Φτιάξε τον αριθμό με ράβδους και κύβους.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -301,6 +307,24 @@
   },
   "instruction/worked-example": {
     "text": "Δες πώς το κάνω εγώ.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/workshop-choose": {
+    "text": "Έχεις αστέρια! Διάλεξε τι θα μπει στο Εργαστήρι.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/workshop-grows": {
+    "text": "Ωραία! Το Εργαστήρι μεγαλώνει!",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/workshop-hello": {
+    "text": "Καλώς ήρθες στο Εργαστήρι!",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"

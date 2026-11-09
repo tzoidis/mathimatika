@@ -3,6 +3,7 @@
 
 import type { RoundKind } from '../engine/types.ts';
 import type { PlayableGenerator } from '../math-core/generators/types.ts';
+import { fluency } from './fluency/index.ts';
 import { placeholder } from './placeholder/index.ts';
 import { question } from './question/index.ts';
 import type { ExerciseModule } from './types.ts';
@@ -13,6 +14,7 @@ export interface ExerciseEntry {
   countsForProgress: boolean;
 }
 
-export function exerciseForRound(_kind: RoundKind, generators: readonly PlayableGenerator[]): ExerciseEntry {
+export function exerciseForRound(kind: RoundKind, generators: readonly PlayableGenerator[], playFluency = false): ExerciseEntry {
+  if (kind === 'mix' && playFluency) return { module: fluency, countsForProgress: true };
   return generators.length > 0 ? { module: question, countsForProgress: true } : { module: placeholder, countsForProgress: false };
 }
