@@ -333,6 +333,13 @@ button {
   font-size: 18px;
 }
 
+.number-clips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
 /* ---------- buttons ---------- */
 
 .go {

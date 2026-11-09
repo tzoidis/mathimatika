@@ -1,6 +1,6 @@
-"""Creates the instruction and praise clips from src/content/audio.json into
-src/audio/files/<kind>/<key>.mp3, with the same ElevenLabs voice and settings as
-Glossa, so the two apps sound the same.
+"""Creates the instruction, praise and hint clips from src/content/audio.json and
+the number clips (src/audio/numberClips.ts) into src/audio/files/<kind>/<key>.mp3,
+with the same ElevenLabs voice and settings as Glossa, so the two apps sound the same.
 
 Runs only on the PC at build time, never in the app. The key comes from
 ELEVENLABS_API_KEY in .env, or else from ~/.elevenlabs-key; it is never printed.
@@ -16,6 +16,7 @@ requested, and paid for, only if it is missing or its text or settings changed.
 
 import argparse
 import json
+import subprocess
 import sys
 import unicodedata
 import urllib.error
@@ -27,6 +28,7 @@ ROOT = Path(__file__).resolve().parents[2]
 AUDIO = ROOT / "src" / "content" / "audio.json"
 CATALOG = ROOT / "src" / "content" / "audio-catalog.json"
 OUT = ROOT / "src" / "audio" / "files"
+NUMBER_LIST = Path(__file__).resolve().parent / "number-list.ts"
 
 # «Eleni», chosen by the parent for Glossa
 VOICE = "aTP4J5SJLQl74WTSRXKW"
@@ -51,6 +53,13 @@ def clips():
         yield f"instruction/{key}", text
     for i, text in enumerate(data["praise"], start=1):
         yield f"praise/{i}", text
+    for key, text in data["strategyPraise"].items():
+        yield f"praise/{key}", text
+    for key, text in data["hints"].items():
+        yield f"hint/{key}", text
+    listed = subprocess.run(["node", str(NUMBER_LIST)], capture_output=True, encoding="utf-8", check=True)
+    for clip in json.loads(listed.stdout):
+        yield f"number/{clip['key']}", clip["text"]
 
 
 def request_clip(text, key):
@@ -86,6 +95,7 @@ def main():
     def save():
         CATALOG.write_text(json.dumps(dict(sorted(catalog.items())), ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
 
+    to_make = chars = 0
     for clip, raw in wanted.items():
         if only and clip.split("/", 1)[1] not in only:
             continue
@@ -100,7 +110,9 @@ def main():
         if path.exists() and catalog.get(clip) == entry:
             continue
         if args.dry_run:
-            print(f"would make {clip}  {text}  ({len(text)} chars)", flush=True)
+            print(f"would make {clip}  {text}", flush=True)
+            to_make += 1
+            chars += len(text)
             continue
         key = key or api_key()
         audio = request_clip(text, key)
@@ -116,7 +128,9 @@ def main():
     # a phrase removed from audio.json leaves the catalog too
     for clip in [c for c in catalog if c not in wanted]:
         del catalog[clip]
-    if not args.dry_run:
+    if args.dry_run:
+        print(f"TOTAL {to_make} clips, {chars} characters", flush=True)
+    else:
         save()
     sys.exit(1 if failed else 0)
 

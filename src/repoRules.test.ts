@@ -23,6 +23,9 @@ const GREEK_ALLOWED = new Set<string>();
 const GREEK =/[Ͱ-Ͽἀ-῿]/;
 const NETWORK = /\b(fetch\s*\(|XMLHttpRequest|WebSocket|EventSource|sendBeacon)|https?:\/\//;
 
+// PRD §9: all maths goes through Rational and formatNumber
+const MATH_CORE_BANNED = /\bparseFloat\b|\.toFixed\b|\bIntl\b|Math\.random|from 'react|(?<![\w.'"])\d+\.\d+(?![\w'"])/;
+
 describe('repo rules', () => {
   it('finds app source files', () => {
     expect(appFiles.length).toBeGreaterThan(0);
@@ -32,6 +35,18 @@ describe('repo rules', () => {
     // Comments may use Greek examples; they never reach the screen.
     const code = text.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
     const line = code.split('\n').find((l) => GREEK.test(l));
+    expect(line).toBeUndefined();
+  });
+
+  const mathCore = appFiles.filter((f) => f.rel.startsWith('math-core/'));
+
+  it('finds the math-core files', () => {
+    expect(mathCore.length).toBeGreaterThan(0);
+  });
+
+  it.each(mathCore)('$rel has no float, Intl, Math.random or React', ({ text }) => {
+    const code = text.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
+    const line = code.split('\n').find((l) => MATH_CORE_BANNED.test(l));
     expect(line).toBeUndefined();
   });
 

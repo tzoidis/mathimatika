@@ -41,6 +41,7 @@
   "parent.audio.missing": "Λείπουν {n} ηχητικά.",
   "parent.audio.complete": "Όλα τα απαραίτητα ηχητικά υπάρχουν.",
   "parent.audio.test": "Δοκιμή ήχου",
+  "parent.audio.numbers": "Ακούστε τους αριθμούς",
 
   "parent.section.other": "Άλλα",
   "parent.leftHanded": "Αριστερόχειρας (κατοπτρική διάταξη)",

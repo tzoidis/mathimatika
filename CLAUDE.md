@@ -13,7 +13,7 @@ Offline PWA for practising primary-school maths (grades 1-6), following the clas
 - `npm run ci` – everything CI runs, in order
 - `npm run build && npm run preview` – production build with the service worker (the dev server has no service worker)
 - `bash scripts/icons/render.sh` – re-renders the PNG app icons from `public/icon.svg` with headless Edge
-- `python scripts/generate-audio/generate.py` – makes the clips that are missing or whose text changed, with the ElevenLabs voice «Eleni» (same voice and settings as Glossa). `--dry-run` lists them and spends nothing. Run it after changing a phrase in `audio.json`.
+- `python scripts/generate-audio/generate.py` – makes the clips that are missing or whose text changed, with the ElevenLabs voice «Eleni» (same voice and settings as Glossa). `--dry-run` lists them and spends nothing. Run it after changing a phrase in `audio.json` or a form in `numberWords.json`.
 
 Node ≥ 22.18 (scripts in `scripts/` run as plain `.ts` via Node type stripping, so use only erasable TS syntax there).
 
@@ -55,6 +55,7 @@ Node ≥ 22.18 (scripts in `scripts/` run as plain `.ts` via Node type stripping
 - `src/exercises/registry.ts` decides what a round plays; until ΜΘ3 it is `placeholder`, which writes no answers or stars (`countsForProgress: false`).
 - `AnswerLog` has the same shape as Glossa's (PRD §9). Exercises leave `childId` empty; the session fills it.
 - Theme is data per age band: `src/app/theme.ts` sets `<html data-band>`, and the tokens are in `src/index.css`. Only `early` exists so far.
+- Number words: every form is written out in `src/content/numberWords.json` (Greek stays out of code); `numberToGreekWords` only assembles them. `numberRequest(n, gender, case)` picks the clip; 0-100 have clips, anything else falls back to the local voice.
 - `AudioService.ts` is deliberately identical to Glossa's so a fix can be carried over. Parent recordings are not used: `getRecording` always returns nothing.
 - Migrations are append-only; `openDb` snapshots before upgrading. Tables for the review queue (ΜΘ6) and the world (ΜΘ5) are added in those milestones.
 - `src/content/audio-catalog.json` records what each clip was made from; `validate-content` fails if a phrase changed without its clip.
@@ -66,7 +67,7 @@ src/
   content/       ui.el.json, audio.json, audio-catalog.json; later curriculum, book-map, lexicon, templates
   engine/        session, rng, shared types; later adaptive and review
   audio/         AudioService (+ mock), clip list, bundled files
-  math-core/     (ΜΘ1) Rational, format/parse, generators, detectors; no React
+  math-core/     Rational, formatNumber/parseNumber, numberToGreekWords; later generators, detectors. No React
   manipulatives/ (ΜΘ4) ten frame, number line, cubes, balance
   exercises/     one folder per mechanism
   screens/       Start, Home, Session, Parent

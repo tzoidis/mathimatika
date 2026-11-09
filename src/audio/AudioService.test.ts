@@ -202,7 +202,7 @@ describe('requiredRecordings', () => {
 
   it('includes every instruction and praise', () => {
     expect(required.filter((r) => r.kind === 'instruction').map((r) => r.key)).toContain('instruction/welcome');
-    expect(required.filter((r) => r.kind === 'praise')).toHaveLength(10);
+    expect(required.filter((r) => r.kind === 'praise').length).toBeGreaterThanOrEqual(15);
   });
 });
 

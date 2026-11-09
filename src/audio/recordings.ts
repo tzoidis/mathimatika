@@ -1,8 +1,9 @@
-// The clips the app needs. Instructions and praise are a closed set and are never
-// spoken by the device voice; numbers and joined phrases may fall back to it (PRD §9).
+// The clips the app needs. Instructions, praise and hints are a closed set and are
+// never spoken by the device voice; numbers and joined phrases may fall back to it (PRD §9).
 
 import audio from '../content/audio.json' with { type: 'json' };
 import { normalizeText } from '../engine/text.ts';
+import { numberClips } from './numberClips.ts';
 
 export type AudioKind = 'instruction' | 'praise' | 'hint' | 'number' | 'phrase';
 
@@ -23,9 +24,13 @@ export function requiredRecordings(): RequiredRecording[] {
   return [
     ...Object.entries(audio.instructions).map(([id, text]) => ({ key: audioKey('instruction', id), kind: 'instruction' as const, text })),
     ...audio.praise.map((text, i) => ({ key: audioKey('praise', String(i + 1)), kind: 'praise' as const, text })),
+    ...Object.entries(audio.strategyPraise).map(([id, text]) => ({ key: audioKey('praise', id), kind: 'praise' as const, text })),
+    ...Object.entries(audio.hints).map(([id, text]) => ({ key: audioKey('hint', id), kind: 'hint' as const, text })),
+    ...numberClips().map(({ key, text }) => ({ key: audioKey('number', key), kind: 'number' as const, text })),
   ];
 }
 
+/** The general praise, for a correct answer with no particular strategy to name. */
 export function praiseKeys(): string[] {
   return audio.praise.map((_, i) => String(i + 1));
 }

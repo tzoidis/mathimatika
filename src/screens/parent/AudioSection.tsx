@@ -2,6 +2,7 @@
 
 import { useApp } from '../../app/AppContext.tsx';
 import { bundledKeys } from '../../audio/bundled.ts';
+import { numberClips } from '../../audio/numberClips.ts';
 import { requiredRecordings } from '../../audio/recordings.ts';
 import { t } from '../../i18n.ts';
 
@@ -25,6 +26,16 @@ export function AudioSection() {
       >
         {t('parent.audio.test')}
       </button>
+      <details>
+        <summary>{t('parent.audio.numbers')}</summary>
+        <div className="number-clips">
+          {numberClips().map(({ key, text }) => (
+            <button key={key} type="button" className="parent-button" onClick={() => void audio.play({ kind: 'number', key, text })}>
+              {text}
+            </button>
+          ))}
+        </div>
+      </details>
     </section>
   );
 }
