@@ -1,5 +1,5 @@
 // Fills a round from what the class has reached (PRD §6). The adaptive engine replaces
-// this plan in ΜΘ6; until then the two newest generators stand for «the current unit».
+// this plan in ΜΘ6; until then the latest chapter with exercises is «the current unit».
 
 import { praiseKeys } from '../../audio/recordings.ts';
 import { pick, shuffle } from '../../engine/rng.ts';
@@ -8,9 +8,9 @@ import type { Level, Round, RoundKind } from '../../engine/types.ts';
 import type { PlayableGenerator, Problem } from '../../math-core/generators/types.ts';
 import type { GenerateContext } from '../types.ts';
 
-export const KEYPAD_ID = 'keypad';
+export const QUESTION_ID = 'question';
 
-export interface KeypadItem {
+export interface QuestionItem {
   problem: Problem;
   generator: PlayableGenerator;
   praiseKey: string;
@@ -21,13 +21,11 @@ export interface Slot {
   level: Level;
 }
 
-const FRESH = 2;
-const isNumberSense = (g: PlayableGenerator) => g.id.startsWith('count.');
+export const isNumberSense = (g: { id: string }) => /^(count|subitize|put|line|cmp)\./.test(g.id);
 
 /** Which generator and how hard, for each of the five questions. */
-export function planRound(kind: RoundKind, generators: readonly PlayableGenerator[], rng: () => number): Slot[] {
-  const fresh = generators.slice(-FRESH);
-  const older = generators.slice(0, -FRESH);
+export function planRound(kind: RoundKind, generators: readonly PlayableGenerator[], fresh: readonly PlayableGenerator[], rng: () => number): Slot[] {
+  const older = generators.filter((g) => !fresh.includes(g));
   const old = older.length > 0 ? older : fresh;
   let slots: Slot[];
 
@@ -63,12 +61,12 @@ export function planRound(kind: RoundKind, generators: readonly PlayableGenerato
 export function generate(ctx: GenerateContext): Round {
   const keys = praiseKeys();
   const used = new Set<string>();
-  const items: KeypadItem[] = [];
-  for (const { generator, level } of planRound(ctx.roundKind, ctx.generators, ctx.rng)) {
+  const items: QuestionItem[] = [];
+  for (const { generator, level } of planRound(ctx.roundKind, ctx.generators, ctx.fresh, ctx.rng)) {
     const problem = generator.produce({ rng: ctx.rng, level }, used);
     used.add(problem.key);
     const last = items[items.length - 1]?.praiseKey;
     items.push({ problem, generator, praiseKey: pick(keys.filter((k) => k !== last), ctx.rng) });
   }
-  return { id: [KEYPAD_ID, ctx.roundKind].join('-'), exerciseId: KEYPAD_ID, seed: 0, level: ctx.level, items };
+  return { id: [QUESTION_ID, ctx.roundKind].join('-'), exerciseId: QUESTION_ID, seed: 0, level: ctx.level, items };
 }

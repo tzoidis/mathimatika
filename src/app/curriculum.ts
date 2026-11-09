@@ -29,4 +29,18 @@ export function availableGenerators(grade: Grade, upToUnit: string | null): Play
   );
 }
 
+/** The generators of the latest chapter reached that has any: the class's current unit. */
+export function latestGenerators(grade: Grade, upToUnit: string | null): PlayableGenerator[] {
+  const content = gradeContent(grade);
+  const last = content?.curriculum.units.find((u) => u.id === upToUnit);
+  if (!content || !last) return [];
+  const all = availableGenerators(grade, upToUnit);
+  const reached = content.curriculum.units.filter((u) => u.order <= last.order).reverse();
+  for (const unit of reached) {
+    const here = all.filter((g) => unit.skills.includes(g.skill));
+    if (here.length > 0) return here;
+  }
+  return [];
+}
+
 export const LETTER_UNITS: { title: string; graphemes: string[] }[] = letters.units;

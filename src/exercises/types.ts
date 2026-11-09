@@ -11,6 +11,8 @@ export interface GenerateContext {
   rng: () => number;
   /** what the class has reached, in book order */
   generators: PlayableGenerator[];
+  /** those of the latest chapter that has any: the current unit */
+  fresh: PlayableGenerator[];
 }
 
 export interface ExerciseProps {

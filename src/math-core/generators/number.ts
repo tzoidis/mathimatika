@@ -5,12 +5,12 @@ import type { SkillId } from '../../engine/types.ts';
 import { equals, ratio, type Rational } from '../rational.ts';
 import type { GenCtx, Generator, MisconceptionDetector } from './types.ts';
 
-const given = (value: number, answer: Rational) => equals(ratio(value), answer);
+export const given = (value: number, answer: Rational) => equals(ratio(value), answer);
 
 /** A wrong answer of `value`, unless that is no mistake at all here. */
 const mistake = (value: number, right: number): Rational | null => (value === right || value < 1 ? null : ratio(value));
 
-const nOffByOne = <P>(right: (p: P) => number, hintId?: string): MisconceptionDetector<P> => ({
+export const nOffByOne = <P>(right: (p: P) => number, hintId?: string): MisconceptionDetector<P> => ({
   code: 'OFF_BY_ONE',
   hintId,
   simulate: (p) => mistake(right(p) + 1, right(p)),
@@ -35,6 +35,21 @@ function reversedTeen(n: number): number | null {
   return n > 10 && n < 20 && units !== 1 ? units * 10 + 1 : null;
 }
 
+export function teenReversal<P>(n: (p: P) => number): MisconceptionDetector<P> {
+  return {
+    code: 'DIGIT_REVERSAL',
+    hintId: 'teen-digits',
+    simulate: (p) => {
+      const reversed = reversedTeen(n(p));
+      return reversed === null ? null : ratio(reversed);
+    },
+    detect: (p, a) => {
+      const reversed = reversedTeen(n(p));
+      return reversed !== null && given(reversed, a);
+    },
+  };
+}
+
 export function countGenerator(id: string, skill: SkillId, lo: number, hi: number): Generator<CountParams> {
   return {
     id,
@@ -52,21 +67,7 @@ export function countGenerator(id: string, skill: SkillId, lo: number, hi: numbe
       scene: { kind: 'count', n: p.n, arrangement: p.arrangement, cells: p.cells },
       say: [{ instruction: 'count-how-many' }],
     }),
-    detectors: [
-      {
-        code: 'DIGIT_REVERSAL',
-        hintId: 'teen-digits',
-        simulate: (p) => {
-          const reversed = reversedTeen(p.n);
-          return reversed === null ? null : ratio(reversed);
-        },
-        detect: (p, a) => {
-          const reversed = reversedTeen(p.n);
-          return reversed !== null && given(reversed, a);
-        },
-      },
-      nOffByOne((p) => p.n, 'count-again'),
-    ],
+    detectors: [teenReversal((p) => p.n), nOffByOne((p) => p.n, 'count-again')],
   };
 }
 
@@ -110,6 +111,43 @@ export function addGenerator(id: string, skill: SkillId, minSum: number, maxSum:
         detect: (p, a) => p.a !== p.b && given(Math.abs(p.a - p.b), a),
       },
     ],
+  };
+}
+
+/** 10 + 4: what the book's chapter 17 does with the numbers past ten. */
+export function tenPlusGenerator(id: string, skill: SkillId): Generator<AddParams> {
+  return {
+    id,
+    skill,
+    params: ({ rng, level }: GenCtx) => ({ a: 10, b: randInt(1, 10, rng), dots: level < 3 }),
+    constraints: [(p) => p.a === 10 && p.b >= 1 && p.b <= 10],
+    key: (p) => [id, p.b].join(':'),
+    build: (p) => ({
+      answer: ratio(p.a + p.b),
+      scene: { kind: 'add', a: p.a, b: p.b, dots: p.dots },
+      say: [{ number: p.a }, { instruction: 'and' }, { number: p.b }, { instruction: 'add' }],
+    }),
+    detectors: [teenReversal((p) => p.a + p.b), nOffByOne((p) => p.a + p.b, 'count-from-next')],
+  };
+}
+
+/** 3 + 3: the book's doubles, up to 5 + 5. */
+export function doublesGenerator(id: string, skill: SkillId): Generator<AddParams> {
+  return {
+    id,
+    skill,
+    params({ rng, level }: GenCtx) {
+      const a = randInt(1, 5, rng);
+      return { a, b: a, dots: level < 3 };
+    },
+    constraints: [(p) => p.a === p.b && p.a >= 1 && p.a <= 5],
+    key: (p) => [id, p.a].join(':'),
+    build: (p) => ({
+      answer: ratio(p.a + p.b),
+      scene: { kind: 'add', a: p.a, b: p.b, dots: p.dots },
+      say: [{ number: p.a }, { instruction: 'and' }, { number: p.b }, { instruction: 'add' }],
+    }),
+    detectors: [nOffByOne((p) => p.a + p.b, 'count-from-next')],
   };
 }
 

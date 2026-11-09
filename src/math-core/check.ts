@@ -23,7 +23,10 @@ export type MisconceptionCode =
   | 'MULT_AS_ADD'
   | 'OPERATION_SWAP'
   | 'PART_IS_WHOLE'
-  | 'ADDED_PARTS';
+  | 'ADDED_PARTS'
+  | 'SIGN_REVERSED'
+  | 'WRONG_DIRECTION'
+  | 'LINE_POSITION';
 
 export type Verdict = { ok: true; note?: 'notSimplified' } | { ok: false; code?: MisconceptionCode; hintId?: string };
 

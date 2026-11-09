@@ -5,7 +5,7 @@ import { QUESTIONS_PER_ROUND } from '../../engine/session.ts';
 import { generate, type PlaceholderItem } from './generate.ts';
 
 describe('placeholder round', () => {
-  const round = (seed: number) => generate({ roundKind: 'warmup', level: 1, rng: mulberry32(seed), generators: [] });
+  const round = (seed: number) => generate({ roundKind: 'warmup', level: 1, rng: mulberry32(seed), generators: [], fresh: [] });
 
   it('has five items with an existing praise, never the same twice in a row', () => {
     for (let seed = 0; seed < 200; seed++) {

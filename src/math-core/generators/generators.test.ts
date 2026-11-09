@@ -5,13 +5,14 @@ import { mulberry32 } from '../../engine/rng.ts';
 import type { Level } from '../../engine/types.ts';
 import { formatNumber } from '../format.ts';
 import { equals, ratio } from '../rational.ts';
-import { ADD_GENERATORS, COUNT_GENERATORS, GENERATORS, HOUSE_GENERATORS } from './index.ts';
+import { ALL_GENERATORS, GENERATORS } from './index.ts';
 import type { CountParams } from './number.ts';
 import { playable, type Generator, type Problem, type Scene } from './types.ts';
 
 const SEEDS = 1000;
 const LEVELS: Level[] = [1, 2, 3];
-const ALL = [...COUNT_GENERATORS, ...ADD_GENERATORS, ...HOUSE_GENERATORS] as Generator<unknown>[];
+const ALL = ALL_GENERATORS;
+const named = (id: string) => ALL.find((g) => g.id === id)!;
 
 /** Works the answer out from what is on the screen, without using the generator's own arithmetic. */
 function answerFromScene(scene: Scene): number {
@@ -25,6 +26,13 @@ function answerFromScene(scene: Scene): number {
       for (let part = scene.known; part < scene.whole; part++) count++;
       return count;
     }
+    case 'put':
+    case 'subitize':
+      return scene.n;
+    case 'line':
+      return scene.target;
+    case 'compare':
+      return scene.a < scene.b ? -1 : scene.a > scene.b ? 1 : 0;
   }
 }
 
@@ -59,7 +67,7 @@ describe.each(ALL.map((g) => [g.id, g] as const))('%s', (_id, g) => {
     each(g, (p, _params, label) => {
       expect(equals(p.answer, ratio(answerFromScene(p.scene))), label).toBe(true);
       expect(p.answer.d, label).toBe(1n);
-      expect(p.answer.n > 0n, label).toBe(true);
+      if (p.scene.kind !== 'compare' && p.scene.kind !== 'line') expect(p.answer.n > 0n, label).toBe(true);
     });
   });
 
@@ -108,6 +116,17 @@ describe('ranges', () => {
     ['add.to10', [6, 7, 8, 9, 10]],
     ['house.to5', [1, 2, 3, 4]],
     ['house.to10', [1, 2, 3, 4, 5, 6, 7, 8, 9]],
+    ['pairs10', [1, 2, 3, 4, 5, 6, 7, 8, 9]],
+    ['add.ten-plus', [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]],
+    ['add.doubles', [2, 4, 6, 8, 10]],
+    ['put.to5', [1, 2, 3, 4, 5]],
+    ['put.to10', [6, 7, 8, 9, 10]],
+    ['put.to20', [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]],
+    ['subitize.to5', [1, 2, 3, 4, 5]],
+    ['subitize.to10', [6, 7, 8, 9, 10]],
+    ['subitize.to20', [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]],
+    ['line.step.to10', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
+    ['line.place.to10', [1, 2, 3, 4, 5, 6, 7, 8, 9]],
   ])('%s stays in range and reaches all of it', (id, expected) => {
     expect(answers(id)).toEqual(expected);
   });
@@ -116,9 +135,9 @@ describe('ranges', () => {
 describe('specific mistakes', () => {
   const grade = (generator: Generator<unknown>, params: unknown, build: { answer: Problem['answer'] }, input: string) =>
     playable(generator).grade({ params, answer: build.answer, policy: { equality: 'value' } } as Problem, input);
-  const count = COUNT_GENERATORS[2]! as Generator<unknown>;
-  const add = ADD_GENERATORS[1]! as Generator<unknown>;
-  const house = HOUSE_GENERATORS[0]! as Generator<unknown>;
+  const count = named('count.to20');
+  const add = named('add.to10');
+  const house = named('house.to5');
   const countOf = (n: number): CountParams => ({ n, arrangement: 'frames', cells: [] });
 
   it('31 for 13 is a reversal, and has its own hint', () => {
@@ -150,6 +169,47 @@ describe('specific mistakes', () => {
 
   it('an unrelated number has no diagnosis', () => {
     expect(grade(count, countOf(13), { answer: ratio(13) }, '9')).toEqual({ ok: false });
+  });
+});
+
+describe('comparing', () => {
+  const compare = named('cmp.sign.to10');
+  const params = { a: 3, b: 8, minGap: 1, dots: false };
+  const grade = (input: string) => playable(compare).grade({ params, answer: ratio(-1), policy: { equality: 'value' } } as Problem, input);
+
+  it('hears the sign the wrong way round as the whale facing the wrong way', () => {
+    expect(grade('-1')).toEqual({ ok: true });
+    expect(grade('1')).toEqual({ ok: false, code: 'SIGN_REVERSED', hintId: 'whale-mouth' });
+    expect(grade('0')).toEqual({ ok: false });
+  });
+
+  it('brings the numbers closer as the level rises, and sometimes makes them equal', () => {
+    const g = GENERATORS.find((x) => x.id === 'cmp.sign.to10')!;
+    const gaps = (level: Level) => Array.from({ length: SEEDS }, (_, seed) => g.produce({ rng: mulberry32(seed), level }, new Set()).scene).map((s) => (s.kind === 'compare' ? Math.abs(s.a - s.b) : -1));
+    expect(gaps(1).filter((d) => d !== 0).every((d) => d >= 3)).toBe(true);
+    expect(gaps(2).filter((d) => d !== 0).every((d) => d >= 2)).toBe(true);
+    expect(gaps(3)).toContain(1);
+    expect(gaps(1)).toContain(0);
+  });
+});
+
+describe('the number line', () => {
+  const place = named('line.place.to20');
+  const grade = (labels: string, input: string) =>
+    playable(place).grade({ params: { max: 20, target: 7, labels }, answer: ratio(7), policy: { equality: 'value' } } as Problem, input);
+
+  it('wants the exact tick when the numbers are written, and is forgiving when they are not', () => {
+    expect(grade('all', '8').ok).toBe(false);
+    expect(grade('all', '7').ok).toBe(true);
+    expect(grade('ends', '8').ok).toBe(true);
+    expect(grade('ends', '6').ok).toBe(true);
+    expect(grade('ends', '9')).toEqual({ ok: false, code: 'LINE_POSITION', hintId: 'line-from-zero' });
+  });
+
+  it('knows going the wrong way along it', () => {
+    const step = named('line.step.to10');
+    const params = { max: 10, at: 4, direction: 1, labels: 'all' };
+    expect(playable(step).grade({ params, answer: ratio(5), policy: { equality: 'value' } } as Problem, '3')).toEqual({ ok: false, code: 'WRONG_DIRECTION', hintId: 'line-direction' });
   });
 });
 

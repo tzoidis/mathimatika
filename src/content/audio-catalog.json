@@ -35,6 +35,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "hint/line-direction": {
+    "text": "Μετά είναι προς τα δεξιά, πριν είναι προς τα αριστερά.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/line-from-zero": {
     "text": "Ξεκίνα από το μηδέν και προχώρα στη γραμμή.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -91,6 +97,12 @@
   },
   "hint/use-doubles": {
     "text": "Σκέψου τα διπλά. Θα σε βοηθήσουν.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "hint/whale-mouth": {
+    "text": "Το στόμα της φάλαινας ανοίγει προς τον μεγαλύτερο αριθμό.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
