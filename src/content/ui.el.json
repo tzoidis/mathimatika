@@ -1,0 +1,79 @@
+{
+  "start.go": "Πάμε!",
+  "start.parent": "Για γονείς: ρυθμίσεις και οδηγίες",
+  "nav.home": "Αρχική",
+  "nav.next": "Συνέχεια",
+  "nav.parent": "Γονείς",
+  "nav.play": "Παίζουμε",
+  "placeholder.tap": "Πάτα το αστέρι",
+
+  "numpad.delete": "Σβήσιμο",
+  "numpad.ok": "Εντάξει",
+
+  "parent.title": "Ρυθμίσεις γονέα",
+  "parent.gate.question": "Για τους γονείς: πόσο κάνει {a} × {b};",
+  "parent.gate.pin": "Πληκτρολογήστε το PIN γονέα",
+  "parent.gate.wrong": "Δεν είναι σωστό. Δοκιμάστε ξανά.",
+
+  "parent.install.title": "Πρώτα εγκαταστήστε την εφαρμογή",
+  "parent.install.body": "Οι ρυθμίσεις και η πρόοδος αποθηκεύονται μόνο σε αυτή τη συσκευή. Στο iPad το Safari και η εγκατεστημένη εφαρμογή δεν μοιράζονται δεδομένα, οπότε εγκαταστήστε την εφαρμογή πριν ρυθμίσετε οτιδήποτε.",
+  "parent.install.ios": "iPad / iPhone: στο Safari πατήστε «Κοινοποίηση» και μετά «Προσθήκη στην οθόνη Αφετηρίας».",
+  "parent.install.android": "Android: στο Chrome πατήστε το μενού ⋮ και μετά «Εγκατάσταση εφαρμογής».",
+  "parent.install.continue": "Συνέχεια χωρίς εγκατάσταση",
+
+  "parent.storage.persistent": "Η αποθήκευση είναι μόνιμη.",
+  "parent.storage.notPersistent": "Η αποθήκευση δεν είναι μόνιμη: ο browser μπορεί να σβήσει τα δεδομένα αν χρειαστεί χώρο.",
+  "parent.storage.request": "Ζήτησε μόνιμη αποθήκευση",
+  "parent.backupDue": "Πέρασε πάνω από ένας μήνας χωρίς αντίγραφο ασφαλείας. Κάντε μια εξαγωγή παρακάτω.",
+
+  "parent.section.about": "Σχετικά",
+  "parent.about.app": "Μαθηματικά: παιχνίδια εξάσκησης για το Δημοτικό, ενότητα προς ενότητα με το βιβλίο της τάξης. Δουλεύει χωρίς σύνδεση και δεν στέλνει πουθενά κανένα δεδομένο.",
+  "parent.about.font": "Γραμματοσειρά: «Glossa Reading», υποσύνολο της Andika © SIL International, με άδεια SIL Open Font License 1.1 (licenses/OFL.txt).",
+  "parent.about.voice": "Φωνή: «Eleni» από την ElevenLabs.",
+
+  "parent.section.time": "Χρόνος ανά ημέρα",
+  "parent.time.minutes": "{n} λεπτά",
+  "parent.time.today": "Σήμερα έπαιξε {n} λεπτά.",
+
+  "parent.section.audio": "Ήχος",
+  "parent.audio.voice": "Τοπική φωνή της συσκευής: {name}",
+  "parent.audio.noVoice": "Δεν βρέθηκε τοπική ελληνική φωνή. Δεν πειράζει: οι οδηγίες και οι έπαινοι είναι ήδη ηχογραφημένοι.",
+  "parent.audio.missing": "Λείπουν {n} ηχητικά.",
+  "parent.audio.complete": "Όλα τα απαραίτητα ηχητικά υπάρχουν.",
+  "parent.audio.test": "Δοκιμή ήχου",
+
+  "parent.section.other": "Άλλα",
+  "parent.leftHanded": "Αριστερόχειρας (κατοπτρική διάταξη)",
+  "parent.pin": "PIN γονέα (4 ψηφία). Χωρίς PIN, η είσοδος ζητά έναν πολλαπλασιασμό.",
+  "parent.pin.isSet": "Έχει οριστεί PIN.",
+  "parent.pin.notSet": "Δεν έχει οριστεί PIN.",
+  "parent.pin.change": "Ορισμός PIN",
+  "parent.pin.remove": "Κατάργηση PIN",
+  "parent.pin.saved": "Αποθηκεύτηκε.",
+  "parent.pin.invalid": "Το PIN πρέπει να είναι 4 ψηφία.",
+
+  "parent.section.backup": "Αντίγραφο ασφαλείας",
+  "parent.backup.help": "Το αρχείο περιέχει όλη την πρόοδο και τις ρυθμίσεις. Κρατήστε το εκτός συσκευής.",
+  "parent.backup.export": "Εξαγωγή",
+  "parent.backup.import": "Εισαγωγή από αρχείο",
+  "parent.backup.confirm": "Η εισαγωγή αντικαθιστά τα δεδομένα αυτής της συσκευής. Συνέχεια;",
+  "parent.backup.imported": "Η εισαγωγή ολοκληρώθηκε.",
+  "parent.backup.invalid": "Το αρχείο δεν είναι αντίγραφο ασφαλείας αυτής της εφαρμογής.",
+  "parent.backup.last": "Τελευταίο αντίγραφο: {date}",
+  "parent.backup.never": "Δεν έχει γίνει ακόμα αντίγραφο.",
+
+  "parent.update.ready": "Υπάρχει νέα έκδοση της εφαρμογής.",
+  "parent.update.install": "Ενημέρωση τώρα",
+
+  "parent.close": "Κλείσιμο",
+
+  "parent.guide.title": "Πώς λειτουργεί η εφαρμογή",
+  "parent.guide.status.title": "Σε ποια φάση είμαστε",
+  "parent.guide.status.body": "Αυτή είναι η πρώτη έκδοση: η συνεδρία τρέχει με δοκιμαστικές οθόνες χωρίς μαθηματικά, για να ελέγξουμε τον ήχο και την εγκατάσταση στο tablet. Δεν καταγράφει πρόοδο.",
+  "parent.guide.session.title": "Μια συνεδρία",
+  "parent.guide.session.body": "Το παιδί κάνει 3 γύρους των 5 ερωτήσεων: Ζέσταμα, Εργαστήρι και Μείγμα, με διάλειμμα ανάμεσά τους.",
+  "parent.guide.time.title": "Χρόνος",
+  "parent.guide.time.body": "Ορίζετε πόσα λεπτά την ημέρα παίζει (προεπιλογή 15). Όταν τελειώσει ο χρόνος, ολοκληρώνεται ο γύρος και η μασκότ λέει «Τα λέμε αύριο!». Το όριο αυτό είναι ξεχωριστό από της Γλώσσας.",
+  "parent.guide.data.title": "Δεδομένα και ενημερώσεις",
+  "parent.guide.data.body": "Η εφαρμογή δουλεύει χωρίς internet και όλα μένουν μόνο σε αυτή τη συσκευή, χωριστά από τη Γλώσσα. Εγκαταστήστε την στην αρχική οθόνη και κάντε εξαγωγή αντιγράφου ασφαλείας μία φορά τον μήνα. Μια νέα έκδοση εφαρμόζεται όταν ξανανοίξει η εφαρμογή, ποτέ στη μέση ενός γύρου."
+}
