@@ -32,6 +32,17 @@ describe('backup file', () => {
     expect(await target.answers.toArray()).toEqual(await source.answers.toArray());
   });
 
+  it('fills in settings that did not exist when an older backup was made', async () => {
+    const source = await seeded();
+    const file = JSON.parse(JSON.stringify(await exportBackup(source, 99)));
+    delete file.tables.settings[0].upToPosition;
+    file.schemaVersion = 1;
+    const target = await freshDb();
+    await importBackup(target, file);
+
+    expect(await target.settings.get(DEFAULT_CHILD_ID)).toMatchObject({ upToPosition: 0, dailyLimitMinutes: 20, leftHanded: true });
+  });
+
   it('rejects files that are not backups, from Glossa, or from a newer app', async () => {
     const db = await freshDb();
     await expect(importBackup(db, { hello: 1 })).rejects.toBeInstanceOf(InvalidBackup);

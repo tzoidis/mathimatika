@@ -37,6 +37,8 @@ Node ≥ 22.18 (scripts in `scripts/` run as plain `.ts` via Node type stripping
 
 ## Deliberate differences from the PRD text
 
+- **The class has a different grade 1 book from the one in PRD §3.** The real one is «Μαθηματικά της Φύσης και της Ζωής» (Λεμονίδης κ.ά., 64 chapters, 9 units), in `docs/`; the PRD's table, its «κεφ. 1-19» MVP boundary and its grade 1 skill list describe the newer Διόφαντος book. Where they differ the book in `docs/` wins (the parent confirmed it). It has no fractions, charts or probability, and it has money, ordinals, time and weight.
+
 - Clips live in `src/audio/files/<kind>/<key>.mp3`, not `public/audio/` (PRD §9): Vite hashes them, they are precached, and `src/audio/bundled.test.ts` fails on a missing one. Decided with the user at ΜΘ0.
 - `src/` also has `app/` (context, theme, updates), `storage/` (Dexie) and `ui/`, which the PRD's folder list omits.
 
@@ -57,6 +59,8 @@ Node ≥ 22.18 (scripts in `scripts/` run as plain `.ts` via Node type stripping
 - Theme is data per age band: `src/app/theme.ts` sets `<html data-band>`, and the tokens are in `src/index.css`. Only `early` exists so far.
 - Number words: every form is written out in `src/content/numberWords.json` (Greek stays out of code); `numberToGreekWords` only assembles them. `numberRequest(n, gender, case)` picks the clip; 0-100 have clips, anything else falls back to the local voice.
 - `AudioService.ts` is deliberately identical to Glossa's so a fix can be carried over. Parent recordings are not used: `getRecording` always returns nothing.
+- Skills live in `src/content/skills.<grade>.json`, stable across books; `book-map.<grade>.json` says which chapter teaches each one, so a new book is a new map. `src/engine/curriculum.ts` validates them (shared with `validate-content`) and computes what is available. The PRD's `Skill.unitId` is left out on purpose: the map alone places a skill.
+- Grade 1 map: the 64 chapters of the book in `docs/` (git-ignored, the repo is public). Review and assessment chapters have `review: true` and no skills. The numerals follow that book: επτά, οκτώ, εννέα.
 - Migrations are append-only; `openDb` snapshots before upgrading. Tables for the review queue (ΜΘ6) and the world (ΜΘ5) are added in those milestones.
 - `src/content/audio-catalog.json` records what each clip was made from; `validate-content` fails if a phrase changed without its clip.
 

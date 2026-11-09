@@ -1,8 +1,11 @@
-// Checks src/content/*.json (runs in CI). ΜΘ2 adds the skill graph and book maps.
+// Checks src/content/*.json (runs in CI). «Every skill has a generator» (PRD §9) starts
+// to apply in ΜΘ3-ΜΘ4, when generators exist; add that check to validateCurriculum then.
 
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { numberClips } from '../src/audio/numberClips.ts';
+import { validateCurriculum } from '../src/engine/curriculum.ts';
+import type { Curriculum, SkillGraph } from '../src/engine/types.ts';
 
 const root = join(import.meta.dirname, '..');
 const contentDir = join(root, 'src', 'content');
@@ -45,8 +48,26 @@ for (const [clip, text] of clips) {
   if (catalog[clip]?.text !== text) errors.push(`${clip}: the clip was not made from this text (run scripts/generate-audio/generate.py)`);
 }
 
+const graphFiles = readdirSync(contentDir).filter((f) => /^skills\.\d\.json$/.test(f));
+if (graphFiles.length === 0) errors.push('no skill graph');
+let skillCount = 0;
+for (const name of graphFiles) {
+  const mapName = name.replace('skills', 'book-map');
+  if (!existsSync(join(contentDir, mapName))) {
+    errors.push(`${name}: no ${mapName}`);
+    continue;
+  }
+  const graph = read<SkillGraph>(name);
+  skillCount += graph.skills.length;
+  errors.push(...validateCurriculum(graph, read<Curriculum>(mapName)).map((e) => `${name}: ${e}`));
+}
+
+const letters = read<{ units: { graphemes: string[] }[] }>('letters.json').units.flatMap((u) => u.graphemes);
+if (letters.length === 0) errors.push('letters.json: no letters');
+if (new Set(letters).size !== letters.length) errors.push('letters.json: a letter appears twice');
+
 if (errors.length > 0) {
   console.error(errors.join('\n'));
   process.exit(1);
 }
-console.log(`content ok: ${clips.length} clips, ${Object.keys(ui).length} ui strings`);
+console.log(`content ok: ${clips.length} clips, ${skillCount} skills, ${letters.length} letters, ${Object.keys(ui).length} ui strings`);

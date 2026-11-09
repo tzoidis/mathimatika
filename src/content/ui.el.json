@@ -31,6 +31,17 @@
   "parent.about.font": "Γραμματοσειρά: «Glossa Reading», υποσύνολο της Andika © SIL International, με άδεια SIL Open Font License 1.1 (licenses/OFL.txt).",
   "parent.about.voice": "Φωνή: «Eleni» από την ElevenLabs.",
 
+  "parent.section.book": "Μέχρι πού έχει φτάσει η τάξη",
+  "parent.book.help": "{book}. Διαλέξτε το τελευταίο κεφάλαιο που έχει διδαχθεί. Η εφαρμογή εξασκεί μόνο ό,τι έχει ήδη εμφανιστεί στο βιβλίο.",
+  "parent.book.none": "Δεν έχει οριστεί ακόμα",
+  "parent.book.available": "Διαθέσιμες δεξιότητες: {n} από {total}.",
+  "parent.book.list": "Δείτε ποιες",
+  "parent.book.blocked": "Η δεξιότητα «{skill}» δεν θα εμφανιστεί ακόμα: πρώτα χρειάζεται «{missing}», που έρχεται αργότερα στο βιβλίο.",
+
+  "parent.section.letters": "Τι διαβάζει το παιδί",
+  "parent.letters.help": "Πατήστε το τελευταίο γράμμα που έχει μάθει. Ό,τι δεν μπορεί ακόμα να διαβάσει, η εφαρμογή θα το λέει με ήχο και εικόνες.",
+  "parent.letters.none": "Κανένα γράμμα ακόμα",
+
   "parent.section.time": "Χρόνος ανά ημέρα",
   "parent.time.minutes": "{n} λεπτά",
   "parent.time.today": "Σήμερα έπαιξε {n} λεπτά.",

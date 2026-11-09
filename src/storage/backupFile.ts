@@ -2,6 +2,7 @@
 
 import type { Dexie } from 'dexie';
 import { exportTables, importTables, type Snapshot } from './backup.ts';
+import { defaultSettings, type Settings } from './schema.ts';
 
 export const BACKUP_APP = 'mathimatika';
 
@@ -33,6 +34,10 @@ export async function importBackup(db: Dexie, file: unknown): Promise<void> {
     tables[name] = rows;
   }
   await importTables(db, tables);
+  // A backup from an older version has no value for settings added since.
+  await db.table('settings').toCollection().modify((s: Settings) => {
+    Object.assign(s, { ...defaultSettings(s.childId), ...s });
+  });
 }
 
 export function backupFileName(now = Date.now()): string {

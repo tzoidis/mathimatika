@@ -3,6 +3,42 @@
 export type Grade = 1 | 2 | 3 | 4 | 5 | 6;
 export type Level = 1 | 2 | 3;
 
+export type SkillId = `${Grade}.${string}`;
+
+export const REPRESENTATION_KINDS = ['tenFrame', 'dienes', 'numberLine', 'balance', 'jar', 'digits', 'counters', 'fractionBar', 'shapes', 'grid', 'coins', 'calendar'] as const;
+export type RepresentationKind = (typeof REPRESENTATION_KINDS)[number];
+
+/** Stable across books; which chapter teaches it lives in the book map (PRD §3). */
+export interface Skill {
+  id: SkillId;
+  title: string;
+  requires: SkillId[];
+  generators: string[];
+  representations: RepresentationKind[];
+}
+
+export interface SkillGraph {
+  grade: Grade;
+  skills: Skill[];
+}
+
+export interface Unit {
+  id: string;
+  order: number;
+  /** heading the unit is listed under */
+  section: string;
+  title: string;
+  skills: SkillId[];
+  /** a revision or assessment chapter: it teaches nothing new, so it has no skills */
+  review?: boolean;
+}
+
+export interface Curriculum {
+  grade: Grade;
+  book: string;
+  units: Unit[];
+}
+
 /** The fixed order of a session's rounds (PRD §6). */
 export type RoundKind = 'warmup' | 'workshop' | 'mix';
 

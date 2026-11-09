@@ -6,6 +6,7 @@ playwright-report/
 test-results/
 __pycache__/
 .env
+docs/*.pdf
 .env.*
 *.local
 .DS_Store

@@ -20,6 +20,13 @@ export const MIGRATIONS: Migration[] = [
       dailyTime: 'id, childId',
     },
   },
+  {
+    version: 2,
+    stores: {},
+    upgrade: (tx) => tx.table('settings').toCollection().modify((s: { upToPosition?: number }) => {
+      s.upToPosition ??= 0;
+    }),
+  },
 ];
 
 export const SCHEMA_VERSION = MIGRATIONS[MIGRATIONS.length - 1]!.version;

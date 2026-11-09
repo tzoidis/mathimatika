@@ -26,6 +26,23 @@ describe('migrations', () => {
   });
 });
 
+describe('migration to version 2', () => {
+  it('starts existing children at «no letters yet» and keeps their settings', async () => {
+    const opts = names();
+    const v1 = await openDb({ ...opts, migrations: MIGRATIONS.slice(0, 1) });
+    await ensureChild(v1);
+    await v1.settings.toCollection().modify((s: { upToPosition?: number; dailyLimitMinutes: number }) => {
+      delete s.upToPosition;
+      s.dailyLimitMinutes = 20;
+    });
+    v1.close();
+
+    const db = await openDb(opts);
+    open.push(db);
+    expect(await db.settings.get(DEFAULT_CHILD_ID)).toMatchObject({ upToPosition: 0, dailyLimitMinutes: 20 });
+  });
+});
+
 describe('openDb', () => {
   it('creates every table on first run without a backup', async () => {
     const opts = names();

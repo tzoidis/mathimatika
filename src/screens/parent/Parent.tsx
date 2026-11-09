@@ -11,6 +11,7 @@ import { HomeIcon } from '../../ui/Icons.tsx';
 import { AboutSection } from './AboutSection.tsx';
 import { AudioSection } from './AudioSection.tsx';
 import { BackupSection } from './BackupSection.tsx';
+import { BookSection, LettersSection } from './CurriculumSections.tsx';
 import { GuideSection } from './GuideSection.tsx';
 import { ParentGate } from './ParentGate.tsx';
 import { OtherSection, TimeSection } from './SettingsSections.tsx';
@@ -83,6 +84,8 @@ export function Parent({ onClose }: { onClose(): void }) {
           <StorageStatus />
           {backupDue(settings.lastBackupAt, hasProgress) && <p className="warn-text">{t('parent.backupDue')}</p>}
           <GuideSection open={!hasProgress} />
+          <BookSection />
+          <LettersSection />
           <TimeSection />
           <AudioSection />
           <OtherSection />

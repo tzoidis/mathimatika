@@ -333,6 +333,60 @@ button {
   font-size: 18px;
 }
 
+.book-select {
+  width: 100%;
+}
+
+.skill-list {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+
+.parent-button.selected {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.unit-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.unit-title {
+  width: 100px;
+  font-weight: 600;
+}
+
+.letter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.letter-chip {
+  min-width: 48px;
+  height: 48px;
+  padding: 0 8px;
+  border-radius: 12px;
+  border: 2px solid var(--card-edge);
+  background: var(--bg);
+  font-family: 'Glossa Reading', system-ui, sans-serif;
+  font-size: 24px;
+}
+
+.letter-chip.taught {
+  background: var(--accent-soft);
+}
+
+.letter-chip.selected {
+  border-color: var(--accent);
+  border-width: 3px;
+  font-weight: 700;
+}
+
 .number-clips {
   display: flex;
   flex-wrap: wrap;

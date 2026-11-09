@@ -20,6 +20,8 @@ export interface Settings {
   grade: Grade;
   /** «up to which unit» of the book (PRD §8, ΜΘ2); null = not set yet */
   upToUnit: string | null;
+  /** «reads up to letter…»: number of graphemes taught, along content/letters.json (grades 1-2) */
+  upToPosition: number;
   dailyLimitMinutes: number;
   leftHanded: boolean;
   /** 4-digit PIN; null = multiplication gate only */
@@ -41,6 +43,7 @@ export function defaultSettings(childId: string): Settings {
     childId,
     grade: 1,
     upToUnit: null,
+    upToPosition: 0,
     dailyLimitMinutes: DEFAULT_DAILY_LIMIT_MINUTES,
     leftHanded: false,
     parentPin: null,
