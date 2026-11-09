@@ -26,7 +26,10 @@ export type MisconceptionCode =
   | 'ADDED_PARTS'
   | 'SIGN_REVERSED'
   | 'WRONG_DIRECTION'
-  | 'LINE_POSITION';
+  | 'LINE_POSITION'
+  | 'SIZE_NOT_COUNT'
+  | 'COUNTED_FROM_TOP'
+  | 'COUNTED_COINS';
 
 export type Verdict = { ok: true; note?: 'notSimplified' } | { ok: false; code?: MisconceptionCode; hintId?: string };
 

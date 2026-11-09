@@ -33,6 +33,34 @@ function answerFromScene(scene: Scene): number {
       return scene.target;
     case 'compare':
       return scene.a < scene.b ? -1 : scene.a > scene.b ? 1 : 0;
+    case 'quantity': {
+      const leftHasMore = scene.left > scene.right;
+      return (scene.ask === 'more') === leftHasMore ? -1 : 1;
+    }
+    case 'jar':
+      return scene.cells.length;
+    case 'balance':
+    case 'missing': {
+      let count = 0;
+      for (let part = scene.a; part < scene.total; part++) count++;
+      return count;
+    }
+    case 'sub': {
+      let left = scene.a;
+      for (let i = 0; i < scene.b; i++) left--;
+      return left;
+    }
+    case 'whichSign':
+      return scene.result > scene.a ? 1 : -1;
+    case 'floor':
+      return scene.floor;
+    case 'coins': {
+      let total = 0;
+      for (const coin of scene.coins) total += coin;
+      return total;
+    }
+    case 'exchange':
+      return scene.coin;
   }
 }
 
@@ -67,7 +95,7 @@ describe.each(ALL.map((g) => [g.id, g] as const))('%s', (_id, g) => {
     each(g, (p, _params, label) => {
       expect(equals(p.answer, ratio(answerFromScene(p.scene))), label).toBe(true);
       expect(p.answer.d, label).toBe(1n);
-      if (p.scene.kind !== 'compare' && p.scene.kind !== 'line') expect(p.answer.n > 0n, label).toBe(true);
+      if (!['compare', 'line', 'quantity', 'whichSign'].includes(p.scene.kind)) expect(p.answer.n > 0n, label).toBe(true);
     });
   });
 
@@ -127,6 +155,10 @@ describe('ranges', () => {
     ['subitize.to20', [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]],
     ['line.step.to10', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
     ['line.place.to10', [1, 2, 3, 4, 5, 6, 7, 8, 9]],
+    ['sub.small', [1, 2, 3, 4, 5, 6, 7, 8, 9]],
+    ['sub.large', [1, 2, 3]],
+    ['floor.to10', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
+    ['money.exchange', [2, 5, 10]],
   ])('%s stays in range and reaches all of it', (id, expected) => {
     expect(answers(id)).toEqual(expected);
   });
@@ -210,6 +242,51 @@ describe('the number line', () => {
     const step = named('line.step.to10');
     const params = { max: 10, at: 4, direction: 1, labels: 'all' };
     expect(playable(step).grade({ params, answer: ratio(5), policy: { equality: 'value' } } as Problem, '3')).toEqual({ ok: false, code: 'WRONG_DIRECTION', hintId: 'line-direction' });
+  });
+});
+
+describe('part two mistakes', () => {
+  const gradeOf = (id: string, params: unknown, answer: number, input: string) => playable(named(id)).grade({ params, answer: ratio(answer), policy: { equality: 'value' } } as Problem, input);
+
+  it('tells size from count when the side with fewer has the big dots', () => {
+    const params = { left: 3, right: 7, ask: 'more', bigSide: 'left', minGap: 1 };
+    expect(gradeOf('qty.to10', params, 1, '1')).toEqual({ ok: true });
+    expect(gradeOf('qty.to10', params, 1, '-1')).toEqual({ ok: false, code: 'SIZE_NOT_COUNT', hintId: 'size-not-count' });
+  });
+
+  it('calls 6 − 2 = 8 adding, and 6 − 2 = 6 not taking anything away', () => {
+    const params = { a: 6, b: 2, dots: false };
+    expect(gradeOf('sub.small', params, 4, '8')).toEqual({ ok: false, code: 'OPERATION_SWAP', hintId: 'taking-away' });
+    expect(gradeOf('sub.small', params, 4, '6')).toEqual({ ok: false, code: 'PART_IS_WHOLE', hintId: 'taking-away' });
+    expect(gradeOf('sub.small', params, 4, '5')).toEqual({ ok: false, code: 'OFF_BY_ONE', hintId: 'count-again' });
+  });
+
+  it('knows counting coins from adding their values', () => {
+    expect(gradeOf('money.total', { coins: [5, 2, 1], unit: 'euro' }, 8, '3')).toEqual({ ok: false, code: 'COUNTED_COINS', hintId: 'coin-value' });
+  });
+
+  it('knows counting floors from the top', () => {
+    expect(gradeOf('floor.to10', { floor: 3, floors: 10 }, 3, '8')).toEqual({ ok: false, code: 'COUNTED_FROM_TOP', hintId: 'floors-up' });
+  });
+
+  it('is pleased with a close estimate', () => {
+    const params = { n: 8, max: 15, tolerance: 2, cells: [] };
+    expect(gradeOf('jar.to10', params, 8, '10').ok).toBe(true);
+    expect(gradeOf('jar.to10', params, 8, '6').ok).toBe(true);
+    expect(gradeOf('jar.to10', params, 8, '11')).toMatchObject({ ok: false, code: 'LINE_POSITION' });
+  });
+
+  it('keeps taking away a little apart from taking away a lot', () => {
+    const scenes = (id: string) => Array.from({ length: SEEDS }, (_, seed) => GENERATORS.find((g) => g.id === id)!.produce({ rng: mulberry32(seed), level: 1 }, new Set()).scene);
+    for (const s of scenes('sub.small')) expect(s.kind === 'sub' && s.b <= 2).toBe(true);
+    for (const s of scenes('sub.large')) expect(s.kind === 'sub' && s.a - s.b <= 3 && s.b >= 2).toBe(true);
+  });
+
+  it('never makes money that does not add up within ten', () => {
+    for (let seed = 0; seed < SEEDS; seed++) {
+      const { scene } = GENERATORS.find((g) => g.id === 'money.total')!.produce({ rng: mulberry32(seed), level: 1 }, new Set());
+      expect(scene.kind === 'coins' && scene.coins.reduce((a, b) => a + b, 0) <= 10 && scene.coins.some((c) => c > 1), `seed ${seed}`).toBe(true);
+    }
   });
 });
 

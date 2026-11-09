@@ -21,7 +21,7 @@ export interface Slot {
   level: Level;
 }
 
-export const isNumberSense = (g: { id: string }) => /^(count|subitize|put|line|cmp)\./.test(g.id);
+export const isNumberSense = (g: { id: string }) => /^(count|subitize|put|line|cmp|qty|jar)\./.test(g.id);
 
 /** Which generator and how hard, for each of the five questions. */
 export function planRound(kind: RoundKind, generators: readonly PlayableGenerator[], fresh: readonly PlayableGenerator[], rng: () => number): Slot[] {

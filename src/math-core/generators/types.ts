@@ -20,9 +20,18 @@ export type Scene =
   | { kind: 'put'; n: number; frames: number }
   | { kind: 'subitize'; n: number; arrangement: 'frames' | 'rows' }
   | { kind: 'line'; max: number; labels: LineLabels; mark: number | null; target: number }
-  | { kind: 'compare'; a: number; b: number; dots: boolean };
+  | { kind: 'compare'; a: number; b: number; dots: boolean }
+  | { kind: 'quantity'; left: number; right: number; ask: 'more' | 'less'; bigSide: 'left' | 'right' | null }
+  | { kind: 'jar'; n: number; max: number; cells: number[] }
+  | { kind: 'balance'; a: number; total: number }
+  | { kind: 'missing'; a: number; total: number; dots: boolean }
+  | { kind: 'sub'; a: number; b: number; dots: boolean }
+  | { kind: 'whichSign'; a: number; b: number; result: number }
+  | { kind: 'floor'; floor: number; floors: number }
+  | { kind: 'coins'; coins: number[]; unit: 'euro' | 'cent' }
+  | { kind: 'exchange'; coin: number; unit: 'euro' | 'cent' };
 
-export type AnswerMode = 'keypad' | 'tenFrame' | 'numberLine' | 'choice';
+export type AnswerMode = 'keypad' | 'tenFrame' | 'numberLine' | 'balance' | 'choice' | 'group';
 
 /** One of the tiles of a choice question; the answer is `value`, the child sees `label`. */
 export interface Choice {
@@ -45,7 +54,7 @@ export interface Problem {
   say: Say[];
   readingLoad: 'none' | 'low' | 'high';
   answerMode: AnswerMode;
-  /** only for answerMode 'choice' */
+  /** only for answerMode 'choice' and 'group' */
   choices?: Choice[];
 }
 

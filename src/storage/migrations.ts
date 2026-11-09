@@ -27,6 +27,13 @@ export const MIGRATIONS: Migration[] = [
       s.upToPosition ??= 0;
     }),
   },
+  {
+    version: 3,
+    stores: {},
+    upgrade: (tx) => tx.table('settings').toCollection().modify((s: { seenDemos?: string[] }) => {
+      s.seenDemos ??= [];
+    }),
+  },
 ];
 
 export const SCHEMA_VERSION = MIGRATIONS[MIGRATIONS.length - 1]!.version;

@@ -14,7 +14,7 @@ const SCATTER_CELLS = 24;
 /** Long enough to see, too short to count. Never shown, and nothing depends on it (PRD §7). */
 const GLANCE_MS = 2000;
 
-function Dots({ n, hollow = 0 }: { n: number; hollow?: number }) {
+export function Dots({ n, hollow = 0 }: { n: number; hollow?: number }) {
   return (
     <div className="dots">
       {Array.from({ length: n + hollow }, (_, i) => (
@@ -28,7 +28,7 @@ function Dots({ n, hollow = 0 }: { n: number; hollow?: number }) {
 function TenFrames({ n }: { n: number }) {
   const frames = Math.ceil(n / FRAME_SIZE);
   return (
-    <div className="ten-frames">
+    <div className={`ten-frames ${frames > 2 ? 'ten-frames--compact' : ''}`}>
       {Array.from({ length: frames }, (_, f) => (
         <div key={f} className="ten-frame">
           {Array.from({ length: FRAME_SIZE }, (_, i) => (
@@ -76,6 +76,15 @@ function Glance({ children }: { children: ReactNode }) {
   );
 }
 
+function Coin({ value, unit }: { value: number; unit: 'euro' | 'cent' }) {
+  return (
+    <span className="coin">
+      <strong>{formatNumber(value)}</strong>
+      <small>{t(unit === 'euro' ? 'coin.euro' : 'coin.cent')}</small>
+    </span>
+  );
+}
+
 export function Scene({ scene, slot, answerOnLine }: { scene: SceneData; slot: ReactNode; answerOnLine: boolean }) {
   switch (scene.kind) {
     case 'count':
@@ -119,6 +128,118 @@ export function Scene({ scene, slot, answerOnLine }: { scene: SceneData; slot: R
         </div>
       );
     }
+
+    case 'jar':
+      return (
+        <div className="scene">
+          <Glance>
+            <div className="jar">
+              {Array.from({ length: SCATTER_CELLS }, (_, i) => (
+                <span key={i} className="scatter-cell">
+                  {scene.cells.includes(i) && <span className="dot" />}
+                </span>
+              ))}
+            </div>
+          </Glance>
+        </div>
+      );
+
+    case 'balance':
+      return (
+        <div className="scene">
+          <div className="expression">
+            <span>{formatNumber(scene.a)}</span>
+            <span>+</span>
+            {slot}
+            <span>=</span>
+            <span>{formatNumber(scene.total)}</span>
+          </div>
+        </div>
+      );
+
+    case 'missing':
+      return (
+        <div className="scene">
+          {scene.dots && <Dots n={scene.a} hollow={scene.total - scene.a} />}
+          <div className="expression">
+            <span>{formatNumber(scene.a)}</span>
+            <span>+</span>
+            {slot}
+            <span>=</span>
+            <span>{formatNumber(scene.total)}</span>
+          </div>
+        </div>
+      );
+
+    case 'sub':
+      return (
+        <div className="scene">
+          {scene.dots && <Dots n={scene.a - scene.b} hollow={scene.b} />}
+          <div className="expression">
+            <span>{formatNumber(scene.a)}</span>
+            <span>−</span>
+            <span>{formatNumber(scene.b)}</span>
+            <span>=</span>
+            {slot}
+          </div>
+        </div>
+      );
+
+    case 'whichSign':
+      return (
+        <div className="scene">
+          <div className="expression">
+            <span>{formatNumber(scene.a)}</span>
+            {slot}
+            <span>{formatNumber(scene.b)}</span>
+            <span>=</span>
+            <span>{formatNumber(scene.result)}</span>
+          </div>
+        </div>
+      );
+
+    case 'floor':
+      return (
+        <div className="scene">
+          <div className="building">
+            {Array.from({ length: scene.floors }, (_, i) => scene.floors - i).map((f) => (
+              <div key={f} className={`floor ${f === scene.floor ? 'floor--lit' : ''}`} />
+            ))}
+            <div className="ground" />
+          </div>
+          <div className="expression">
+            {slot}
+            <span>{t('floor.suffix')}</span>
+          </div>
+        </div>
+      );
+
+    case 'coins':
+      return (
+        <div className="scene">
+          <div className="coins">
+            {scene.coins.map((coin, i) => (
+              <Coin key={i} value={coin} unit={scene.unit} />
+            ))}
+          </div>
+          <div className="expression">{slot}</div>
+        </div>
+      );
+
+    case 'exchange':
+      return (
+        <div className="scene">
+          <div className="expression">
+            <Coin value={scene.coin} unit={scene.unit} />
+            <span>=</span>
+            {slot}
+            <Coin value={1} unit={scene.unit} />
+          </div>
+        </div>
+      );
+
+    case 'quantity':
+      return <div className="scene" />;
 
     case 'compare':
       return (

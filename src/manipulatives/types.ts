@@ -22,6 +22,8 @@ export interface Manipulative<S, C> {
   showSolution(config: C): S;
   /** which parts of a state to highlight, for View's `highlight` */
   highlightOf(state: S): string[];
+  /** the states shown one after another the first time; never this question's answer */
+  demo(config: C): S[];
   /** spoken by screen readers */
   describe(state: S): string;
 }

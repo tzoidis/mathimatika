@@ -1,4 +1,10 @@
 {
+  "hint/coin-value": {
+    "text": "Κοίτα πόσο αξίζει το κάθε νόμισμα.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/count-again": {
     "text": "Μέτρησέ τα ξανά, ένα ένα, με το δάχτυλο.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -19,6 +25,12 @@
   },
   "hint/equals-balance": {
     "text": "Το ίσον λέει ότι οι δύο πλευρές ζυγίζουν το ίδιο. Δες τη ζυγαριά!",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "hint/floors-up": {
+    "text": "Μέτρα τους ορόφους από κάτω προς τα πάνω.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -173,6 +185,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "instruction/floor-which": {
+    "text": "Ποιος όροφος είναι; Μέτρα από κάτω.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "instruction/keypad": {
     "text": "Γράψε την απάντηση με τα ψηφία.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -197,8 +215,20 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "instruction/minus": {
+    "text": "πλην",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "instruction/missing-addend": {
     "text": "Πόσα λείπουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/money-exchange": {
+    "text": "Πόσα νομίσματα του ενός χρειάζονται;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"

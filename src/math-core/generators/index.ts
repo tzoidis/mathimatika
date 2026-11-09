@@ -2,6 +2,19 @@
 
 import { addGenerator, countGenerator, doublesGenerator, houseGenerator, tenPlusGenerator } from './number.ts';
 import { compareGenerator, linePlaceGenerator, lineStepGenerator, putGenerator, subitizeGenerator } from './sense.ts';
+import {
+  balanceGenerator,
+  coinsGenerator,
+  countTensGenerator,
+  exchangeGenerator,
+  floorGenerator,
+  jarGenerator,
+  missingGenerator,
+  quantityGenerator,
+  signChoiceGenerator,
+  subGenerator,
+} from './operations.ts';
+import { randInt } from '../../engine/rng.ts';
 import { playable, type Generator, type PlayableGenerator } from './types.ts';
 
 export const ALL_GENERATORS = [
@@ -27,6 +40,20 @@ export const ALL_GENERATORS = [
   linePlaceGenerator('line.place.to20', '1.line.to20', 20),
   compareGenerator('cmp.sign.to10', '1.cmp.sign.to10', 1, 10, true),
   compareGenerator('cmp.sign.to20', '1.cmp.to20', 10, 20, false),
+  compareGenerator('cmp.sign.to50', '1.cmp.to50', 20, 50, false),
+  quantityGenerator('qty.to5', '1.cmp.qty.to5', 1, 5),
+  quantityGenerator('qty.to10', '1.cmp.qty.to10', 2, 10),
+  jarGenerator('jar.to5', '1.num.estimate.to5', 2, 5, 10, 1),
+  jarGenerator('jar.to10', '1.num.estimate.to10', 6, 10, 15, 2),
+  balanceGenerator('balance.missing', '1.add.within10.missing', 3, 10),
+  missingGenerator('missing.to10', '1.sub.complement', 5, 10),
+  subGenerator('sub.small', '1.sub.within10.small', 3, 10, (_a, rng) => randInt(1, 2, rng), (p) => p.b <= 2),
+  subGenerator('sub.large', '1.sub.within10.large', 5, 10, (a, rng) => randInt(a - 3, a - 1, rng), (p) => p.a - p.b <= 3),
+  signChoiceGenerator('sign.choice', '1.sub.symbols', 10),
+  countTensGenerator('count.to50', '1.num.count.to50', 21, 50),
+  floorGenerator('floor.to10', '1.num.ordinal', 10),
+  coinsGenerator('money.total', '1.money.to10', 10),
+  exchangeGenerator('money.exchange', '1.money.to10'),
 ] as Generator<unknown>[];
 
 export const GENERATORS: PlayableGenerator[] = ALL_GENERATORS.map(playable);

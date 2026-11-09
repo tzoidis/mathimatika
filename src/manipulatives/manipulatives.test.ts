@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { balance, tiltOf } from './balance.tsx';
 import { numberLine, showsLabel, tickAt } from './numberLine.tsx';
 import { tenFrame } from './tenFrame.tsx';
 
@@ -61,5 +62,43 @@ describe('number line', () => {
     expect(showsLabel(10, 20, 'fives')).toBe(true);
     expect(showsLabel(7, 20, 'fives')).toBe(false);
     expect(showsLabel(7, 20, 'all')).toBe(true);
+  });
+});
+
+describe('balance', () => {
+  const config = { a: 3, total: 8 };
+
+  it('starts with nothing placed, tipped towards the heavier side', () => {
+    const state = balance.init(config);
+    expect(balance.read(state)).toBeNull();
+    expect(tiltOf(state)).toBe(-1);
+  });
+
+  it('evens out at the solution, and tips the other way past it', () => {
+    const solved = balance.showSolution(config);
+    expect(balance.read(solved)).toBe('5');
+    expect(tiltOf(solved)).toBe(0);
+    expect(tiltOf({ ...solved, placed: 6 })).toBe(1);
+  });
+});
+
+describe('the first-time demo', () => {
+  it('ends empty on the ten frame, and shows something before that', () => {
+    const frames = tenFrame.demo({ frames: 1, target: 3 });
+    expect(frames.length).toBeGreaterThan(1);
+    expect(tenFrame.read(frames[frames.length - 1]!)).toBeNull();
+    expect(tenFrame.read(frames[0]!)).toBe('1');
+  });
+
+  it('never lands on the answer of the number line question', () => {
+    for (const target of [1, 2, 3, 4, 7]) {
+      const shown = numberLine.demo({ max: 10, labels: 'all', mark: null, target }).map((s) => s.at);
+      expect(shown).not.toContain(target);
+      expect(shown[shown.length - 1]).toBeNull();
+    }
+  });
+
+  it('adds blocks on the balance and takes them off again', () => {
+    expect(balance.demo({ a: 3, total: 8 }).map((s) => s.placed)).toEqual([1, 2, 0]);
   });
 });

@@ -15,18 +15,21 @@ const round = (kind: RoundKind, chapter: string, seed: number) =>
 describe('what the book makes available', () => {
   it('offers nothing before a chapter is set, or before the first generator', () => {
     expect(availableGenerators(1, null)).toEqual([]);
-    expect(at('3')).toEqual([]);
+    expect(at('2')).toEqual([]);
     expect(availableGenerators(2, '1')).toEqual([]);
   });
 
   it('follows the chapter, in book order', () => {
-    expect(at('4').map((g) => g.id)).toEqual(['subitize.to5', 'put.to5']);
-    expect(at('5').map((g) => g.id)).toEqual(['subitize.to5', 'put.to5', 'count.to5']);
+    expect(at('3').map((g) => g.id)).toEqual(['qty.to5', 'jar.to5']);
+    expect(at('4').map((g) => g.id)).toEqual(['qty.to5', 'jar.to5', 'subitize.to5', 'put.to5']);
+    expect(at('5').map((g) => g.id)).toEqual(['qty.to5', 'jar.to5', 'subitize.to5', 'put.to5', 'count.to5']);
     const ids = at('17').map((g) => g.id);
     expect(ids).toContain('count.to20');
     expect(ids).not.toContain('add.to10');
     expect(ids.indexOf('count.to5')).toBeLessThan(ids.indexOf('count.to20'));
-    expect(at('21').map((g) => g.id)).toEqual(expect.arrayContaining(['add.to10', 'add.doubles', 'house.to10', 'pairs10']));
+    expect(at('21').map((g) => g.id)).toEqual(expect.arrayContaining(['add.to10', 'add.doubles', 'house.to10', 'pairs10', 'floor.to10', 'money.total', 'balance.missing']));
+    expect(at('21').map((g) => g.id)).not.toContain('sub.small');
+    expect(at('32').map((g) => g.id)).toEqual(expect.arrayContaining(['sub.small', 'sub.large', 'sign.choice', 'missing.to10', 'count.to50', 'cmp.sign.to50']));
   });
 
   it('takes the current unit from the latest chapter that has exercises', () => {
@@ -43,7 +46,7 @@ describe('what the book makes available', () => {
 });
 
 describe.each(ROUND_KINDS)('a %s round', (kind) => {
-  it.each(['4', '5', '7', '11', '13', '16', '17', '18', '21', '64'])('at chapter %s has 5 sound questions from what was taught', (chapter) => {
+  it.each(['3', '4', '5', '7', '11', '13', '16', '17', '18', '21', '32', '64'])('at chapter %s has 5 sound questions from what was taught', (chapter) => {
     const allowed = new Set(at(chapter).map((g) => g.id));
     for (let seed = 0; seed < SEEDS; seed++) {
       const items = round(kind, chapter, seed);
@@ -73,7 +76,7 @@ describe('the shape of a session', () => {
   it('starts easy and ends easy', () => {
     for (let seed = 0; seed < SEEDS; seed++) {
       expect(plan('warmup', seed)[0]!.level).toBe(1);
-      expect(plan('mix', seed)[4]).toMatchObject({ level: 1, generator: { id: 'subitize.to5' } });
+      expect(plan('mix', seed)[4]).toMatchObject({ level: 1, generator: { id: 'qty.to5' } });
     }
   });
 

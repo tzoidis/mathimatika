@@ -22,6 +22,8 @@ export interface Settings {
   upToUnit: string | null;
   /** «reads up to letter…»: number of graphemes taught, along content/letters.json (grades 1-2) */
   upToPosition: number;
+  /** manipulatives whose first-time demo has been seen */
+  seenDemos: string[];
   dailyLimitMinutes: number;
   leftHanded: boolean;
   /** 4-digit PIN; null = multiplication gate only */
@@ -44,6 +46,7 @@ export function defaultSettings(childId: string): Settings {
     grade: 1,
     upToUnit: null,
     upToPosition: 0,
+    seenDemos: [],
     dailyLimitMinutes: DEFAULT_DAILY_LIMIT_MINUTES,
     leftHanded: false,
     parentPin: null,

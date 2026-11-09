@@ -53,5 +53,9 @@ export const tenFrame: Manipulative<TenFrameState, TenFrameConfig> = {
   read: (state) => (filled(state) === 0 ? null : String(filled(state))),
   showSolution: ({ frames, target }) => ({ cells: Array.from({ length: frames * FRAME_SIZE }, (_, i) => i < target) }),
   highlightOf: (state) => state.cells.flatMap((on, i) => (on ? [String(i)] : [])),
+  demo: ({ frames }) => {
+    const size = frames * FRAME_SIZE;
+    return [1, 2, 0].map((n) => ({ cells: Array.from({ length: size }, (_, i) => i < n) }));
+  },
   describe: (state) => t('manipulative.tenFrame', { n: formatNumber(filled(state)) }),
 };

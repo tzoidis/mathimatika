@@ -5,25 +5,76 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useApp } from '../../app/AppContext.tsx';
+import { useUpdateSettings } from '../../screens/parent/useSettings.ts';
 import { numberRequest } from '../../audio/numberClips.ts';
 import { t } from '../../i18n.ts';
+import { balance } from '../../manipulatives/balance.tsx';
 import type { Manipulative } from '../../manipulatives/types.ts';
 import { numberLine } from '../../manipulatives/numberLine.tsx';
 import { tenFrame } from '../../manipulatives/tenFrame.tsx';
 import { formatNumber } from '../../math-core/format.ts';
-import type { Choice, Problem, Say } from '../../math-core/generators/types.ts';
+import type { AnswerMode, Choice, Problem, Say, Scene as SceneData } from '../../math-core/generators/types.ts';
 import { IconButton } from '../../ui/IconButton.tsx';
 import { CheckIcon, SpeakerIcon } from '../../ui/Icons.tsx';
 import { NumPad } from '../../ui/NumPad.tsx';
 import type { ExerciseProps } from '../types.ts';
 import type { QuestionItem } from './generate.ts';
-import { Scene } from './Scene.tsx';
+import { Dots, Scene } from './Scene.tsx';
 
 const MAX_DIGITS = 3;
 
-function ManipulativeAnswer<S, C>({ manipulative, config, revealed, onSubmit }: { manipulative: Manipulative<S, C>; config: C; revealed: boolean; onSubmit(input: string): void }) {
+/** How long each step of a first-time demo stays on screen. */
+const DEMO_STEP_MS = 800;
+
+function ManipulativeAnswer<S, C>({
+  manipulative,
+  config,
+  revealed,
+  demo,
+  onDemoDone,
+  onSubmit,
+}: {
+  manipulative: Manipulative<S, C>;
+  config: C;
+  revealed: boolean;
+  demo: boolean;
+  onDemoDone(): void;
+  onSubmit(input: string): void;
+}) {
+  const { audio } = useApp();
   const [state, setState] = useState(() => manipulative.init(config));
+  const [demoState, setDemoState] = useState<S | null>(null);
   const { View } = manipulative;
+
+  useEffect(() => {
+    if (!demo) return;
+    let cancelled = false;
+    void (async () => {
+      await audio.play({ kind: 'instruction', key: 'worked-example' });
+      for (const step of manipulative.demo(config)) {
+        if (cancelled) return;
+        setDemoState(step);
+        await new Promise((resolve) => setTimeout(resolve, DEMO_STEP_MS));
+      }
+      if (cancelled) return;
+      setDemoState(null);
+      await audio.play({ kind: 'instruction', key: 'twin-problem' });
+      if (!cancelled) onDemoDone();
+    })();
+    return () => {
+      cancelled = true;
+    };
+    // once per manipulative: the first time it appears
+  }, []);
+
+  if (demo) {
+    return (
+      <div className="manipulative-answer">
+        <View state={demoState ?? manipulative.init(config)} onChange={() => undefined} readOnly />
+      </div>
+    );
+  }
+
   return (
     <div className="manipulative-answer">
       <View state={state} onChange={setState} readOnly={false} highlight={revealed ? manipulative.highlightOf(manipulative.showSolution(config)) : undefined} />
@@ -37,6 +88,20 @@ function ManipulativeAnswer<S, C>({ manipulative, config, revealed, onSubmit }: 
       >
         <CheckIcon />
       </IconButton>
+    </div>
+  );
+}
+
+function GroupAnswer({ scene, choices, correct, revealed, onSubmit }: { scene: Extract<SceneData, { kind: 'quantity' }>; choices: Choice[]; correct: string; revealed: boolean; onSubmit(input: string): void }) {
+  const counts = [scene.left, scene.right];
+  const sides = ['left', 'right'] as const;
+  return (
+    <div className="groups">
+      {choices.map((c, i) => (
+        <button key={c.value} type="button" className={`group-tile ${scene.bigSide === sides[i] ? 'group-tile--big' : ''} ${revealed && String(c.value) === correct ? 'choice-tile--shown' : ''}`} onClick={() => onSubmit(String(c.value))}>
+          <Dots n={counts[i]!} />
+        </button>
+      ))}
     </div>
   );
 }
@@ -57,8 +122,12 @@ function ChoiceAnswer({ choices, correct, revealed, onSubmit }: { choices: Choic
 const labelOf = (problem: Problem, input: string) => problem.choices?.find((c) => String(c.value) === input)?.label ?? input;
 const rightInput = (problem: Problem) => (problem.choices ? String(problem.answer.n) : formatNumber(problem.answer));
 
+const MANIPULATIVE_MODES: AnswerMode[] = ['tenFrame', 'numberLine', 'balance'];
+
 export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
-  const { audio } = useApp();
+  const { audio, settings } = useApp();
+  const updateSettings = useUpdateSettings();
+  const [seenDemos, setSeenDemos] = useState(settings.seenDemos);
   const items = round.items as QuestionItem[];
   const [index, setIndex] = useState(0);
   const [input, setInput] = useState('');
@@ -68,6 +137,7 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
   const [tries, setTries] = useState(0);
   const item = items[index]!;
   const { problem } = item;
+  const demoing = MANIPULATIVE_MODES.includes(problem.answerMode) && !seenDemos.includes(problem.answerMode);
 
   const speech = useRef(0);
   const leaving = useRef(false);
@@ -88,6 +158,7 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
 
   // PRD §7: in grades 1-2 every problem is read aloud by itself
   useEffect(() => {
+    if (demoing) return;
     shownAt.current = Date.now();
     listened.current = false;
     void say(item.problem.say);
@@ -95,7 +166,13 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
       speech.current++;
       audio.stop();
     };
-  }, [audio, item, say]);
+  }, [audio, item, say, demoing]);
+
+  const demoDone = () => {
+    const seen = [...seenDemos, problem.answerMode];
+    setSeenDemos(seen);
+    void updateSettings({ seenDemos: seen });
+  };
 
   const next = () => {
     leaving.current = false;
@@ -154,6 +231,8 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
   const shown = showingAnswer ? labelOf(problem, rightInput(problem)) : labelOf(problem, input);
   const slot = <span className={`slot ${showingAnswer ? 'slot--shown' : ''}`}>{shown}</span>;
   const { scene, answerMode } = problem;
+  const manipulativeKey = [index, tries, demoing].join('-');
+  const manipulativeProps = { revealed, demo: demoing, onDemoDone: demoDone, onSubmit: (a: string) => void submit(a) };
 
   return (
     <div className="keypad-round">
@@ -174,9 +253,11 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
         </ol>
       </div>
       <div className="keypad-body">
-        <div className="keypad-question">
-          <Scene key={index} scene={scene} slot={slot} answerOnLine={answerMode === 'numberLine'} />
-        </div>
+        {answerMode !== 'group' && (
+          <div className="keypad-question">
+            <Scene key={index} scene={scene} slot={slot} answerOnLine={answerMode === 'numberLine'} />
+          </div>
+        )}
         {answerMode === 'keypad' && (
           <NumPad
             onDigit={(d) => {
@@ -189,12 +270,19 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
           />
         )}
         {answerMode === 'choice' && problem.choices && <ChoiceAnswer choices={problem.choices} correct={rightInput(problem)} revealed={revealed} onSubmit={(a) => void submit(a)} />}
+        {answerMode === 'group' && scene.kind === 'quantity' && problem.choices && <GroupAnswer scene={scene} choices={problem.choices} correct={rightInput(problem)} revealed={revealed} onSubmit={(a) => void submit(a)} />}
         {answerMode === 'tenFrame' && scene.kind === 'put' && (
-          <ManipulativeAnswer key={[index, tries].join('-')} manipulative={tenFrame} config={{ frames: scene.frames, target: scene.n }} revealed={revealed} onSubmit={(a) => void submit(a)} />
+          <ManipulativeAnswer key={manipulativeKey} manipulative={tenFrame} config={{ frames: scene.frames, target: scene.n }} {...manipulativeProps} />
         )}
-        {answerMode === 'numberLine' && scene.kind === 'line' && (
-          <ManipulativeAnswer key={[index, tries].join('-')} manipulative={numberLine} config={{ max: scene.max, labels: scene.labels, mark: scene.mark, target: scene.target }} revealed={revealed} onSubmit={(a) => void submit(a)} />
+        {answerMode === 'numberLine' && (scene.kind === 'line' || scene.kind === 'jar') && (
+          <ManipulativeAnswer
+            key={manipulativeKey}
+            manipulative={numberLine}
+            config={scene.kind === 'line' ? { max: scene.max, labels: scene.labels, mark: scene.mark, target: scene.target } : { max: scene.max, labels: 'all', mark: null, target: scene.n }}
+            {...manipulativeProps}
+          />
         )}
+        {answerMode === 'balance' && scene.kind === 'balance' && <ManipulativeAnswer key={manipulativeKey} manipulative={balance} config={{ a: scene.a, total: scene.total }} {...manipulativeProps} />}
       </div>
     </div>
   );

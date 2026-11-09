@@ -68,5 +68,6 @@ export const numberLine: Manipulative<NumberLineState, NumberLineConfig> = {
   read: (state) => (state.at === null ? null : String(state.at)),
   showSolution: ({ max, labels, target }) => ({ max, labels, at: target }),
   highlightOf: (state) => (state.at === null ? [] : [String(state.at)]),
+  demo: ({ max, labels, target }) => [target === 1 ? 2 : 1, target === 3 ? 4 : 3, null].map((at) => ({ max, labels, at })),
   describe: (state) => (state.at === null ? t('manipulative.line.empty') : t('manipulative.line', { n: formatNumber(state.at) })),
 };

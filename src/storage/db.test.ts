@@ -27,6 +27,20 @@ describe('migrations', () => {
 });
 
 describe('migration to version 2', () => {
+  it('starts existing children with no demo seen', async () => {
+    const opts = names();
+    const v2 = await openDb({ ...opts, migrations: MIGRATIONS.slice(0, 2) });
+    await ensureChild(v2);
+    await v2.settings.toCollection().modify((s: { seenDemos?: string[] }) => {
+      delete s.seenDemos;
+    });
+    v2.close();
+
+    const db = await openDb(opts);
+    open.push(db);
+    expect((await db.settings.get(DEFAULT_CHILD_ID))?.seenDemos).toEqual([]);
+  });
+
   it('starts existing children at «no letters yet» and keeps their settings', async () => {
     const opts = names();
     const v1 = await openDb({ ...opts, migrations: MIGRATIONS.slice(0, 1) });

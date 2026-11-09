@@ -61,6 +61,8 @@ Node ≥ 22.18 (scripts in `scripts/` run as plain `.ts` via Node type stripping
 - `AudioService.ts` is deliberately identical to Glossa's so a fix can be carried over. Parent recordings are not used: `getRecording` always returns nothing.
 - Skills live in `src/content/skills.<grade>.json`, stable across books; `book-map.<grade>.json` says which chapter teaches each one, so a new book is a new map. `src/engine/curriculum.ts` validates them (shared with `validate-content`) and computes what is available. The PRD's `Skill.unitId` is left out on purpose: the map alone places a skill.
 - Grade 1 map: the 64 chapters of the book in `docs/` (git-ignored, the repo is public). Review and assessment chapters have `review: true` and no skills. The numerals follow that book: επτά, οκτώ, εννέα.
+- A manipulative shows its `demo` states once, the first time it appears; `settings.seenDemos` remembers which.
+- Ordinals are read off a picture and typed: ten floors at 96px would not fit a tablet.
 - Migrations are append-only; `openDb` snapshots before upgrading. Tables for the review queue (ΜΘ6) and the world (ΜΘ5) are added in those milestones.
 - `src/content/audio-catalog.json` records what each clip was made from; `validate-content` fails if a phrase changed without its clip.
 
