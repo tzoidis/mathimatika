@@ -827,9 +827,13 @@ button {
   gap: 24px;
 }
 
+/* the dots shrink with the card, so they stay inside it on a narrow tablet */
 .group-tile {
-  width: min(320px, 44%);
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 320px;
   min-height: 280px;
+  padding: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -839,13 +843,20 @@ button {
   box-shadow: 0 4px 0 var(--card-edge);
 }
 
-.group-tile--big .dots {
-  grid-template-columns: repeat(3, 64px);
+.group-tile .dots {
+  width: 100%;
+  grid-template-columns: repeat(5, minmax(0, 40px));
+  justify-content: center;
 }
 
-.group-tile--big .dot {
-  width: 64px;
-  height: 64px;
+.group-tile .dot {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+}
+
+.group-tile--big .dots {
+  grid-template-columns: repeat(3, minmax(0, 72px));
 }
 
 .balance-wrap {

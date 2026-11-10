@@ -11,8 +11,8 @@ import { ReplayIcon } from '../../ui/Icons.tsx';
 const FRAME_SIZE = 10;
 const SCATTER_CELLS = 24;
 
-/** Long enough to see, too short to count. Never shown, and nothing depends on it (PRD §7). */
-const GLANCE_MS = 2000;
+/** The PRD says about 2 s; on the tablet the parent found that too short. Never shown, and nothing depends on it (PRD §7). */
+const GLANCE_MS = 4000;
 
 export function Dots({ n, hollow = 0 }: { n: number; hollow?: number }) {
   return (
