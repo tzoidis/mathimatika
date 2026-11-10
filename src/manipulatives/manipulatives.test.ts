@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { balance, tiltOf } from './balance.tsx';
 import { numberLine, showsLabel, tickAt } from './numberLine.tsx';
+import { rods } from './rods.tsx';
 import { tenFrame } from './tenFrame.tsx';
 
 describe('ten frame', () => {
@@ -100,5 +101,30 @@ describe('the first-time demo', () => {
 
   it('adds blocks on the balance and takes them off again', () => {
     expect(balance.demo({ a: 3, total: 8 }).map((s) => s.placed)).toEqual([1, 2, 0]);
+  });
+});
+
+describe('rods and cubes', () => {
+  const build = { mode: 'build' as const, target: 37, tens: 0, units: 0 };
+  const regroup = { mode: 'regroup' as const, target: 24, tens: 1, units: 14 };
+
+  it('builds a number from rods and cubes, any way that makes it', () => {
+    expect(rods.read(rods.init(build))).toBeNull();
+    expect(rods.read({ mode: 'build', tens: 3, units: 7 })).toBe('37');
+    expect(rods.read({ mode: 'build', tens: 2, units: 17 })).toBe('37');
+    expect(rods.read(rods.showSolution(build))).toBe('37');
+    expect(rods.highlightOf(rods.showSolution(build))).toEqual(['3', '7']);
+  });
+
+  it('reads untied cubes as the table would be written, never as the answer', () => {
+    expect(rods.read(rods.init(regroup))).toBe('114');
+    expect(rods.read({ mode: 'regroup', tens: 2, units: 4 })).toBe('24');
+    expect(rods.read(rods.showSolution(regroup))).toBe('24');
+  });
+
+  it('never demonstrates the answer to the question in hand', () => {
+    for (const target of [11, 12, 20, 37, 50]) for (const s of rods.demo({ ...build, target })) expect(rods.read(s)).not.toBe(String(target));
+    for (const s of rods.demo(regroup)) expect(rods.read(s)).not.toBe('24');
+    for (const s of rods.demo({ mode: 'regroup', target: 21, tens: 1, units: 11 })) expect(rods.read(s)).not.toBe('21');
   });
 });

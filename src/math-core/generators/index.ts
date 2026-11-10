@@ -16,6 +16,7 @@ import {
 } from './operations.ts';
 import { randInt } from '../../engine/rng.ts';
 import { storyGenerator } from './story.ts';
+import { bridgeGenerator, buildTensGenerator, daysGenerator, groupsGenerator, manyTermsGenerator, readTensGenerator, regroupGenerator } from './tens.ts';
 import { playable, type Generator, type PlayableGenerator } from './types.ts';
 
 export const ALL_GENERATORS = [
@@ -58,6 +59,13 @@ export const ALL_GENERATORS = [
   storyGenerator('story.add.to5', '1.problem.add.to5'),
   storyGenerator('story.add.to10', '1.problem.add.to10'),
   storyGenerator('story.addsub.to10', '1.problem.addsub.to10'),
+  groupsGenerator('groups.to50', '1.num.group.tens', 21, 50),
+  readTensGenerator('tens.read.to50', '1.place.tens-units.to50', 11, 50),
+  buildTensGenerator('tens.build.to50', '1.place.tens-units.to50', 11, 50),
+  regroupGenerator('tens.regroup', '1.place.exchange', 49),
+  manyTermsGenerator('add.three', '1.add.many-terms'),
+  daysGenerator('days.week', '1.time.sequence'),
+  bridgeGenerator('add.bridge', '1.add.within20.bridge'),
 ] as Generator<unknown>[];
 
 export const GENERATORS: PlayableGenerator[] = ALL_GENERATORS.map(playable);

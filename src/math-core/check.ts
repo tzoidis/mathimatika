@@ -29,7 +29,10 @@ export type MisconceptionCode =
   | 'LINE_POSITION'
   | 'SIZE_NOT_COUNT'
   | 'COUNTED_FROM_TOP'
-  | 'COUNTED_COINS';
+  | 'COUNTED_COINS'
+  | 'COUNTED_GROUPS'
+  | 'NOT_REGROUPED'
+  | 'TERM_MISSED';
 
 export type Verdict = { ok: true; note?: 'notSimplified' } | { ok: false; code?: MisconceptionCode; hintId?: string };
 

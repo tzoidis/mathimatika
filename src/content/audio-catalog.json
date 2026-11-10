@@ -1,4 +1,16 @@
 {
+  "hint/add-all": {
+    "text": "Πρόσθεσε και τους τρεις αριθμούς.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "hint/bundle-ten": {
+    "text": "Δέκα κύβοι γίνονται μία ράβδος. Δέσε τους!",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/coin-value": {
     "text": "Κοίτα πόσο αξίζει το κάθε νόμισμα.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -13,6 +25,12 @@
   },
   "hint/count-from-next": {
     "text": "Μέτρησες και τον πρώτο αριθμό; Ξεκίνα από τον επόμενο.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "hint/days-order": {
+    "text": "Πες τις μέρες με τη σειρά, από τη Δευτέρα.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -101,6 +119,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "hint/tens-worth": {
+    "text": "Κάθε δεκάδα έχει δέκα. Μέτρα με δεκάδες: δέκα, είκοσι, τριάντα.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/together": {
     "text": "Ας το δούμε μαζί.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -127,6 +151,30 @@
   },
   "instruction/and": {
     "text": "και",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/ask-day-after": {
+    "text": "Ποια μέρα θα είναι μεθαύριο;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/ask-day-before": {
+    "text": "Ποια μέρα ήταν προχθές;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/ask-tomorrow": {
+    "text": "Ποια μέρα θα είναι αύριο;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/ask-yesterday": {
+    "text": "Ποια μέρα ήταν χθες;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -169,6 +217,48 @@
   },
   "instruction/count-put": {
     "text": "Βάλε τόσα, όσα λέει ο αριθμός.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/day-1": {
+    "text": "Δευτέρα.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/day-2": {
+    "text": "Τρίτη.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/day-3": {
+    "text": "Τετάρτη.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/day-4": {
+    "text": "Πέμπτη.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/day-5": {
+    "text": "Παρασκευή.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/day-6": {
+    "text": "Σάββατο.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/day-7": {
+    "text": "Κυριακή.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -283,6 +373,12 @@
   },
   "instruction/tens-units": {
     "text": "Φτιάξε τον αριθμό με ράβδους και κύβους.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/today-is": {
+    "text": "Σήμερα είναι",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"

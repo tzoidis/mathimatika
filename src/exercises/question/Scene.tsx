@@ -3,6 +3,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { t } from '../../i18n.ts';
 import { numberLine } from '../../manipulatives/numberLine.tsx';
+import { RodsPicture } from '../../manipulatives/rods.tsx';
 import { formatNumber } from '../../math-core/format.ts';
 import type { Scene as SceneData } from '../../math-core/generators/types.ts';
 import { IconButton } from '../../ui/IconButton.tsx';
@@ -73,6 +74,43 @@ function Glance({ children }: { children: ReactNode }) {
           <ReplayIcon />
         </IconButton>
       )}
+    </div>
+  );
+}
+
+/** A collection as the book groups it: full tens, a five, single ones. */
+function Groups({ groups }: { groups: number[] }) {
+  return (
+    <div className="groups-picture">
+      {groups.map((size, i) =>
+        size === 1 ? (
+          <span key={i} className="dot" />
+        ) : (
+          <div key={i} className={`ten-frame ${size === FRAME_SIZE ? '' : 'ten-frame--five'}`}>
+            {Array.from({ length: size }, (_, k) => (
+              <span key={k} className="frame-cell">
+                <span className="dot" />
+              </span>
+            ))}
+          </div>
+        ),
+      )}
+    </div>
+  );
+}
+
+/** a + b on two frames: b fills the first frame up to ten, the rest goes on the second. */
+function BridgeFrames({ a, b }: { a: number; b: number }) {
+  return (
+    <div className="ten-frames ten-frames--row">
+      {[0, 1].map((f) => (
+        <div key={f} className="ten-frame">
+          {Array.from({ length: FRAME_SIZE }, (_, i) => {
+            const n = f * FRAME_SIZE + i;
+            return <span key={i} className="frame-cell">{n < a + b && <span className={`dot ${n >= a ? 'dot--second' : ''}`} />}</span>;
+          })}
+        </div>
+      ))}
     </div>
   );
 }
@@ -264,7 +302,64 @@ export function Scene({ scene, slot, answerOnLine, readable = false }: { scene: 
       );
 
     case 'quantity':
+    case 'regroup':
+    case 'week':
       return <div className="scene" />;
+
+    case 'groups':
+      return (
+        <div className="scene">
+          <Groups groups={scene.groups} />
+          <div className="expression">{slot}</div>
+        </div>
+      );
+
+    case 'rods':
+      return (
+        <div className="scene">
+          <RodsPicture tens={scene.tens} units={scene.units} cubesFirst={scene.cubesFirst} />
+          <div className="expression">{slot}</div>
+        </div>
+      );
+
+    case 'build':
+      return (
+        <div className="scene">
+          <div className="expression big-number">{formatNumber(scene.n)}</div>
+        </div>
+      );
+
+    case 'addMany':
+      return (
+        <div className="scene">
+          {scene.dots && (
+            <div className="dot-groups">
+              {scene.terms.map((n, i) => (
+                <Dots key={i} n={n} />
+              ))}
+            </div>
+          )}
+          <div className="expression">
+            {scene.terms.flatMap((n, i) => [...(i > 0 ? [<span key={`plus${i}`}>+</span>] : []), <span key={i}>{formatNumber(n)}</span>])}
+            <span>=</span>
+            {slot}
+          </div>
+        </div>
+      );
+
+    case 'bridge':
+      return (
+        <div className="scene">
+          {scene.frames && <BridgeFrames a={scene.a} b={scene.b} />}
+          <div className="expression">
+            <span>{formatNumber(scene.a)}</span>
+            <span>+</span>
+            <span>{formatNumber(scene.b)}</span>
+            <span>=</span>
+            {slot}
+          </div>
+        </div>
+      );
 
     case 'story':
       return (

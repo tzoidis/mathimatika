@@ -30,9 +30,16 @@ export type Scene =
   | { kind: 'floor'; floor: number; floors: number }
   | { kind: 'coins'; coins: number[]; unit: 'euro' | 'cent' }
   | { kind: 'exchange'; coin: number; unit: 'euro' | 'cent' }
+  | { kind: 'groups'; groups: number[] }
+  | { kind: 'rods'; tens: number; units: number; cubesFirst: boolean }
+  | { kind: 'build'; n: number }
+  | { kind: 'regroup'; tens: number; units: number }
+  | { kind: 'addMany'; terms: number[]; dots: boolean }
+  | { kind: 'bridge'; a: number; b: number; frames: boolean }
+  | { kind: 'week'; today: number; offset: number; marked: boolean }
   | { kind: 'story'; problemId: string; text: string; operation: 'add' | 'subtract' | 'missing'; a: number; b: number; objects: string[]; pictures: boolean };
 
-export type AnswerMode = 'keypad' | 'tenFrame' | 'numberLine' | 'balance' | 'choice' | 'group';
+export type AnswerMode = 'keypad' | 'tenFrame' | 'numberLine' | 'balance' | 'choice' | 'group' | 'rods' | 'regroup' | 'week';
 
 /** One of the tiles of a choice question; the answer is `value`, the child sees `label`. */
 export interface Choice {
@@ -57,6 +64,8 @@ export interface Problem {
   answerMode: AnswerMode;
   /** only for answerMode 'choice' and 'group' */
   choices?: Choice[];
+  /** a strategy praise the picture invites, instead of a general one */
+  praise?: string;
 }
 
 export interface MisconceptionDetector<P> {
@@ -74,7 +83,7 @@ export interface Generator<P> {
   /** deterministic for the same rng */
   params(ctx: GenCtx): P;
   constraints: ((p: P) => boolean)[];
-  build(p: P, ctx: GenCtx): Pick<Problem, 'answer' | 'scene' | 'say'> & Partial<Pick<Problem, 'answerMode' | 'choices'>>;
+  build(p: P, ctx: GenCtx): Pick<Problem, 'answer' | 'scene' | 'say'> & Partial<Pick<Problem, 'answerMode' | 'choices' | 'praise'>>;
   key(p: P): string;
   detectors: MisconceptionDetector<P>[];
   /** for answers that are right without being equal: a tap near enough on the number line */

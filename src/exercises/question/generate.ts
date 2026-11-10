@@ -23,7 +23,7 @@ export interface Slot {
   level: Level;
 }
 
-export const isNumberSense = (g: { id: string }) => /^(count|subitize|put|line|cmp|qty|jar)\./.test(g.id);
+export const isNumberSense = (g: { id: string }) => /^(count|subitize|put|line|cmp|qty|jar|groups)\./.test(g.id);
 
 export interface Adapt {
   progress: ReadonlyMap<SkillId, SkillProgress>;
@@ -105,7 +105,7 @@ export function generate(ctx: GenerateContext): Round {
     const problem = generator.produce({ rng: ctx.rng, level }, used);
     used.add(problem.key);
     const last = items[items.length - 1]?.praiseKey;
-    items.push({ problem, generator, praiseKey: pick(keys.filter((k) => k !== last), ctx.rng) });
+    items.push({ problem, generator, praiseKey: problem.praise !== undefined && problem.praise !== last ? problem.praise : pick(keys.filter((k) => k !== last), ctx.rng) });
   }
   return { id: [QUESTION_ID, ctx.roundKind].join('-'), exerciseId: QUESTION_ID, seed: 0, level: ctx.level, items };
 }

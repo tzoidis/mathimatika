@@ -61,6 +61,33 @@ function answerFromScene(scene: Scene): number {
     }
     case 'exchange':
       return scene.coin;
+    case 'groups': {
+      let total = 0;
+      for (const group of scene.groups) for (let i = 0; i < group; i++) total++;
+      return total;
+    }
+    case 'rods':
+    case 'regroup': {
+      // a rod is ten cubes laid end to end
+      const cubes = [...Array(scene.units)].length;
+      return [...Array(scene.tens)].reduce((n: number) => n + [...Array(10)].length, cubes);
+    }
+    case 'build':
+      return scene.n;
+    case 'addMany':
+      return scene.terms.flatMap((n) => [...Array(n)]).length;
+    case 'bridge': {
+      // fill the first frame, then count what spills over onto the second
+      const spill = scene.b - (10 - scene.a);
+      return 10 + spill;
+    }
+    case 'week': {
+      // walk along the cards, going round from Sunday to Monday
+      const cards = [1, 2, 3, 4, 5, 6, 7];
+      let at = cards.indexOf(scene.today);
+      for (let i = 0; i < Math.abs(scene.offset); i++) at = (at + Math.sign(scene.offset) + cards.length) % cards.length;
+      return cards[at]!;
+    }
     case 'story': {
       // read the numbers back out of the text the child sees, not the stored ones
       const numbers = (scene.text.match(/\d+/g) ?? []).map(Number);
@@ -307,5 +334,62 @@ describe('avoiding repeats', () => {
     const g = GENERATORS.find((x) => x.id === 'count.to5')!;
     const avoid = new Set([1, 2, 3, 4, 5].map((n) => ['count.to5', n].join(':')));
     expect(g.produce({ rng: mulberry32(1), level: 1 }, avoid).generatorId).toBe('count.to5');
+  });
+});
+
+describe('chapters 33-42', () => {
+  const gradeOf = (id: string, params: unknown, answer: number, input: string) => playable(named(id)).grade({ params, answer: ratio(answer), policy: { equality: 'value' } } as Problem, input);
+  const scenes = (id: string, level: Level) => Array.from({ length: SEEDS }, (_, seed) => GENERATORS.find((g) => g.id === id)!.produce({ rng: mulberry32(seed), level }, new Set()).scene);
+
+  it('reads 3 rods and 7 cubes as 37, and names 73 and 10', () => {
+    const params = { tens: 3, units: 7, cubesFirst: false };
+    expect(gradeOf('tens.read.to50', params, 37, '37')).toEqual({ ok: true });
+    expect(gradeOf('tens.read.to50', params, 37, '73')).toEqual({ ok: false, code: 'DIGIT_REVERSAL', hintId: 'digit-reversal' });
+    expect(gradeOf('tens.read.to50', params, 37, '10')).toEqual({ ok: false, code: 'COUNTED_GROUPS', hintId: 'tens-worth' });
+  });
+
+  it('counts a collection by its groups, a five among them from level 2', () => {
+    expect(gradeOf('groups.to50', { groups: [10, 10, 5, 1, 1] }, 27, '5')).toEqual({ ok: false, code: 'COUNTED_GROUPS', hintId: 'tens-worth' });
+    for (const s of scenes('groups.to50', 1)) expect(s.kind === 'groups' && !s.groups.includes(5)).toBe(true);
+    expect(scenes('groups.to50', 2).some((s) => s.kind === 'groups' && s.groups.includes(5))).toBe(true);
+  });
+
+  it('hears cubes left untied as their own mistake', () => {
+    expect(gradeOf('tens.regroup', { tens: 1, units: 14 }, 24, '24')).toEqual({ ok: true });
+    expect(gradeOf('tens.regroup', { tens: 1, units: 14 }, 24, '114')).toEqual({ ok: false, code: 'NOT_REGROUPED', hintId: 'bundle-ten' });
+    expect(gradeOf('tens.regroup', { tens: 1, units: 24 }, 34, '214')).toEqual({ ok: false, code: 'NOT_REGROUPED', hintId: 'bundle-ten' });
+    for (const s of scenes('tens.regroup', 3)) expect(s.kind === 'regroup' && s.units >= 10 && s.tens * 10 + s.units <= 49).toBe(true);
+  });
+
+  it('knows a number left out of three', () => {
+    expect(gradeOf('add.three', { terms: [4, 3, 6], dots: false }, 13, '7')).toEqual({ ok: false, code: 'TERM_MISSED', hintId: 'add-all' });
+    expect(gradeOf('add.three', { terms: [4, 3, 6], dots: false }, 13, '10')).toEqual({ ok: false, code: 'TERM_MISSED', hintId: 'add-all' });
+    for (const s of scenes('add.three', 3)) expect(s.kind === 'addMany' && s.terms.some((a, i) => s.terms.some((b, j) => i !== j && a + b === 10))).toBe(true);
+  });
+
+  it('crosses ten every time, and knows a forgotten ten', () => {
+    for (const level of LEVELS) for (const s of scenes('add.bridge', level)) expect(s.kind === 'bridge' && s.a + s.b > 10 && s.a + s.b <= 18).toBe(true);
+    expect(gradeOf('add.bridge', { a: 8, b: 5, frames: true }, 13, '3')).toEqual({ ok: false, code: 'CARRY_FORGOTTEN', hintId: 'make-ten' });
+    expect(gradeOf('add.bridge', { a: 8, b: 5, frames: true }, 13, '31')).toEqual({ ok: false, code: 'DIGIT_REVERSAL', hintId: 'teen-digits' });
+  });
+
+  it('praises making ten only when the frames show it', () => {
+    const bridge = GENERATORS.find((g) => g.id === 'add.bridge')!;
+    expect(bridge.produce({ rng: mulberry32(1), level: 1 }, new Set()).praise).toBe('made-ten');
+    expect(bridge.produce({ rng: mulberry32(1), level: 3 }, new Set()).praise).toBeUndefined();
+  });
+
+  it('goes round the week from Sunday to Monday, but not while today is marked', () => {
+    expect(gradeOf('days.week', { today: 7, offset: 1, marked: false }, 1, '1')).toEqual({ ok: true });
+    expect(gradeOf('days.week', { today: 2, offset: 1, marked: false }, 3, '1')).toEqual({ ok: false, code: 'WRONG_DIRECTION', hintId: 'days-order' });
+    expect(gradeOf('days.week', { today: 2, offset: 2, marked: false }, 4, '3')).toEqual({ ok: false, code: 'OFF_BY_ONE', hintId: 'days-order' });
+    for (const s of scenes('days.week', 1)) expect(s.kind === 'week' && s.today + s.offset >= 1 && s.today + s.offset <= 7).toBe(true);
+    expect(scenes('days.week', 2).some((s) => s.kind === 'week' && (s.today + s.offset === 8 || s.today + s.offset === 0))).toBe(true);
+  });
+
+  it('asks what day it is in the clips it has', () => {
+    const p = GENERATORS.find((g) => g.id === 'days.week')!.produce({ rng: mulberry32(3), level: 3 }, new Set());
+    expect(p.say[0]).toEqual({ instruction: 'today-is' });
+    expect(p.say[1]).toMatchObject({ instruction: expect.stringMatching(/^day-[1-7]$/) });
   });
 });

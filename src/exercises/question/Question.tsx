@@ -12,6 +12,8 @@ import { isTextAllowed, readingContext } from '../../engine/reading/allowedWords
 import { balance } from '../../manipulatives/balance.tsx';
 import type { Manipulative } from '../../manipulatives/types.ts';
 import { numberLine } from '../../manipulatives/numberLine.tsx';
+import { rods } from '../../manipulatives/rods.tsx';
+import type { UiKey } from '../../i18n.ts';
 import { tenFrame } from '../../manipulatives/tenFrame.tsx';
 import { formatNumber } from '../../math-core/format.ts';
 import type { AnswerMode, Choice, Problem, Say, Scene as SceneData } from '../../math-core/generators/types.ts';
@@ -119,11 +121,29 @@ function ChoiceAnswer({ choices, correct, revealed, onSubmit }: { choices: Choic
   );
 }
 
+/** The week as seven cards from Monday; a name is written only if the child can read it. */
+function WeekAnswer({ scene, correct, revealed, readable, onSubmit }: { scene: Extract<SceneData, { kind: 'week' }>; correct: string; revealed: boolean; readable(text: string): boolean; onSubmit(input: string): void }) {
+  return (
+    <div className="week" role="group" aria-label={t('week.label')}>
+      {Array.from({ length: 7 }, (_, i) => i + 1).map((day) => {
+        const name = t(`day.${day}` as UiKey);
+        const today = scene.marked && day === scene.today;
+        return (
+          <button key={day} type="button" aria-label={name} className={`week-day week-day--${day} ${today ? 'week-day--today' : ''} ${revealed && String(day) === correct ? 'choice-tile--shown' : ''}`} onClick={() => onSubmit(String(day))}>
+            {today && <span className="week-sun" aria-label={t('week.today')} />}
+            {readable(name) && <span className="week-name">{name}</span>}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 /** How an answer is written down: the sign for a choice, the number otherwise. */
 const labelOf = (problem: Problem, input: string) => problem.choices?.find((c) => String(c.value) === input)?.label ?? input;
 const rightInput = (problem: Problem) => (problem.choices ? String(problem.answer.n) : formatNumber(problem.answer));
 
-const MANIPULATIVE_MODES: AnswerMode[] = ['tenFrame', 'numberLine', 'balance'];
+const MANIPULATIVE_MODES: AnswerMode[] = ['tenFrame', 'numberLine', 'balance', 'rods', 'regroup'];
 
 export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
   const { audio, settings } = useApp();
@@ -283,6 +303,15 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
             config={scene.kind === 'line' ? { max: scene.max, labels: scene.labels, mark: scene.mark, target: scene.target } : { max: scene.max, labels: 'all', mark: null, target: scene.n }}
             {...manipulativeProps}
           />
+        )}
+        {answerMode === 'week' && scene.kind === 'week' && (
+          <WeekAnswer scene={scene} correct={rightInput(problem)} revealed={revealed} readable={(text) => isTextAllowed(text, readingContext(settings.upToPosition))} onSubmit={(a) => void submit(a)} />
+        )}
+        {answerMode === 'rods' && scene.kind === 'build' && (
+          <ManipulativeAnswer key={manipulativeKey} manipulative={rods} config={{ mode: 'build', target: scene.n, tens: 0, units: 0 }} {...manipulativeProps} />
+        )}
+        {answerMode === 'regroup' && scene.kind === 'regroup' && (
+          <ManipulativeAnswer key={manipulativeKey} manipulative={rods} config={{ mode: 'regroup', target: scene.tens * 10 + scene.units, tens: scene.tens, units: scene.units }} {...manipulativeProps} />
         )}
         {answerMode === 'balance' && scene.kind === 'balance' && <ManipulativeAnswer key={manipulativeKey} manipulative={balance} config={{ a: scene.a, total: scene.total }} {...manipulativeProps} />}
       </div>
