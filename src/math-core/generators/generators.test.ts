@@ -61,6 +61,12 @@ function answerFromScene(scene: Scene): number {
     }
     case 'exchange':
       return scene.coin;
+    case 'story': {
+      // read the numbers back out of the text the child sees, not the stored ones
+      const numbers = (scene.text.match(/\d+/g) ?? []).map(Number);
+      const [first, second] = scene.operation === 'missing' ? [numbers[1]!, numbers[0]!] : [numbers[0]!, numbers[1]!];
+      return scene.operation === 'add' ? first + second : scene.operation === 'subtract' ? first - second : second - first;
+    }
   }
 }
 

@@ -8,6 +8,7 @@ import { useApp } from '../../app/AppContext.tsx';
 import { useUpdateSettings } from '../../screens/parent/useSettings.ts';
 import { numberRequest } from '../../audio/numberClips.ts';
 import { t } from '../../i18n.ts';
+import { isTextAllowed, readingContext } from '../../engine/reading/allowedWords.ts';
 import { balance } from '../../manipulatives/balance.tsx';
 import type { Manipulative } from '../../manipulatives/types.ts';
 import { numberLine } from '../../manipulatives/numberLine.tsx';
@@ -150,7 +151,7 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
       const mine = ++speech.current;
       for (const part of parts) {
         if (speech.current !== mine) return;
-        await audio.play('number' in part ? numberRequest(part.number) : { kind: 'instruction', key: part.instruction });
+        await audio.play('number' in part ? numberRequest(part.number) : 'clip' in part ? { kind: 'problem', key: part.clip } : { kind: 'instruction', key: part.instruction });
       }
     },
     [audio],
@@ -256,7 +257,7 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
       <div className="keypad-body">
         {answerMode !== 'group' && (
           <div className="keypad-question">
-            <Scene key={index} scene={scene} slot={slot} answerOnLine={answerMode === 'numberLine'} />
+            <Scene key={index} scene={scene} slot={slot} answerOnLine={answerMode === 'numberLine'} readable={scene.kind === 'story' && isTextAllowed(scene.text, readingContext(settings.upToPosition))} />
           </div>
         )}
         {answerMode === 'keypad' && (

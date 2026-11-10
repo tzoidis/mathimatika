@@ -15,6 +15,7 @@ import {
   subGenerator,
 } from './operations.ts';
 import { randInt } from '../../engine/rng.ts';
+import { storyGenerator } from './story.ts';
 import { playable, type Generator, type PlayableGenerator } from './types.ts';
 
 export const ALL_GENERATORS = [
@@ -54,6 +55,9 @@ export const ALL_GENERATORS = [
   floorGenerator('floor.to10', '1.num.ordinal', 10),
   coinsGenerator('money.total', '1.money.to10', 10),
   exchangeGenerator('money.exchange', '1.money.to10'),
+  storyGenerator('story.add.to5', '1.problem.add.to5'),
+  storyGenerator('story.add.to10', '1.problem.add.to10'),
+  storyGenerator('story.addsub.to10', '1.problem.addsub.to10'),
 ] as Generator<unknown>[];
 
 export const GENERATORS: PlayableGenerator[] = ALL_GENERATORS.map(playable);

@@ -1330,5 +1330,725 @@
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
+  },
+  "problem/arrive-01": {
+    "text": "Στην αυλή είναι πέντε γατάκια. Έρχονται δύο ακόμα. Πόσα γατάκια είναι τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/arrive-02": {
+    "text": "Στην αυλή είναι πέντε παπάκια. Έρχονται τέσσερα ακόμα. Πόσα παπάκια είναι τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/arrive-03": {
+    "text": "Στην αυλή είναι ένα παπάκι. Έρχονται επτά ακόμα. Πόσα παπάκια είναι τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/arrive-04": {
+    "text": "Στην αυλή είναι πέντε παπάκια. Έρχονται δύο ακόμα. Πόσα παπάκια είναι τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/arrive-05": {
+    "text": "Στην αυλή είναι ένα παπάκι. Έρχονται πέντε ακόμα. Πόσα παπάκια είναι τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/arrive-06": {
+    "text": "Στην αυλή είναι τρία παπάκια. Έρχονται τέσσερα ακόμα. Πόσα παπάκια είναι τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/arrive-07": {
+    "text": "Στην αυλή είναι τέσσερα πουλάκια. Έρχονται τέσσερα ακόμα. Πόσα πουλάκια είναι τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/arrive-08": {
+    "text": "Στην αυλή είναι δύο παπάκια. Έρχονται τέσσερα ακόμα. Πόσα παπάκια είναι τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/arrive-09": {
+    "text": "Στην αυλή είναι τέσσερα γατάκια. Έρχονται πέντε ακόμα. Πόσα γατάκια είναι τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/arrive-10": {
+    "text": "Στην αυλή είναι τρία πουλάκια. Έρχονται τέσσερα ακόμα. Πόσα πουλάκια είναι τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/arrive-11": {
+    "text": "Στην αυλή είναι τρία πουλάκια. Έρχονται επτά ακόμα. Πόσα πουλάκια είναι τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/arrive-12": {
+    "text": "Στην αυλή είναι τρία παπάκια. Έρχονται πέντε ακόμα. Πόσα παπάκια είναι τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/arrive-13": {
+    "text": "Στην αυλή είναι οκτώ πουλάκια. Έρχονται δύο ακόμα. Πόσα πουλάκια είναι τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/arrive-14": {
+    "text": "Στην αυλή είναι ένα γατάκι. Έρχονται πέντε ακόμα. Πόσα γατάκια είναι τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/arrive-15": {
+    "text": "Στην αυλή είναι τρία παπάκια. Έρχονται επτά ακόμα. Πόσα παπάκια είναι τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/arrive-16": {
+    "text": "Στην αυλή είναι τέσσερα πουλάκια. Έρχονται πέντε ακόμα. Πόσα πουλάκια είναι τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/arrive-17": {
+    "text": "Στην αυλή είναι ένα πουλάκι. Έρχονται πέντε ακόμα. Πόσα πουλάκια είναι τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/arrive-18": {
+    "text": "Στην αυλή είναι τρία παπάκια. Έρχονται έξι ακόμα. Πόσα παπάκια είναι τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/arrive-19": {
+    "text": "Στην αυλή είναι τέσσερα πουλάκια. Έρχονται δύο ακόμα. Πόσα πουλάκια είναι τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/arrive-20": {
+    "text": "Στην αυλή είναι ένα παπάκι. Έρχονται οκτώ ακόμα. Πόσα παπάκια είναι τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/combine-01": {
+    "text": "Στο τραπέζι είναι έξι αυτοκινητάκια και δύο κουλουράκια. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/combine-02": {
+    "text": "Στο τραπέζι είναι τέσσερα λουλούδια και έξι κουλουράκια. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/combine-03": {
+    "text": "Στο τραπέζι είναι οκτώ μολύβια και δύο μπαλόνια. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/combine-04": {
+    "text": "Στο τραπέζι είναι πέντε κουλουράκια και τρία μολύβια. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/combine-05": {
+    "text": "Στο τραπέζι είναι τρία μήλα και πέντε μολύβια. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/combine-06": {
+    "text": "Στο τραπέζι είναι δύο λουλούδια και τέσσερα μολύβια. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/combine-07": {
+    "text": "Στο τραπέζι είναι έξι αυτοκινητάκια και τέσσερα κουλουράκια. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/combine-08": {
+    "text": "Στο τραπέζι είναι δύο μολύβια και πέντε κουλουράκια. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/combine-09": {
+    "text": "Στο τραπέζι είναι δύο μπαλόνια και οκτώ μήλα. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/combine-10": {
+    "text": "Στο τραπέζι είναι δύο αυτοκινητάκια και οκτώ μολύβια. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/combine-11": {
+    "text": "Στο τραπέζι είναι πέντε αυτοκινητάκια και τρία κουλουράκια. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/combine-12": {
+    "text": "Στο τραπέζι είναι επτά μπαλόνια και δύο μήλα. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/combine-13": {
+    "text": "Στο τραπέζι είναι δύο μολύβια και έξι λουλούδια. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/combine-14": {
+    "text": "Στο τραπέζι είναι επτά κουλουράκια και δύο λουλούδια. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/combine-15": {
+    "text": "Στο τραπέζι είναι δύο κουλουράκια και τέσσερα μολύβια. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/combine-16": {
+    "text": "Στο τραπέζι είναι πέντε μολύβια και δύο λουλούδια. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/combine-17": {
+    "text": "Στο τραπέζι είναι πέντε μήλα και τρία κουλουράκια. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/combine-18": {
+    "text": "Στο τραπέζι είναι τρία κουλουράκια και τέσσερα αυτοκινητάκια. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/combine-19": {
+    "text": "Στο τραπέζι είναι πέντε αυτοκινητάκια και τέσσερα λουλούδια. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/combine-20": {
+    "text": "Στο τραπέζι είναι τρία κουλουράκια και πέντε λουλούδια. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/give-01": {
+    "text": "Η Μαρία έχει δέκα αυτοκινητάκια. Δίνει πέντε στον Νίκο. Πόσα αυτοκινητάκια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/give-02": {
+    "text": "Η Ελένη έχει δέκα λουλούδια. Δίνει εννέα στον Νίκο. Πόσα λουλούδια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/give-03": {
+    "text": "Η Μαρία έχει επτά κουλουράκια. Δίνει ένα στον Νίκο. Πόσα κουλουράκια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/give-04": {
+    "text": "Η Μαρία έχει εννέα μήλα. Δίνει έξι στην Ελένη. Πόσα μήλα έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/give-05": {
+    "text": "Ο Κώστας έχει τρία μήλα. Δίνει ένα στη Μαρία. Πόσα μήλα έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/give-06": {
+    "text": "Ο Κώστας έχει εννέα μολύβια. Δίνει ένα στη Μαρία. Πόσα μολύβια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/give-07": {
+    "text": "Η Μαρία έχει πέντε μπαλόνια. Δίνει τέσσερα στην Ελένη. Πόσα μπαλόνια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/give-08": {
+    "text": "Η Άννα έχει οκτώ κουλουράκια. Δίνει τρία στην Ελένη. Πόσα κουλουράκια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/give-09": {
+    "text": "Ο Γιώργος έχει έξι μήλα. Δίνει τρία στον Νίκο. Πόσα μήλα έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/give-10": {
+    "text": "Η Ελένη έχει εννέα μπαλόνια. Δίνει δύο στον Κώστα. Πόσα μπαλόνια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/give-11": {
+    "text": "Ο Γιώργος έχει εννέα μπαλόνια. Δίνει ένα στον Νίκο. Πόσα μπαλόνια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/give-12": {
+    "text": "Ο Νίκος έχει δέκα μολύβια. Δίνει επτά στον Γιώργο. Πόσα μολύβια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/give-13": {
+    "text": "Η Άννα έχει πέντε κουλουράκια. Δίνει ένα στον Νίκο. Πόσα κουλουράκια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/give-14": {
+    "text": "Η Ελένη έχει δέκα κουλουράκια. Δίνει ένα στον Γιώργο. Πόσα κουλουράκια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/give-15": {
+    "text": "Ο Νίκος έχει επτά μπαλόνια. Δίνει τέσσερα στον Κώστα. Πόσα μπαλόνια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/give-16": {
+    "text": "Ο Γιώργος έχει οκτώ μήλα. Δίνει τρία στην Ελένη. Πόσα μήλα έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/give-17": {
+    "text": "Η Μαρία έχει εννέα μολύβια. Δίνει επτά στον Κώστα. Πόσα μολύβια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/give-18": {
+    "text": "Η Μαρία έχει δέκα αυτοκινητάκια. Δίνει τρία στον Γιώργο. Πόσα αυτοκινητάκια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/give-19": {
+    "text": "Ο Γιώργος έχει οκτώ κουλουράκια. Δίνει επτά στην Άννα. Πόσα κουλουράκια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/give-20": {
+    "text": "Η Ελένη έχει οκτώ μήλα. Δίνει έξι στον Νίκο. Πόσα μήλα έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/join-01": {
+    "text": "Ο Γιώργος έχει τρία μολύβια. Παίρνει ένα ακόμα. Πόσα μολύβια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/join-02": {
+    "text": "Ο Γιώργος έχει τρία λουλούδια. Παίρνει ένα ακόμα. Πόσα λουλούδια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/join-03": {
+    "text": "Η Άννα έχει ένα μήλο. Παίρνει τρία ακόμα. Πόσα μήλα έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/join-04": {
+    "text": "Η Άννα έχει δύο λουλούδια. Παίρνει τρία ακόμα. Πόσα λουλούδια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/join-05": {
+    "text": "Ο Νίκος έχει δύο αυτοκινητάκια. Παίρνει ένα ακόμα. Πόσα αυτοκινητάκια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/join-06": {
+    "text": "Η Άννα έχει τρία κουλουράκια. Παίρνει ένα ακόμα. Πόσα κουλουράκια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/join-07": {
+    "text": "Η Μαρία έχει δύο μήλα. Παίρνει ένα ακόμα. Πόσα μήλα έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/join-08": {
+    "text": "Ο Γιώργος έχει ένα μολύβι. Παίρνει δύο ακόμα. Πόσα μολύβια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/join-09": {
+    "text": "Ο Κώστας έχει ένα μπαλόνι. Παίρνει ένα ακόμα. Πόσα μπαλόνια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/join-10": {
+    "text": "Η Άννα έχει τρία μολύβια. Παίρνει δύο ακόμα. Πόσα μολύβια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/join-11": {
+    "text": "Η Ελένη έχει ένα μολύβι. Παίρνει ένα ακόμα. Πόσα μολύβια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/join-12": {
+    "text": "Ο Νίκος έχει τέσσερα μήλα. Παίρνει ένα ακόμα. Πόσα μήλα έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/join-13": {
+    "text": "Η Ελένη έχει δύο κουλουράκια. Παίρνει τρία ακόμα. Πόσα κουλουράκια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/join-14": {
+    "text": "Η Μαρία έχει τέσσερα αυτοκινητάκια. Παίρνει ένα ακόμα. Πόσα αυτοκινητάκια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/join-15": {
+    "text": "Η Μαρία έχει τρία αυτοκινητάκια. Παίρνει ένα ακόμα. Πόσα αυτοκινητάκια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/join-16": {
+    "text": "Η Άννα έχει δύο μπαλόνια. Παίρνει τρία ακόμα. Πόσα μπαλόνια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/join-17": {
+    "text": "Ο Κώστας έχει ένα κουλουράκι. Παίρνει τέσσερα ακόμα. Πόσα κουλουράκια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/join-18": {
+    "text": "Η Ελένη έχει τέσσερα λουλούδια. Παίρνει ένα ακόμα. Πόσα λουλούδια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/join-19": {
+    "text": "Ο Κώστας έχει τρία μπαλόνια. Παίρνει ένα ακόμα. Πόσα μπαλόνια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/join-20": {
+    "text": "Ο Κώστας έχει ένα αυτοκινητάκι. Παίρνει τρία ακόμα. Πόσα αυτοκινητάκια έχει τώρα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/leave-01": {
+    "text": "Στην αυλή είναι δέκα γατάκια. Φεύγουν τέσσερα. Πόσα γατάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/leave-02": {
+    "text": "Στην αυλή είναι επτά πουλάκια. Φεύγουν δύο. Πόσα πουλάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/leave-03": {
+    "text": "Στην αυλή είναι επτά παπάκια. Φεύγουν έξι. Πόσα παπάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/leave-04": {
+    "text": "Στην αυλή είναι δέκα πουλάκια. Φεύγουν οκτώ. Πόσα πουλάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/leave-05": {
+    "text": "Στην αυλή είναι εννέα γατάκια. Φεύγουν δύο. Πόσα γατάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/leave-06": {
+    "text": "Στην αυλή είναι οκτώ πουλάκια. Φεύγουν τέσσερα. Πόσα πουλάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/leave-07": {
+    "text": "Στην αυλή είναι τέσσερα παπάκια. Φεύγουν τρία. Πόσα παπάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/leave-08": {
+    "text": "Στην αυλή είναι επτά παπάκια. Φεύγουν τέσσερα. Πόσα παπάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/leave-09": {
+    "text": "Στην αυλή είναι έξι παπάκια. Φεύγουν τέσσερα. Πόσα παπάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/leave-10": {
+    "text": "Στην αυλή είναι τέσσερα πουλάκια. Φεύγουν δύο. Πόσα πουλάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/leave-11": {
+    "text": "Στην αυλή είναι οκτώ παπάκια. Φεύγουν πέντε. Πόσα παπάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/leave-12": {
+    "text": "Στην αυλή είναι εννέα γατάκια. Φεύγουν οκτώ. Πόσα γατάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/leave-13": {
+    "text": "Στην αυλή είναι πέντε γατάκια. Φεύγουν τέσσερα. Πόσα γατάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/leave-14": {
+    "text": "Στην αυλή είναι επτά πουλάκια. Φεύγουν τρία. Πόσα πουλάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/leave-15": {
+    "text": "Στην αυλή είναι επτά γατάκια. Φεύγουν τέσσερα. Πόσα γατάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/leave-16": {
+    "text": "Στην αυλή είναι έξι πουλάκια. Φεύγουν τρία. Πόσα πουλάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/leave-17": {
+    "text": "Στην αυλή είναι έξι πουλάκια. Φεύγουν πέντε. Πόσα πουλάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/leave-18": {
+    "text": "Στην αυλή είναι δέκα παπάκια. Φεύγουν πέντε. Πόσα παπάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/leave-19": {
+    "text": "Στην αυλή είναι εννέα πουλάκια. Φεύγουν οκτώ. Πόσα πουλάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/leave-20": {
+    "text": "Στην αυλή είναι πέντε γατάκια. Φεύγουν δύο. Πόσα γατάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/need-01": {
+    "text": "Ο Κώστας θέλει δέκα μολύβια. Έχει ήδη πέντε. Πόσα μολύβια χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/need-02": {
+    "text": "Ο Νίκος θέλει τρία κουλουράκια. Έχει ήδη δύο. Πόσα κουλουράκια χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/need-03": {
+    "text": "Η Μαρία θέλει δέκα μήλα. Έχει ήδη εννέα. Πόσα μήλα χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/need-04": {
+    "text": "Ο Νίκος θέλει πέντε κουλουράκια. Έχει ήδη ένα. Πόσα κουλουράκια χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/need-05": {
+    "text": "Ο Νίκος θέλει πέντε μολύβια. Έχει ήδη ένα. Πόσα μολύβια χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/need-06": {
+    "text": "Η Μαρία θέλει οκτώ μπαλόνια. Έχει ήδη έξι. Πόσα μπαλόνια χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/need-07": {
+    "text": "Ο Νίκος θέλει έξι μήλα. Έχει ήδη τέσσερα. Πόσα μήλα χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/need-08": {
+    "text": "Ο Κώστας θέλει επτά λουλούδια. Έχει ήδη τέσσερα. Πόσα λουλούδια χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/need-09": {
+    "text": "Ο Γιώργος θέλει τέσσερα μήλα. Έχει ήδη δύο. Πόσα μήλα χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/need-10": {
+    "text": "Ο Γιώργος θέλει δέκα αυτοκινητάκια. Έχει ήδη τέσσερα. Πόσα αυτοκινητάκια χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/need-11": {
+    "text": "Ο Κώστας θέλει πέντε μήλα. Έχει ήδη τρία. Πόσα μήλα χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/need-12": {
+    "text": "Η Μαρία θέλει έξι κουλουράκια. Έχει ήδη πέντε. Πόσα κουλουράκια χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/need-13": {
+    "text": "Ο Νίκος θέλει δέκα μολύβια. Έχει ήδη εννέα. Πόσα μολύβια χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/need-14": {
+    "text": "Η Ελένη θέλει τέσσερα μήλα. Έχει ήδη ένα. Πόσα μήλα χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/need-15": {
+    "text": "Ο Κώστας θέλει οκτώ μολύβια. Έχει ήδη τρία. Πόσα μολύβια χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/need-16": {
+    "text": "Ο Νίκος θέλει εννέα κουλουράκια. Έχει ήδη ένα. Πόσα κουλουράκια χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/need-17": {
+    "text": "Ο Νίκος θέλει επτά μπαλόνια. Έχει ήδη έξι. Πόσα μπαλόνια χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/need-18": {
+    "text": "Ο Νίκος θέλει δέκα μήλα. Έχει ήδη τρία. Πόσα μήλα χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/need-19": {
+    "text": "Η Άννα θέλει τέσσερα αυτοκινητάκια. Έχει ήδη τρία. Πόσα αυτοκινητάκια χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/need-20": {
+    "text": "Ο Κώστας θέλει εννέα μπαλόνια. Έχει ήδη τρία. Πόσα μπαλόνια χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
   }
 }

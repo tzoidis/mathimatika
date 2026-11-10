@@ -26,6 +26,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 AUDIO = ROOT / "src" / "content" / "audio.json"
+GOLDEN = ROOT / "src" / "content" / "word-problems.golden.json"
 CATALOG = ROOT / "src" / "content" / "audio-catalog.json"
 OUT = ROOT / "src" / "audio" / "files"
 NUMBER_LIST = Path(__file__).resolve().parent / "number-list.ts"
@@ -60,6 +61,9 @@ def clips():
     listed = subprocess.run(["node", str(NUMBER_LIST)], capture_output=True, encoding="utf-8", check=True)
     for clip in json.loads(listed.stdout):
         yield f"number/{clip['key']}", clip["text"]
+    golden = json.loads(GOLDEN.read_text(encoding="utf-8"))
+    for problem in golden["problems"]:
+        yield f"problem/{problem['id']}", problem["speech"]
 
 
 def request_clip(text, key):

@@ -422,6 +422,39 @@ button {
   font-weight: 600;
 }
 
+/* word problems: the text only when the child can read all of it */
+.story-text {
+  max-width: 640px;
+  margin: 0;
+  font-family: 'Glossa Reading', system-ui, sans-serif;
+  font-size: 30px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.story-pictures {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px;
+}
+
+.story-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 320px;
+  gap: 4px;
+}
+
+/* the ones that leave, or are still missing: faint and ringed, not by colour alone */
+.object-picture--faded {
+  opacity: 0.35;
+  border-radius: 50%;
+  outline: 2px dashed var(--ink);
+  outline-offset: -2px;
+}
+
 .number-clips {
   display: flex;
   flex-wrap: wrap;

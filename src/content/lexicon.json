@@ -1,0 +1,21 @@
+{
+  "people": [
+    { "id": "anna", "nom": "η Άννα", "to": "στην Άννα" },
+    { "id": "maria", "nom": "η Μαρία", "to": "στη Μαρία" },
+    { "id": "eleni", "nom": "η Ελένη", "to": "στην Ελένη" },
+    { "id": "nikos", "nom": "ο Νίκος", "to": "στον Νίκο" },
+    { "id": "giorgos", "nom": "ο Γιώργος", "to": "στον Γιώργο" },
+    { "id": "kostas", "nom": "ο Κώστας", "to": "στον Κώστα" }
+  ],
+  "objects": [
+    { "id": "apple", "one": "μήλο", "many": "μήλα", "kind": "thing" },
+    { "id": "balloon", "one": "μπαλόνι", "many": "μπαλόνια", "kind": "thing" },
+    { "id": "flower", "one": "λουλούδι", "many": "λουλούδια", "kind": "thing" },
+    { "id": "pencil", "one": "μολύβι", "many": "μολύβια", "kind": "thing" },
+    { "id": "car", "one": "αυτοκινητάκι", "many": "αυτοκινητάκια", "kind": "thing" },
+    { "id": "cookie", "one": "κουλουράκι", "many": "κουλουράκια", "kind": "thing" },
+    { "id": "bird", "one": "πουλάκι", "many": "πουλάκια", "kind": "animal" },
+    { "id": "duck", "one": "παπάκι", "many": "παπάκια", "kind": "animal" },
+    { "id": "kitten", "one": "γατάκι", "many": "γατάκια", "kind": "animal" }
+  ]
+}

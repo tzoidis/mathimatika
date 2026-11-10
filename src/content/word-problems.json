@@ -1,0 +1,71 @@
+{
+  "versions": 20,
+  "templates": [
+    {
+      "id": "join",
+      "title": "Παίρνει κι άλλα (πρόσθεση ως το 5)",
+      "skill": "1.problem.add.to5",
+      "operation": "add",
+      "objects": "thing",
+      "a": [1, 4],
+      "b": [1, 4],
+      "result": [2, 5],
+      "text": "{P} έχει {a} {O:a}. Παίρνει {b} ακόμα. Πόσα {O:many} έχει τώρα;"
+    },
+    {
+      "id": "combine",
+      "title": "Όλα μαζί (πρόσθεση ως το 10)",
+      "skill": "1.problem.add.to10",
+      "operation": "add",
+      "objects": "thing",
+      "a": [2, 8],
+      "b": [2, 8],
+      "result": [6, 10],
+      "text": "Στο τραπέζι είναι {a} {O:a} και {b} {O2:b}. Πόσα είναι όλα μαζί;"
+    },
+    {
+      "id": "arrive",
+      "title": "Έρχονται κι άλλα (πρόσθεση ως το 10)",
+      "skill": "1.problem.add.to10",
+      "operation": "add",
+      "objects": "animal",
+      "a": [1, 8],
+      "b": [2, 8],
+      "result": [6, 10],
+      "text": "Στην αυλή είναι {a} {O:a}. Έρχονται {b} ακόμα. Πόσα {O:many} είναι τώρα;"
+    },
+    {
+      "id": "give",
+      "title": "Δίνει (αφαίρεση ως το 10)",
+      "skill": "1.problem.addsub.to10",
+      "operation": "subtract",
+      "objects": "thing",
+      "a": [3, 10],
+      "b": [1, 9],
+      "result": [1, 9],
+      "text": "{P} έχει {a} {O:a}. Δίνει {b} {Q:to}. Πόσα {O:many} έχει τώρα;"
+    },
+    {
+      "id": "leave",
+      "title": "Φεύγουν (αφαίρεση ως το 10)",
+      "skill": "1.problem.addsub.to10",
+      "operation": "subtract",
+      "objects": "animal",
+      "a": [3, 10],
+      "b": [2, 9],
+      "result": [1, 8],
+      "text": "Στην αυλή είναι {a} {O:many}. Φεύγουν {b}. Πόσα {O:many} μένουν;"
+    },
+    {
+      "id": "need",
+      "title": "Πόσα λείπουν (ως το 10)",
+      "skill": "1.problem.addsub.to10",
+      "operation": "missing",
+      "objects": "thing",
+      "a": [1, 9],
+      "b": [3, 10],
+      "result": [1, 9],
+      "text": "{P} θέλει {b} {O:many}. Έχει ήδη {a}. Πόσα {O:many} χρειάζεται ακόμα;"
+    }
+  ]
+}

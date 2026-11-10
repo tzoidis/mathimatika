@@ -7,6 +7,7 @@ import { numberClips } from '../src/audio/numberClips.ts';
 import { validateCurriculum } from '../src/engine/curriculum.ts';
 import type { Curriculum, SkillGraph } from '../src/engine/types.ts';
 import { GENERATORS } from '../src/math-core/generators/index.ts';
+import { generateGolden, goldenHash, type Lexicon, type TemplateFile, type WordProblem } from '../src/math-core/wordProblems.ts';
 
 const root = join(import.meta.dirname, '..');
 const contentDir = join(root, 'src', 'content');
@@ -37,6 +38,7 @@ const clips: [string, string][] = [
   ...Object.entries(audio.strategyPraise).map(([key, text]): [string, string] => [`praise/${key}`, text]),
   ...Object.entries(audio.hints).map(([key, text]): [string, string] => [`hint/${key}`, text]),
   ...numberClips().map(({ key, text }): [string, string] => [`number/${key}`, text]),
+  ...read<{ problems: WordProblem[] }>('word-problems.golden.json').problems.map((p): [string, string] => [`problem/${p.id}`, p.speech]),
 ];
 
 // PRD §6: at least 15 different praises; never these words to the child
@@ -62,6 +64,12 @@ for (const name of graphFiles) {
   skillCount += graph.skills.length;
   errors.push(...validateCurriculum(graph, read<Curriculum>(mapName), GENERATORS).map((e) => `${name}: ${e}`));
 }
+
+// PRD §9: the golden file is what the templates make, and the parent approved exactly it
+const golden = read<{ approvedHash: string | null; problems: WordProblem[] }>('word-problems.golden.json');
+const regenerated = generateGolden(read<TemplateFile>('word-problems.json'), read<Lexicon>('lexicon.json'));
+if (JSON.stringify(regenerated) !== JSON.stringify(golden.problems)) errors.push('word-problems.golden.json: out of date (run node scripts/word-problems.ts)');
+if (golden.approvedHash !== goldenHash(golden.problems)) errors.push('word-problems.golden.json: not approved by the parent (docs/word-problems.md, then node scripts/word-problems.ts --approve)');
 
 const letters = read<{ units: { graphemes: string[] }[] }>('letters.json').units.flatMap((u) => u.graphemes);
 if (letters.length === 0) errors.push('letters.json: no letters');

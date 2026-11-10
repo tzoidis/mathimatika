@@ -67,6 +67,8 @@ Node ≥ 22.18 (scripts in `scripts/` run as plain `.ts` via Node type stripping
 - Stars are spent in the Workshop (`workshop.json`, `buyItem`): 3 stars pick one of the next two items. The drawings are ours, in `src/screens/workshop/art.tsx`.
 - Progress per skill (`src/engine/adaptive.ts`) is derived from the answers, never stored: stage, review queue, the four states, the usual mistake (from `AnswerLog.code`, an addition to Glossa's shape). Clearing the answers (`resetProgress`) resets it all. `planRound` uses it; `settings.focusSkill` is the parent's «practise this» for one workshop round.
 - A new or chosen skill takes four questions of the workshop round; the fifth stays number sense, as PRD §7 asks of every grade 1 round.
+- Word problems: `word-problems.json` (templates) + `lexicon.json` → `node scripts/word-problems.ts` writes `word-problems.golden.json` and `docs/word-problems.md`. The app plays exactly the golden problems, each recorded whole (`problem/<id>`). `validate-content` fails if the golden file is out of date or its `approvedHash` is not the parent's approval of exactly these problems: `--approve` only after the parent has read them. All objects are neuter, so numerals never need agreement.
+- The reading rule is Glossa's, copied into `src/engine/reading/` with `greek.json`; `letters.json` carries its sight words and flags. Text is shown only if every word passes; otherwise picture and sound.
 - Migrations are append-only; `openDb` snapshots before upgrading. Tables for the review queue (ΜΘ6) and the world (ΜΘ5) are added in those milestones.
 - `src/content/audio-catalog.json` records what each clip was made from; `validate-content` fails if a phrase changed without its clip.
 

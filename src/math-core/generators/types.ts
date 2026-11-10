@@ -29,7 +29,8 @@ export type Scene =
   | { kind: 'whichSign'; a: number; b: number; result: number }
   | { kind: 'floor'; floor: number; floors: number }
   | { kind: 'coins'; coins: number[]; unit: 'euro' | 'cent' }
-  | { kind: 'exchange'; coin: number; unit: 'euro' | 'cent' };
+  | { kind: 'exchange'; coin: number; unit: 'euro' | 'cent' }
+  | { kind: 'story'; problemId: string; text: string; operation: 'add' | 'subtract' | 'missing'; a: number; b: number; objects: string[]; pictures: boolean };
 
 export type AnswerMode = 'keypad' | 'tenFrame' | 'numberLine' | 'balance' | 'choice' | 'group';
 
@@ -40,7 +41,7 @@ export interface Choice {
 }
 
 /** What is read aloud, in order. Every problem in grades 1-2 is (PRD §7). */
-export type Say = { instruction: string } | { number: number };
+export type Say = { instruction: string } | { number: number } | { clip: string };
 
 export interface Problem {
   generatorId: string;
@@ -104,7 +105,9 @@ export function playable<P>(g: Generator<P>): PlayableGenerator {
         if (!avoid.has(g.key(p))) break;
       }
       if (last === undefined) throw new Error(`${g.id}: no valid problem in ${MAX_TRIES} tries`);
-      return { generatorId: g.id, skill: g.skill, key: g.key(last), params: last, policy: { equality: 'value' }, readingLoad: 'none', answerMode: 'keypad', ...g.build(last, ctx) };
+      const built = g.build(last, ctx);
+      const readingLoad = built.scene.kind === 'story' ? 'high' : 'none';
+      return { generatorId: g.id, skill: g.skill, key: g.key(last), params: last, policy: { equality: 'value' }, readingLoad, answerMode: 'keypad', ...built };
     },
     grade(problem, input) {
       const given = parseNumber(input);

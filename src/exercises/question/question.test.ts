@@ -36,8 +36,8 @@ describe('what the book makes available', () => {
 
   it('takes the current unit from the latest chapter that has exercises', () => {
     expect(fresh('17').map((g) => g.id)).toEqual(['subitize.to20', 'put.to20', 'count.to20', 'add.ten-plus', 'cmp.sign.to20', 'line.step.to20', 'line.place.to20']);
-    // 16 is a revision chapter and 15 only word problems: back to chapter 13
-    expect(fresh('16').map((g) => g.id)).toEqual(['add.to5']);
+    // 16 is a revision chapter: back to chapter 15, its word problems
+    expect(fresh('16').map((g) => g.id)).toEqual(['story.add.to5']);
     expect(latestGenerators(1, null)).toEqual([]);
   });
 

@@ -7,6 +7,7 @@ import { formatNumber } from '../../math-core/format.ts';
 import type { Scene as SceneData } from '../../math-core/generators/types.ts';
 import { IconButton } from '../../ui/IconButton.tsx';
 import { ReplayIcon } from '../../ui/Icons.tsx';
+import { ObjectPicture } from './objects.tsx';
 
 const FRAME_SIZE = 10;
 const SCATTER_CELLS = 24;
@@ -85,7 +86,31 @@ function Coin({ value, unit }: { value: number; unit: 'euro' | 'cent' }) {
   );
 }
 
-export function Scene({ scene, slot, answerOnLine }: { scene: SceneData; slot: ReactNode; answerOnLine: boolean }) {
+function StoryPictures({ scene }: { scene: Extract<SceneData, { kind: 'story' }> }) {
+  const [first, second = first] = scene.objects as [string, string?];
+  const row = (id: string, n: number, faded: (i: number) => boolean) => (
+    <div className="story-row">
+      {Array.from({ length: n }, (_, i) => (
+        <ObjectPicture key={i} id={id} faded={faded(i)} />
+      ))}
+    </div>
+  );
+  switch (scene.operation) {
+    case 'add':
+      return (
+        <div className="story-pictures">
+          {row(first, scene.a, () => false)}
+          {row(second, scene.b, () => false)}
+        </div>
+      );
+    case 'subtract':
+      return <div className="story-pictures">{row(first, scene.a, (i) => i >= scene.a - scene.b)}</div>;
+    case 'missing':
+      return <div className="story-pictures">{row(first, scene.b, (i) => i >= scene.a)}</div>;
+  }
+}
+
+export function Scene({ scene, slot, answerOnLine, readable = false }: { scene: SceneData; slot: ReactNode; answerOnLine: boolean; readable?: boolean }) {
   switch (scene.kind) {
     case 'count':
       return (
@@ -240,6 +265,15 @@ export function Scene({ scene, slot, answerOnLine }: { scene: SceneData; slot: R
 
     case 'quantity':
       return <div className="scene" />;
+
+    case 'story':
+      return (
+        <div className="scene">
+          {readable && <p className="story-text">{scene.text}</p>}
+          {scene.pictures && <StoryPictures scene={scene} />}
+          <div className="expression">{slot}</div>
+        </div>
+      );
 
     case 'compare':
       return (
