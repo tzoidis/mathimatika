@@ -4,7 +4,9 @@ import { mulberry32 } from '../../engine/rng.ts';
 import { ROUND_KINDS, QUESTIONS_PER_ROUND } from '../../engine/session.ts';
 import type { RoundKind } from '../../engine/types.ts';
 import { exerciseForRound } from '../registry.ts';
-import { generate, isNumberSense, planRound, type QuestionItem } from './generate.ts';
+import type { SkillProgress } from '../../engine/adaptive.ts';
+import type { SkillId } from '../../engine/types.ts';
+import { generate, isNumberSense, planRound, type Adapt, type QuestionItem } from './generate.ts';
 
 const SEEDS = 300;
 const at = (chapter: string) => availableGenerators(1, chapter);
@@ -85,6 +87,59 @@ describe('the shape of a session', () => {
     for (let seed = 0; seed < SEEDS; seed++) {
       expect(plan('warmup', seed).some((s) => newest.has(s.generator.id))).toBe(false);
       expect(plan('workshop', seed).filter((s) => newest.has(s.generator.id)).length).toBeGreaterThanOrEqual(4);
+    }
+  });
+});
+
+describe('adapting to the child', () => {
+  const gens = at('21');
+  const freshAt = fresh('21');
+  const today = '2026-03-10';
+  const progressOf = (entries: [string, Partial<SkillProgress>][]) =>
+    new Map(entries.map(([skill, p]) => [skill as SkillId, { skill: skill as SkillId, stage: 1, state: 'practising', attempts: 10, helped: 0, days: 5, lastDay: '2026-03-01', dueDay: '2026-03-20', dominant: null, ...p } as SkillProgress]));
+  const plan = (kind: RoundKind, adapt: Adapt, seed = 1) => planRound(kind, gens, freshAt, mulberry32(seed), adapt);
+  const allOld = progressOf(gens.map((g) => [g.skill, {}]));
+
+  it('plays each skill at its stage', () => {
+    const progress = progressOf(gens.map((g) => [g.skill, { stage: 2 }]));
+    for (let seed = 0; seed < SEEDS; seed++) for (const s of plan('workshop', { progress, today, focus: null }, seed)) expect(s.level).toBe(2);
+  });
+
+  it('puts what is due for review into the warm-up', () => {
+    const progress = new Map(allOld);
+    progress.set('1.num.count.to10' as SkillId, { ...allOld.get('1.num.count.to10' as SkillId)!, dueDay: '2026-03-09' });
+    for (let seed = 0; seed < SEEDS; seed++) expect(plan('warmup', { progress, today, focus: null }, seed).some((s) => s.generator.id === 'count.to10')).toBe(true);
+  });
+
+  it('practises a new skill on its own, then mixes it with older ones', () => {
+    const newest = new Set(freshAt.map((g) => g.id));
+    const progress = new Map(allOld);
+    for (const g of freshAt) progress.set(g.skill, { ...progress.get(g.skill)!, days: 1 });
+    // all of them, but for the one number-sense question every grade 1 round keeps (PRD §7)
+    for (let seed = 0; seed < SEEDS; seed++) {
+      const others = plan('workshop', { progress, today, focus: null }, seed).filter((s) => !newest.has(s.generator.id));
+      expect(others.length).toBeLessThanOrEqual(1);
+      for (const s of others) expect(isNumberSense(s.generator)).toBe(true);
+    }
+    const mixed = Array.from({ length: SEEDS }, (_, seed) => plan('workshop', { progress: allOld, today, focus: null }, seed).filter((s) => !newest.has(s.generator.id)).length);
+    expect(mixed.every((n) => n >= 1 && n <= 2 + 1)).toBe(true);
+  });
+
+  it('gives the workshop to the skill the parent chose', () => {
+    for (let seed = 0; seed < SEEDS; seed++) {
+      const slots = plan('workshop', { progress: allOld, today, focus: '1.num.ordinal' as SkillId }, seed);
+      expect(slots.filter((s) => s.generator.skill === '1.num.ordinal').length).toBe(4);
+      expect(slots.filter((s) => s.generator.skill !== '1.num.ordinal').every((s) => isNumberSense(s.generator))).toBe(true);
+    }
+  });
+
+  it('never asks three hard questions in a row', () => {
+    const progress = progressOf(gens.map((g) => [g.skill, { stage: 3 }]));
+    for (const kind of ROUND_KINDS) {
+      for (let seed = 0; seed < SEEDS; seed++) {
+        const levels = plan(kind, { progress, today, focus: null }, seed).map((s) => s.level).join('');
+        expect(levels, `${kind} ${seed}`).not.toContain('333');
+      }
     }
   });
 });

@@ -1,6 +1,7 @@
 // What a session writes: answers and stars.
 
 import type { AnswerLog } from '../engine/types.ts';
+import { exportTables, saveMigrationBackup } from './backup.ts';
 import type { MathDb } from './db.ts';
 import type { Child } from './schema.ts';
 
@@ -35,4 +36,13 @@ export async function buyItem(db: MathDb, childId: string, itemId: string, price
 export async function ownedItems(db: MathDb, childId: string): Promise<string[]> {
   const items = await db.world.where('childId').equals(childId).toArray();
   return items.sort((a, b) => a.placedAt - b.placedAt).map((i) => i.itemId);
+}
+
+/**
+ * Clears every answer, so progress, stages, reviews and the garden start again. Stars and
+ * the Workshop stay. A copy of everything is kept first, like before a migration.
+ */
+export async function resetProgress(db: MathDb, now = Date.now(), backupsName?: string): Promise<void> {
+  await saveMigrationBackup({ dbName: db.name, fromVersion: db.verno, toVersion: db.verno, createdAt: now, data: await exportTables(db) }, backupsName);
+  await db.answers.clear();
 }

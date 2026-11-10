@@ -1,4 +1,6 @@
-// Shared records. AnswerLog has the same shape as Glossa's (PRD §9).
+// Shared records. AnswerLog has the same shape as Glossa's (PRD §9), plus `code`.
+
+import type { MisconceptionCode } from '../math-core/check.ts';
 
 export type Grade = 1 | 2 | 3 | 4 | 5 | 6;
 export type Level = 1 | 2 | 3;
@@ -68,4 +70,6 @@ export interface AnswerLog {
   latencyMs: number;
   /** question index within the round */
   position: number;
+  /** the mistake a detector named, on a wrong answer; for the parent's skill map */
+  code?: MisconceptionCode;
 }

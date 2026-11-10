@@ -65,6 +65,8 @@ Node ≥ 22.18 (scripts in `scripts/` run as plain `.ts` via Node type stripping
 - Ordinals are read off a picture and typed: ten floors at 96px would not fit a tablet.
 - The mix round is the musical chain every other session (`isFluencySession`) once enough facts are open; `src/math-core/facts.ts` says which. The notes are made by the device (`src/audio/melody.ts`), not clips. The garden is derived from the answers of `fluency`, never from latency.
 - Stars are spent in the Workshop (`workshop.json`, `buyItem`): 3 stars pick one of the next two items. The drawings are ours, in `src/screens/workshop/art.tsx`.
+- Progress per skill (`src/engine/adaptive.ts`) is derived from the answers, never stored: stage, review queue, the four states, the usual mistake (from `AnswerLog.code`, an addition to Glossa's shape). Clearing the answers (`resetProgress`) resets it all. `planRound` uses it; `settings.focusSkill` is the parent's «practise this» for one workshop round.
+- A new or chosen skill takes four questions of the workshop round; the fifth stays number sense, as PRD §7 asks of every grade 1 round.
 - Migrations are append-only; `openDb` snapshots before upgrading. Tables for the review queue (ΜΘ6) and the world (ΜΘ5) are added in those milestones.
 - `src/content/audio-catalog.json` records what each clip was made from; `validate-content` fails if a phrase changed without its clip.
 

@@ -199,6 +199,7 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
         target: labelOf(problem, rightInput(problem)),
         given: labelOf(problem, answer),
         correct: verdict.ok,
+        ...(!verdict.ok && verdict.code ? { code: verdict.code } : {}),
         attempt,
         soundsRight: false,
         usedListen: listened.current,

@@ -38,6 +38,13 @@ export const MIGRATIONS: Migration[] = [
     version: 4,
     stores: { world: 'id, childId' },
   },
+  {
+    version: 5,
+    stores: {},
+    upgrade: (tx) => tx.table('settings').toCollection().modify((s: { focusSkill?: string | null }) => {
+      s.focusSkill ??= null;
+    }),
+  },
 ];
 
 export const SCHEMA_VERSION = MIGRATIONS[MIGRATIONS.length - 1]!.version;

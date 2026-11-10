@@ -387,6 +387,41 @@ button {
   font-weight: 700;
 }
 
+.skill-rows {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skill-row {
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--card-edge);
+}
+
+.skill-row .help {
+  margin: 4px 0;
+}
+
+.skill-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.skill-mark {
+  font-size: 22px;
+  color: var(--accent);
+}
+
+.skill-state {
+  white-space: nowrap;
+  font-weight: 600;
+}
+
 .number-clips {
   display: flex;
   flex-wrap: wrap;

@@ -4,6 +4,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { BACKUPS_DB_NAME, exportTables, importTables, listMigrationBackups } from './backup.ts';
 import { addDailyTime, DB_NAME, ensureChild, getDailyTime, openDb } from './db.ts';
 import { MIGRATIONS, SCHEMA_VERSION, type Migration } from './migrations.ts';
+import { resetProgress } from './progress.ts';
 import { DEFAULT_CHILD_ID } from './schema.ts';
 
 let n = 0;
@@ -23,6 +24,23 @@ describe('migrations', () => {
   it('are numbered 1, 2, 3… in order', () => {
     expect(MIGRATIONS.map((m) => m.version)).toEqual(MIGRATIONS.map((_, i) => i + 1));
     expect(SCHEMA_VERSION).toBe(MIGRATIONS.length);
+  });
+});
+
+describe('resetting progress', () => {
+  it('clears the answers after keeping a copy, and leaves stars and settings', async () => {
+    const opts = names();
+    const db = await openDb(opts);
+    open.push(db);
+    await ensureChild(db);
+    await db.children.update(DEFAULT_CHILD_ID, { stars: 7 });
+    await db.answers.add({ id: 'a', childId: DEFAULT_CHILD_ID, ts: 1, exerciseId: 'add.to5', itemId: 'x', target: '5', given: '4', correct: false, attempt: 1, soundsRight: false, usedListen: false, latencyMs: 9, position: 0, code: 'OFF_BY_ONE' });
+    await resetProgress(db, 5000, opts.backupsName);
+    expect(await db.answers.count()).toBe(0);
+    expect((await db.children.get(DEFAULT_CHILD_ID))?.stars).toBe(7);
+    const [copy] = await listMigrationBackups(opts.backupsName);
+    expect(copy!.data.answers).toHaveLength(1);
+    expect(copy!.createdAt).toBe(5000);
   });
 });
 

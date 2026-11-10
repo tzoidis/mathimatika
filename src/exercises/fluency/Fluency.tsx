@@ -77,6 +77,7 @@ export function Fluency({ round, onAnswer, onComplete }: ExerciseProps) {
         target,
         given: input,
         correct: verdict.ok,
+        ...(!verdict.ok && verdict.code ? { code: verdict.code } : {}),
         attempt,
         soundsRight: false,
         usedListen: listened.current,

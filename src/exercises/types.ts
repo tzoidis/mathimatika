@@ -3,6 +3,7 @@
 
 import type { FC } from 'react';
 import type { AnswerLog, Level, Round, RoundKind } from '../engine/types.ts';
+import type { Adapt } from './question/generate.ts';
 import type { Fact } from '../math-core/facts.ts';
 import type { PlayableGenerator } from '../math-core/generators/types.ts';
 
@@ -16,6 +17,8 @@ export interface GenerateContext {
   fresh: PlayableGenerator[];
   /** the number facts open so far; only the fluency round uses them */
   facts?: Fact[];
+  /** the child's progress; without it every skill is new */
+  adapt?: Adapt;
 }
 
 export interface ExerciseProps {
