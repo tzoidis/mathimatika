@@ -28,8 +28,8 @@ describe('the golden word problems', () => {
     for (const p of problems) {
       const t = templates.templates.find((x) => x.id === p.template)!;
       const numbers = (p.text.match(/\d+/g) ?? []).map(Number);
-      expect(numbers.sort((x, y) => x - y)).toEqual([p.a, p.b].sort((x, y) => x - y));
-      expect(answerOf(p.operation, p.a, p.b)).toBe(p.answer);
+      expect(numbers.sort((x, y) => x - y)).toEqual([p.a, p.b, ...(p.c === undefined ? [] : [p.c])].sort((x, y) => x - y));
+      expect(answerOf(p.operation, p.a, p.b, p.c)).toBe(p.answer);
       expect(p.answer).toBeGreaterThanOrEqual(t.result[0]!);
       expect(p.answer).toBeLessThanOrEqual(t.result[1]!);
     }

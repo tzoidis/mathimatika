@@ -115,6 +115,38 @@ function BridgeFrames({ a, b }: { a: number; b: number }) {
   );
 }
 
+/** a − b on two frames: the second frame empties first, then the rest of b comes off the ten. */
+function TakeAwayFrames({ a, b }: { a: number; b: number }) {
+  return (
+    <div className="ten-frames ten-frames--row">
+      {[0, 1].map((f) => (
+        <div key={f} className="ten-frame">
+          {Array.from({ length: FRAME_SIZE }, (_, i) => {
+            const n = f * FRAME_SIZE + i;
+            return <span key={i} className="frame-cell">{n < a && <span className={`dot ${n >= a - b ? 'dot--hollow' : ''}`} />}</span>;
+          })}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** A number past five as the book's fingers and abacus show it: a five and some more. */
+function FiveAndMore({ n }: { n: number }) {
+  return (
+    <div className="five-and-more">
+      <div className="ten-frame ten-frame--five">
+        {Array.from({ length: 5 }, (_, k) => (
+          <span key={k} className="frame-cell">
+            <span className="dot" />
+          </span>
+        ))}
+      </div>
+      {n > 5 && <Dots n={n - 5} />}
+    </div>
+  );
+}
+
 function Coin({ value, unit }: { value: number; unit: 'euro' | 'cent' }) {
   return (
     <span className="coin">
@@ -145,6 +177,16 @@ function StoryPictures({ scene }: { scene: Extract<SceneData, { kind: 'story' }>
       return <div className="story-pictures">{row(first, scene.a, (i) => i >= scene.a - scene.b)}</div>;
     case 'missing':
       return <div className="story-pictures">{row(first, scene.b, (i) => i >= scene.a)}</div>;
+    case 'twoStep': {
+      // the last c of all of them have gone
+      const gone = scene.c ?? 0;
+      return (
+        <div className="story-pictures">
+          {row(first, scene.a, (i) => i >= scene.a + scene.b - gone)}
+          {row(first, scene.b, (i) => scene.a + i >= scene.a + scene.b - gone)}
+        </div>
+      );
+    }
   }
 }
 
@@ -326,6 +368,84 @@ export function Scene({ scene, slot, answerOnLine, readable = false }: { scene: 
       return (
         <div className="scene">
           <div className="expression big-number">{formatNumber(scene.n)}</div>
+        </div>
+      );
+
+    case 'calc': {
+      const units = scene.a % FRAME_SIZE;
+      // taking more cubes than there are: one rod is already broken, as the child would
+      const broken = scene.op === -1 && scene.b > units;
+      return (
+        <div className="scene">
+          {scene.picture && (
+            <RodsPicture
+              tens={Math.floor(scene.a / FRAME_SIZE) - (broken ? 1 : 0)}
+              units={units + (broken ? FRAME_SIZE : 0)}
+              extra={scene.op === 1 ? scene.b : 0}
+              faded={scene.op === -1 ? scene.b : 0}
+            />
+          )}
+          <div className="expression">
+            <span>{formatNumber(scene.a)}</span>
+            <span>{scene.op === 1 ? '+' : '−'}</span>
+            <span>{formatNumber(scene.b)}</span>
+            <span>=</span>
+            {slot}
+          </div>
+        </div>
+      );
+    }
+
+    case 'inverse':
+      return (
+        <div className="scene">
+          <div className="expression expression--given">
+            <span>{formatNumber(scene.a)}</span>
+            <span>+</span>
+            <span>{formatNumber(scene.b)}</span>
+            <span>=</span>
+            <span>{formatNumber(scene.a + scene.b)}</span>
+          </div>
+          <div className="expression">
+            <span>{formatNumber(scene.a + scene.b)}</span>
+            <span>−</span>
+            <span>{formatNumber(scene.taken)}</span>
+            <span>=</span>
+            {slot}
+          </div>
+        </div>
+      );
+
+    case 'subBridge':
+      return (
+        <div className="scene">
+          {scene.frames && <TakeAwayFrames a={scene.a} b={scene.b} />}
+          <div className="expression">
+            <span>{formatNumber(scene.a)}</span>
+            <span>−</span>
+            <span>{formatNumber(scene.b)}</span>
+            <span>=</span>
+            {slot}
+          </div>
+        </div>
+      );
+
+    case 'fives':
+      return (
+        <div className="scene">
+          {scene.picture && (
+            <div className="dot-groups">
+              <FiveAndMore n={scene.a} />
+              <FiveAndMore n={scene.b} />
+            </div>
+          )}
+          <div className="expression">
+            <span>{formatNumber(scene.a)}</span>
+            <span>+</span>
+            <span>{formatNumber(scene.b)}</span>
+            <span>=</span>
+            {slot}
+          </div>
         </div>
       );
 

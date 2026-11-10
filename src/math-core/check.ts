@@ -32,7 +32,8 @@ export type MisconceptionCode =
   | 'COUNTED_COINS'
   | 'COUNTED_GROUPS'
   | 'NOT_REGROUPED'
-  | 'TERM_MISSED';
+  | 'TERM_MISSED'
+  | 'PLACE_VALUE';
 
 export type Verdict = { ok: true; note?: 'notSimplified' } | { ok: false; code?: MisconceptionCode; hintId?: string };
 

@@ -31,7 +31,25 @@ const TEN = 10;
 const valueOf = (s: { tens: number; units: number }) => s.tens * TEN + s.units;
 
 /** Rods first, then the cubes in rows of five; dashed ones are where the answer would go. */
-export function RodsPicture({ tens, units, ghostTens = 0, ghostUnits = 0, cubesFirst = false }: { tens: number; units: number; ghostTens?: number; ghostUnits?: number; cubesFirst?: boolean }) {
+export function RodsPicture({
+  tens,
+  units,
+  ghostTens = 0,
+  ghostUnits = 0,
+  cubesFirst = false,
+  extra = 0,
+  faded = 0,
+}: {
+  tens: number;
+  units: number;
+  ghostTens?: number;
+  ghostUnits?: number;
+  cubesFirst?: boolean;
+  /** cubes being added, in the second colour */
+  extra?: number;
+  /** the last cubes, being taken away */
+  faded?: number;
+}) {
   const rods = (
     <div className="rods">
       {Array.from({ length: tens + ghostTens }, (_, i) => (
@@ -46,7 +64,10 @@ export function RodsPicture({ tens, units, ghostTens = 0, ghostUnits = 0, cubesF
   const cubes = (
     <div className="cubes">
       {Array.from({ length: units + ghostUnits }, (_, i) => (
-        <span key={i} className={`cube ${i >= units ? 'cube--ghost' : ''}`} />
+        <span key={i} className={`cube ${i >= units ? 'cube--ghost' : i >= units - faded ? 'cube--faded' : ''}`} />
+      ))}
+      {Array.from({ length: extra }, (_, i) => (
+        <span key={units + ghostUnits + i} className="cube cube--extra" />
       ))}
     </div>
   );

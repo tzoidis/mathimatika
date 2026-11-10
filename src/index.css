@@ -1466,3 +1466,32 @@ button {
 .keypad-question:has(> .scene:empty) {
   display: none;
 }
+
+/* ---------- two digits and one, through ten, back to five (grade 1, ch. 46-49) ---------- */
+
+.cube--extra {
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 3px var(--accent);
+}
+
+/* taken away: still there to count, but only an outline */
+.cube--faded {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--star-edge);
+  opacity: 0.6;
+}
+
+.expression--given {
+  font-size: 48px;
+  opacity: 0.7;
+}
+
+.five-and-more {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.five-and-more .dots {
+  grid-template-columns: repeat(4, 32px);
+}

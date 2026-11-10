@@ -5,6 +5,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "hint/add-to-units": {
+    "text": "Πρόσθεσε μόνο στις μονάδες. Οι δεκάδες μένουν ίδιες.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/bundle-ten": {
     "text": "Δέκα κύβοι γίνονται μία ράβδος. Δέσε τους!",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -47,6 +53,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "hint/five-and-five": {
+    "text": "Βρες τις δύο πεντάδες. Πέντε και πέντε κάνουν δέκα.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/floors-up": {
     "text": "Μέτρα τους ορόφους από κάτω προς τα πάνω.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -77,6 +89,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "hint/look-at-addition": {
+    "text": "Κοίτα την πρόσθεση από πάνω. Σε βοηθάει!",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/make-ten": {
     "text": "Κάνε πρώτα δεκάδα. Μετά πρόσθεσε ό,τι περισσεύει.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -103,6 +121,12 @@
   },
   "hint/start-from-bigger": {
     "text": "Ξεκίνα από τον μεγαλύτερο αριθμό.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "hint/take-to-ten": {
+    "text": "Βγάλε πρώτα όσα χρειάζονται για να φτάσεις στο δέκα.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -1421,6 +1445,18 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "praise/two-fives": {
+    "text": "Βρήκες τις δύο πεντάδες. Πολύ καλή ιδέα!",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "praise/went-through-ten": {
+    "text": "Πέρασες από το δέκα. Ωραίος τρόπος!",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "praise/without-blocks": {
     "text": "Το βρήκες χωρίς τους κύβους!",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -1547,6 +1583,126 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "problem/box-01": {
+    "text": "Στο κουτί είναι επτά μήλα. Η Άννα βάζει επτά ακόμα. Πόσα μήλα είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/box-02": {
+    "text": "Στο κουτί είναι οκτώ αυτοκινητάκια. Ο Νίκος βάζει πέντε ακόμα. Πόσα αυτοκινητάκια είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/box-03": {
+    "text": "Στο κουτί είναι πέντε κουλουράκια. Ο Κώστας βάζει έξι ακόμα. Πόσα κουλουράκια είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/box-04": {
+    "text": "Στο κουτί είναι έξι κουλουράκια. Ο Κώστας βάζει επτά ακόμα. Πόσα κουλουράκια είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/box-05": {
+    "text": "Στο κουτί είναι εννέα μήλα. Η Μαρία βάζει δύο ακόμα. Πόσα μήλα είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/box-06": {
+    "text": "Στο κουτί είναι έξι λουλούδια. Η Άννα βάζει έξι ακόμα. Πόσα λουλούδια είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/box-07": {
+    "text": "Στο κουτί είναι οκτώ κουλουράκια. Ο Κώστας βάζει τέσσερα ακόμα. Πόσα κουλουράκια είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/box-08": {
+    "text": "Στο κουτί είναι έξι μήλα. Η Άννα βάζει έξι ακόμα. Πόσα μήλα είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/box-09": {
+    "text": "Στο κουτί είναι εννέα μολύβια. Η Μαρία βάζει επτά ακόμα. Πόσα μολύβια είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/box-10": {
+    "text": "Στο κουτί είναι οκτώ μπαλόνια. Η Μαρία βάζει τρία ακόμα. Πόσα μπαλόνια είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/box-11": {
+    "text": "Στο κουτί είναι πέντε μολύβια. Η Μαρία βάζει εννέα ακόμα. Πόσα μολύβια είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/box-12": {
+    "text": "Στο κουτί είναι εννέα αυτοκινητάκια. Ο Γιώργος βάζει τέσσερα ακόμα. Πόσα αυτοκινητάκια είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/box-13": {
+    "text": "Στο κουτί είναι επτά λουλούδια. Η Ελένη βάζει έξι ακόμα. Πόσα λουλούδια είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/box-14": {
+    "text": "Στο κουτί είναι έξι αυτοκινητάκια. Η Ελένη βάζει επτά ακόμα. Πόσα αυτοκινητάκια είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/box-15": {
+    "text": "Στο κουτί είναι έξι μολύβια. Η Μαρία βάζει εννέα ακόμα. Πόσα μολύβια είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/box-16": {
+    "text": "Στο κουτί είναι επτά λουλούδια. Ο Κώστας βάζει οκτώ ακόμα. Πόσα λουλούδια είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/box-17": {
+    "text": "Στο κουτί είναι οκτώ μήλα. Η Μαρία βάζει τρία ακόμα. Πόσα μήλα είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/box-18": {
+    "text": "Στο κουτί είναι εννέα μήλα. Ο Γιώργος βάζει οκτώ ακόμα. Πόσα μήλα είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/box-19": {
+    "text": "Στο κουτί είναι πέντε αυτοκινητάκια. Η Άννα βάζει εννέα ακόμα. Πόσα αυτοκινητάκια είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/box-20": {
+    "text": "Στο κουτί είναι οκτώ κουλουράκια. Η Άννα βάζει έξι ακόμα. Πόσα κουλουράκια είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "problem/combine-01": {
     "text": "Στο τραπέζι είναι έξι αυτοκινητάκια και δύο κουλουράκια. Πόσα είναι όλα μαζί;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -1663,6 +1819,126 @@
   },
   "problem/combine-20": {
     "text": "Στο τραπέζι είναι τρία κουλουράκια και πέντε λουλούδια. Πόσα είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/comego-01": {
+    "text": "Στην αυλή είναι εννέα παπάκια. Έρχονται έξι ακόμα. Μετά φεύγουν τρία. Πόσα παπάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/comego-02": {
+    "text": "Στην αυλή είναι οκτώ παπάκια. Έρχονται δύο ακόμα. Μετά φεύγουν οκτώ. Πόσα παπάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/comego-03": {
+    "text": "Στην αυλή είναι τέσσερα παπάκια. Έρχονται δύο ακόμα. Μετά φεύγουν δύο. Πόσα παπάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/comego-04": {
+    "text": "Στην αυλή είναι εννέα πουλάκια. Έρχονται έξι ακόμα. Μετά φεύγουν οκτώ. Πόσα πουλάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/comego-05": {
+    "text": "Στην αυλή είναι έξι παπάκια. Έρχονται τρία ακόμα. Μετά φεύγουν πέντε. Πόσα παπάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/comego-06": {
+    "text": "Στην αυλή είναι έξι γατάκια. Έρχονται επτά ακόμα. Μετά φεύγουν δύο. Πόσα γατάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/comego-07": {
+    "text": "Στην αυλή είναι πέντε πουλάκια. Έρχονται οκτώ ακόμα. Μετά φεύγουν εννέα. Πόσα πουλάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/comego-08": {
+    "text": "Στην αυλή είναι επτά πουλάκια. Έρχονται δύο ακόμα. Μετά φεύγουν οκτώ. Πόσα πουλάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/comego-09": {
+    "text": "Στην αυλή είναι έξι γατάκια. Έρχονται οκτώ ακόμα. Μετά φεύγουν πέντε. Πόσα γατάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/comego-10": {
+    "text": "Στην αυλή είναι τέσσερα γατάκια. Έρχονται οκτώ ακόμα. Μετά φεύγουν εννέα. Πόσα γατάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/comego-11": {
+    "text": "Στην αυλή είναι εννέα γατάκια. Έρχονται οκτώ ακόμα. Μετά φεύγουν τρία. Πόσα γατάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/comego-12": {
+    "text": "Στην αυλή είναι επτά πουλάκια. Έρχονται δύο ακόμα. Μετά φεύγουν επτά. Πόσα πουλάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/comego-13": {
+    "text": "Στην αυλή είναι έξι πουλάκια. Έρχονται δύο ακόμα. Μετά φεύγουν τρία. Πόσα πουλάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/comego-14": {
+    "text": "Στην αυλή είναι οκτώ παπάκια. Έρχονται έξι ακόμα. Μετά φεύγουν δύο. Πόσα παπάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/comego-15": {
+    "text": "Στην αυλή είναι εννέα παπάκια. Έρχονται επτά ακόμα. Μετά φεύγουν τέσσερα. Πόσα παπάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/comego-16": {
+    "text": "Στην αυλή είναι έξι γατάκια. Έρχονται δύο ακόμα. Μετά φεύγουν έξι. Πόσα γατάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/comego-17": {
+    "text": "Στην αυλή είναι πέντε γατάκια. Έρχονται τέσσερα ακόμα. Μετά φεύγουν οκτώ. Πόσα γατάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/comego-18": {
+    "text": "Στην αυλή είναι έξι πουλάκια. Έρχονται οκτώ ακόμα. Μετά φεύγουν πέντε. Πόσα πουλάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/comego-19": {
+    "text": "Στην αυλή είναι τρία παπάκια. Έρχονται δύο ακόμα. Μετά φεύγουν τέσσερα. Πόσα παπάκια μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/comego-20": {
+    "text": "Στην αυλή είναι πέντε γατάκια. Έρχονται οκτώ ακόμα. Μετά φεύγουν δύο. Πόσα γατάκια μένουν;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -2143,6 +2419,126 @@
   },
   "problem/need-20": {
     "text": "Ο Κώστας θέλει εννέα μπαλόνια. Έχει ήδη τρία. Πόσα μπαλόνια χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/takeout-01": {
+    "text": "Στο κουτί είναι δώδεκα μολύβια. Ο Κώστας βγάζει επτά. Πόσα μολύβια μένουν στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/takeout-02": {
+    "text": "Στο κουτί είναι δώδεκα μπαλόνια. Ο Γιώργος βγάζει τρία. Πόσα μπαλόνια μένουν στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/takeout-03": {
+    "text": "Στο κουτί είναι δεκαέξι αυτοκινητάκια. Ο Κώστας βγάζει οκτώ. Πόσα αυτοκινητάκια μένουν στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/takeout-04": {
+    "text": "Στο κουτί είναι δεκατέσσερα αυτοκινητάκια. Η Ελένη βγάζει έξι. Πόσα αυτοκινητάκια μένουν στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/takeout-05": {
+    "text": "Στο κουτί είναι έντεκα αυτοκινητάκια. Η Ελένη βγάζει πέντε. Πόσα αυτοκινητάκια μένουν στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/takeout-06": {
+    "text": "Στο κουτί είναι δώδεκα μπαλόνια. Η Ελένη βγάζει έξι. Πόσα μπαλόνια μένουν στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/takeout-07": {
+    "text": "Στο κουτί είναι δεκατέσσερα λουλούδια. Η Άννα βγάζει πέντε. Πόσα λουλούδια μένουν στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/takeout-08": {
+    "text": "Στο κουτί είναι έντεκα λουλούδια. Ο Γιώργος βγάζει εννέα. Πόσα λουλούδια μένουν στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/takeout-09": {
+    "text": "Στο κουτί είναι δώδεκα κουλουράκια. Ο Γιώργος βγάζει εννέα. Πόσα κουλουράκια μένουν στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/takeout-10": {
+    "text": "Στο κουτί είναι δώδεκα μπαλόνια. Η Ελένη βγάζει πέντε. Πόσα μπαλόνια μένουν στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/takeout-11": {
+    "text": "Στο κουτί είναι δεκαέξι κουλουράκια. Η Ελένη βγάζει επτά. Πόσα κουλουράκια μένουν στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/takeout-12": {
+    "text": "Στο κουτί είναι δώδεκα μήλα. Ο Γιώργος βγάζει τέσσερα. Πόσα μήλα μένουν στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/takeout-13": {
+    "text": "Στο κουτί είναι έντεκα κουλουράκια. Ο Νίκος βγάζει τρία. Πόσα κουλουράκια μένουν στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/takeout-14": {
+    "text": "Στο κουτί είναι δεκαπέντε μπαλόνια. Ο Γιώργος βγάζει εννέα. Πόσα μπαλόνια μένουν στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/takeout-15": {
+    "text": "Στο κουτί είναι έντεκα μολύβια. Ο Κώστας βγάζει οκτώ. Πόσα μολύβια μένουν στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/takeout-16": {
+    "text": "Στο κουτί είναι δεκαεπτά κουλουράκια. Ο Νίκος βγάζει εννέα. Πόσα κουλουράκια μένουν στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/takeout-17": {
+    "text": "Στο κουτί είναι δεκαεπτά κουλουράκια. Η Άννα βγάζει οκτώ. Πόσα κουλουράκια μένουν στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/takeout-18": {
+    "text": "Στο κουτί είναι δώδεκα μολύβια. Ο Κώστας βγάζει εννέα. Πόσα μολύβια μένουν στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/takeout-19": {
+    "text": "Στο κουτί είναι δώδεκα μολύβια. Η Ελένη βγάζει οκτώ. Πόσα μολύβια μένουν στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/takeout-20": {
+    "text": "Στο κουτί είναι έντεκα λουλούδια. Ο Κώστας βγάζει επτά. Πόσα λουλούδια μένουν στο κουτί;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"

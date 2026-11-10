@@ -121,6 +121,7 @@
   "parent.code.COUNTED_GROUPS": "μέτρησε τις ομάδες αντί για όσα έχουν μέσα",
   "parent.code.NOT_REGROUPED": "άφησε δέκα ή περισσότερους κύβους χωρίς να τους δέσει",
   "parent.code.TERM_MISSED": "ξέχασε έναν από τους αριθμούς",
+  "parent.code.PLACE_VALUE": "έβαλε τις μονάδες στις δεκάδες",
   "parent.code.SUB_SMALLER_FROM_LARGER": "αφαίρεσε το μικρότερο ψηφίο από το μεγαλύτερο",
   "parent.code.CARRY_FORGOTTEN": "ξέχασε το κρατούμενο",
   "parent.code.FRAC_ADD_ACROSS": "πρόσθεσε αριθμητές και παρονομαστές",

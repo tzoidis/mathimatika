@@ -81,6 +81,21 @@ function answerFromScene(scene: Scene): number {
       const spill = scene.b - (10 - scene.a);
       return 10 + spill;
     }
+    case 'calc': {
+      // lay the cubes out and add or take away one at a time
+      let cubes = [...Array(scene.a)].length;
+      for (let i = 0; i < scene.b; i++) cubes += scene.op;
+      return cubes;
+    }
+    case 'inverse': {
+      let left = [...Array(scene.a), ...Array(scene.b)].length;
+      for (let i = 0; i < scene.taken; i++) left--;
+      return left;
+    }
+    case 'subBridge':
+      return [...Array(scene.a)].slice(scene.b).length;
+    case 'fives':
+      return [...Array(5), ...Array(scene.a - 5), ...Array(5), ...Array(scene.b - 5)].length;
     case 'week': {
       // walk along the cards, going round from Sunday to Monday
       const cards = [1, 2, 3, 4, 5, 6, 7];
@@ -92,6 +107,7 @@ function answerFromScene(scene: Scene): number {
       // read the numbers back out of the text the child sees, not the stored ones
       const numbers = (scene.text.match(/\d+/g) ?? []).map(Number);
       const [first, second] = scene.operation === 'missing' ? [numbers[1]!, numbers[0]!] : [numbers[0]!, numbers[1]!];
+      if (scene.operation === 'twoStep') return numbers[0]! + numbers[1]! - numbers[2]!;
       return scene.operation === 'add' ? first + second : scene.operation === 'subtract' ? first - second : second - first;
     }
   }
@@ -391,5 +407,48 @@ describe('chapters 33-42', () => {
     const p = GENERATORS.find((g) => g.id === 'days.week')!.produce({ rng: mulberry32(3), level: 3 }, new Set());
     expect(p.say[0]).toEqual({ instruction: 'today-is' });
     expect(p.say[1]).toMatchObject({ instruction: expect.stringMatching(/^day-[1-7]$/) });
+  });
+});
+
+describe('chapters 46-49', () => {
+  const gradeOf = (id: string, params: unknown, answer: number, input: string) => playable(named(id)).grade({ params, answer: ratio(answer), policy: { equality: 'value' } } as Problem, input);
+  const scenes = (id: string, level: Level) => Array.from({ length: SEEDS }, (_, seed) => GENERATORS.find((g) => g.id === id)!.produce({ rng: mulberry32(seed), level }, new Set()).scene);
+
+  it('keeps the units within ten without a bridge, and always crosses with one', () => {
+    for (const level of LEVELS) {
+      for (const s of scenes('calc.2d1d', level)) expect(s.kind === 'calc' && (s.op === 1 ? (s.a % 10) + s.b <= 9 : s.b <= s.a % 10)).toBe(true);
+      for (const s of scenes('calc.2d1d.bridge', level)) expect(s.kind === 'calc' && (s.op === 1 ? (s.a % 10) + s.b >= 10 : s.b > s.a % 10)).toBe(true);
+    }
+    for (const s of scenes('calc.2d1d', 1)) expect(s.kind === 'calc' && s.a <= 29 && s.picture).toBe(true);
+  });
+
+  it('names 14 + 3 = 44, 17 + 5 = 12 and 23 − 5 = 22', () => {
+    expect(gradeOf('calc.2d1d', { a: 14, b: 3, op: 1, picture: true }, 17, '44')).toEqual({ ok: false, code: 'PLACE_VALUE', hintId: 'add-to-units' });
+    expect(gradeOf('calc.2d1d.bridge', { a: 17, b: 5, op: 1, picture: true }, 22, '12')).toEqual({ ok: false, code: 'CARRY_FORGOTTEN', hintId: 'make-ten' });
+    expect(gradeOf('calc.2d1d.bridge', { a: 23, b: 5, op: -1, picture: true }, 18, '22')).toEqual({ ok: false, code: 'SUB_SMALLER_FROM_LARGER', hintId: 'take-to-ten' });
+    expect(gradeOf('calc.2d1d.bridge', { a: 23, b: 5, op: -1, picture: true }, 18, '28')).toEqual({ ok: false, code: 'CARRY_FORGOTTEN', hintId: 'make-ten' });
+  });
+
+  it('takes back what was added, and knows 15 − 6 = 11', () => {
+    expect(gradeOf('calc.inverse', { a: 9, b: 6, takeFirst: false }, 9, '21')).toEqual({ ok: false, code: 'OPERATION_SWAP', hintId: 'look-at-addition' });
+    expect(gradeOf('sub.bridge', { a: 15, b: 6, style: 'plain' }, 9, '11')).toEqual({ ok: false, code: 'SUB_SMALLER_FROM_LARGER', hintId: 'take-to-ten' });
+    for (const s of scenes('sub.bridge', 3)) expect(s.kind === 'subBridge' || s.kind === 'missing').toBe(true);
+    expect(scenes('sub.bridge', 3).some((s) => s.kind === 'missing')).toBe(true);
+  });
+
+  it('adds two fives first, and praises it when the picture shows them', () => {
+    expect(gradeOf('add.fives', { a: 7, b: 8, picture: true }, 15, '5')).toEqual({ ok: false, code: 'CARRY_FORGOTTEN', hintId: 'five-and-five' });
+    for (const s of scenes('add.fives', 1)) expect(s.kind === 'fives' && s.b === 5).toBe(true);
+    const fives = GENERATORS.find((g) => g.id === 'add.fives')!;
+    expect(fives.produce({ rng: mulberry32(2), level: 2 }, new Set()).praise).toBe('two-fives');
+    expect(fives.produce({ rng: mulberry32(2), level: 3 }, new Set()).praise).toBeUndefined();
+  });
+
+  it('plays doubles, then near doubles, then halves too', () => {
+    expect(gradeOf('add.doubles20', { kind: 'near', a: 7, biggerFirst: true, dots: false }, 15, '14')).toEqual({ ok: false, code: 'OFF_BY_ONE', hintId: 'use-doubles' });
+    expect(gradeOf('add.doubles20', { kind: 'half', a: 7, biggerFirst: true, dots: false }, 7, '14')).toEqual({ ok: false, code: 'PART_IS_WHOLE', hintId: 'use-doubles' });
+    for (const s of scenes('add.doubles20', 1)) expect(s.kind === 'add' && s.a === s.b).toBe(true);
+    for (const s of scenes('add.doubles20', 2)) expect(s.kind === 'add' && Math.abs(s.a - s.b) === 1).toBe(true);
+    expect(scenes('add.doubles20', 3).some((s) => s.kind === 'sub')).toBe(true);
   });
 });

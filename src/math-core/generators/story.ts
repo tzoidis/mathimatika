@@ -17,7 +17,8 @@ export interface StoryParams {
   pictures: boolean;
 }
 
-const swapped = (p: WordProblem) => (p.operation === 'add' ? Math.abs(p.a - p.b) : p.a + p.b);
+/** the other operation: for two steps, adding all three */
+const swapped = (p: WordProblem) => (p.operation === 'add' ? Math.abs(p.a - p.b) : p.operation === 'twoStep' ? p.a + p.b + (p.c ?? 0) : p.a + p.b);
 const shownNumber = (p: WordProblem) => (p.operation === 'missing' ? p.b : p.a);
 
 export function storyGenerator(id: string, skill: SkillId): Generator<StoryParams> {
@@ -30,7 +31,7 @@ export function storyGenerator(id: string, skill: SkillId): Generator<StoryParam
     key: (p) => [id, p.problem.id].join(':'),
     build: (p) => ({
       answer: ratio(p.problem.answer),
-      scene: { kind: 'story', problemId: p.problem.id, text: p.problem.text, operation: p.problem.operation, a: p.problem.a, b: p.problem.b, objects: p.problem.objects, pictures: p.pictures },
+      scene: { kind: 'story', problemId: p.problem.id, text: p.problem.text, operation: p.problem.operation, a: p.problem.a, b: p.problem.b, ...(p.problem.c === undefined ? {} : { c: p.problem.c }), objects: p.problem.objects, pictures: p.pictures },
       say: [{ clip: p.problem.id }],
     }),
     detectors: [

@@ -16,6 +16,7 @@ import {
 } from './operations.ts';
 import { randInt } from '../../engine/rng.ts';
 import { storyGenerator } from './story.ts';
+import { bigDoublesGenerator, fivesGenerator, inverseGenerator, subBridgeGenerator, twoDigitGenerator } from './calc.ts';
 import { bridgeGenerator, buildTensGenerator, daysGenerator, groupsGenerator, manyTermsGenerator, readTensGenerator, regroupGenerator } from './tens.ts';
 import { playable, type Generator, type PlayableGenerator } from './types.ts';
 
@@ -59,6 +60,7 @@ export const ALL_GENERATORS = [
   storyGenerator('story.add.to5', '1.problem.add.to5'),
   storyGenerator('story.add.to10', '1.problem.add.to10'),
   storyGenerator('story.addsub.to10', '1.problem.addsub.to10'),
+  storyGenerator('story.addsub.to20', '1.problem.addsub.to20'),
   groupsGenerator('groups.to50', '1.num.group.tens', 21, 50),
   readTensGenerator('tens.read.to50', '1.place.tens-units.to50', 11, 50),
   buildTensGenerator('tens.build.to50', '1.place.tens-units.to50', 11, 50),
@@ -66,6 +68,12 @@ export const ALL_GENERATORS = [
   manyTermsGenerator('add.three', '1.add.many-terms'),
   daysGenerator('days.week', '1.time.sequence'),
   bridgeGenerator('add.bridge', '1.add.within20.bridge'),
+  twoDigitGenerator('calc.2d1d', '1.calc.2d1d.nobridge', false, 49),
+  inverseGenerator('calc.inverse', '1.calc.inverse'),
+  subBridgeGenerator('sub.bridge', '1.sub.within20.bridge'),
+  fivesGenerator('add.fives', '1.add.back-to-5'),
+  bigDoublesGenerator('add.doubles20', '1.add.within20.doubles'),
+  twoDigitGenerator('calc.2d1d.bridge', '1.calc.2d1d.bridge', true, 50),
 ] as Generator<unknown>[];
 
 export const GENERATORS: PlayableGenerator[] = ALL_GENERATORS.map(playable);

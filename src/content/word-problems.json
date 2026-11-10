@@ -66,6 +66,41 @@
       "b": [3, 10],
       "result": [1, 9],
       "text": "{P} θέλει {b} {O:many}. Έχει ήδη {a}. Πόσα {O:many} χρειάζεται ακόμα;"
+    },
+    {
+      "id": "box",
+      "title": "Βάζει κι άλλα (πρόσθεση με αλλαγή δεκάδας)",
+      "skill": "1.problem.addsub.to20",
+      "operation": "add",
+      "objects": "thing",
+      "a": [5, 9],
+      "b": [2, 9],
+      "result": [11, 18],
+      "text": "Στο κουτί είναι {a} {O:a}. {P} βάζει {b} ακόμα. Πόσα {O:many} είναι τώρα στο κουτί;"
+    },
+    {
+      "id": "takeout",
+      "title": "Βγάζει (αφαίρεση μέσω της δεκάδας)",
+      "skill": "1.problem.addsub.to20",
+      "operation": "subtract",
+      "objects": "thing",
+      "a": [11, 18],
+      "b": [2, 9],
+      "bridge": true,
+      "result": [2, 9],
+      "text": "Στο κουτί είναι {a} {O:many}. {P} βγάζει {b}. Πόσα {O:many} μένουν στο κουτί;"
+    },
+    {
+      "id": "comego",
+      "title": "Έρχονται και φεύγουν (δύο βήματα)",
+      "skill": "1.problem.addsub.to20",
+      "operation": "twoStep",
+      "objects": "animal",
+      "a": [3, 9],
+      "b": [2, 9],
+      "c": [2, 9],
+      "result": [1, 15],
+      "text": "Στην αυλή είναι {a} {O:a}. Έρχονται {b} ακόμα. Μετά φεύγουν {c}. Πόσα {O:many} μένουν;"
     }
   ]
 }

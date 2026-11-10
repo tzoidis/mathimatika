@@ -8,7 +8,8 @@ import { mulberry32, randInt, pick } from '../engine/rng.ts';
 import type { SkillId } from '../engine/types.ts';
 import { numberToGreekWords } from './greekWords.ts';
 
-export type Operation = 'add' | 'subtract' | 'missing';
+/** twoStep: a come, b more come, c go away (the book's car park, ch. 50) */
+export type Operation = 'add' | 'subtract' | 'missing' | 'twoStep';
 
 export interface Person {
   id: string;
@@ -37,6 +38,10 @@ export interface Template {
   objects: string;
   a: [number, number];
   b: [number, number];
+  /** the third number of a two-step problem */
+  c?: [number, number];
+  /** the units must cross ten: 14 − 5, never 15 − 4 */
+  bridge?: boolean;
   result: [number, number];
   text: string;
 }
@@ -53,6 +58,8 @@ export interface WordProblem {
   operation: Operation;
   a: number;
   b: number;
+  /** only in a two-step problem */
+  c?: number;
   answer: number;
   /** the pictures: the first object for a, the second (if any) for b */
   objects: string[];
@@ -62,7 +69,8 @@ export interface WordProblem {
   speech: string;
 }
 
-export const answerOf = (operation: Operation, a: number, b: number): number => (operation === 'add' ? a + b : operation === 'subtract' ? a - b : b - a);
+export const answerOf = (operation: Operation, a: number, b: number, c = 0): number =>
+  operation === 'add' ? a + b : operation === 'subtract' ? a - b : operation === 'missing' ? b - a : a + b - c;
 
 const capitalize = (s: string) => s.charAt(0).toLocaleUpperCase('el') + s.slice(1);
 
@@ -73,7 +81,11 @@ interface Choice {
   object2: LexObject;
   a: number;
   b: number;
+  c: number;
 }
+
+/** In a subtraction that must cross ten, the units of a are fewer than b. */
+const crossesTen = (t: Template, a: number, b: number) => !t.bridge || (t.operation === 'subtract' ? b > a % 10 : (a % 10) + b >= 10);
 
 function render(template: string, c: Choice, spoken: boolean): string {
   const number = (n: number) => (spoken ? numberToGreekWords(n, 'n', 'nom') : String(n));
@@ -83,6 +95,8 @@ function render(template: string, c: Choice, spoken: boolean): string {
         return number(c.a);
       case 'b':
         return number(c.b);
+      case 'c':
+        return number(c.c);
       case 'P':
         return c.person.nom;
       case 'Q':
@@ -122,16 +136,17 @@ export function generateGolden(file: TemplateFile, lexicon: Lexicon): WordProble
     for (let tries = 0; seen.size < file.versions && tries < MAX_TRIES; tries++) {
       const a = randInt(t.a[0], t.a[1], rng);
       const b = randInt(t.b[0], t.b[1], rng);
-      const answer = answerOf(t.operation, a, b);
-      if (answer < t.result[0] || answer > t.result[1]) continue;
+      const third = t.c ? randInt(t.c[0], t.c[1], rng) : 0;
+      const answer = answerOf(t.operation, a, b, third);
+      if (answer < t.result[0] || answer > t.result[1] || !crossesTen(t, a, b)) continue;
       const person = pick(lexicon.people, rng);
       const other = pick(lexicon.people.filter((p) => p !== person), rng);
       const object = pick(objects, rng);
       const object2 = pick(objects.filter((o) => o !== object), rng);
-      const key = [a, b, object.id].join(':');
+      const key = [a, b, third, object.id].join(':');
       if (seen.has(key)) continue;
       seen.add(key);
-      const choice = { person, other, object, object2, a, b };
+      const choice = { person, other, object, object2, a, b, c: third };
       problems.push({
         id: [t.id, String(seen.size).padStart(2, '0')].join('-'),
         template: t.id,
@@ -139,6 +154,7 @@ export function generateGolden(file: TemplateFile, lexicon: Lexicon): WordProble
         operation: t.operation,
         a,
         b,
+        ...(t.c ? { c: third } : {}),
         answer,
         objects: t.text.includes('{O2') ? [object.id, object2.id] : [object.id],
         text: render(t.text, choice, false),
