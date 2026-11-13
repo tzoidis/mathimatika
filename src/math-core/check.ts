@@ -33,7 +33,8 @@ export type MisconceptionCode =
   | 'COUNTED_GROUPS'
   | 'NOT_REGROUPED'
   | 'TERM_MISSED'
-  | 'PLACE_VALUE';
+  | 'PLACE_VALUE'
+  | 'MEASURED_PAST_END';
 
 export type Verdict = { ok: true; note?: 'notSimplified' } | { ok: false; code?: MisconceptionCode; hintId?: string };
 

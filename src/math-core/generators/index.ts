@@ -16,6 +16,7 @@ import {
 } from './operations.ts';
 import { randInt } from '../../engine/rng.ts';
 import { storyGenerator } from './story.ts';
+import { measureGenerator, neighbourGenerator, tensCalcGenerator, timesGenerator } from './grow.ts';
 import { bigDoublesGenerator, fivesGenerator, inverseGenerator, subBridgeGenerator, twoDigitGenerator } from './calc.ts';
 import { bridgeGenerator, buildTensGenerator, daysGenerator, groupsGenerator, manyTermsGenerator, readTensGenerator, regroupGenerator } from './tens.ts';
 import { playable, type Generator, type PlayableGenerator } from './types.ts';
@@ -74,6 +75,14 @@ export const ALL_GENERATORS = [
   fivesGenerator('add.fives', '1.add.back-to-5'),
   bigDoublesGenerator('add.doubles20', '1.add.within20.doubles'),
   twoDigitGenerator('calc.2d1d.bridge', '1.calc.2d1d.bridge', true, 50),
+  readTensGenerator('rods.read.to50', '1.num.represent.to50', 21, 50),
+  readTensGenerator('tens.read.to70', '1.num.represent.to70', 51, 70),
+  buildTensGenerator('tens.build.to70', '1.num.represent.to70', 51, 70),
+  neighbourGenerator('next.to70', '1.num.represent.to70', 50, 70),
+  compareGenerator('cmp.sign.to70', '1.cmp.to70', 50, 70, false),
+  timesGenerator('times.intro', '1.mult.intro', [2, 5, 10], 5, 50),
+  measureGenerator('measure.clips', '1.len.measure'),
+  tensCalcGenerator('calc.tens', '1.calc.tens', 70),
 ] as Generator<unknown>[];
 
 export const GENERATORS: PlayableGenerator[] = ALL_GENERATORS.map(playable);

@@ -44,6 +44,23 @@ describe('resetting progress', () => {
   });
 });
 
+describe('migration to version 6', () => {
+  it('starts existing children with no home activity done', async () => {
+    const opts = names();
+    const v5 = await openDb({ ...opts, migrations: MIGRATIONS.slice(0, 5) });
+    await ensureChild(v5);
+    await v5.settings.toCollection().modify((s: { homeDone?: string[]; focusSkill: string | null }) => {
+      delete s.homeDone;
+      s.focusSkill = '1.add.within5';
+    });
+    v5.close();
+
+    const db = await openDb(opts);
+    open.push(db);
+    expect(await db.settings.get(DEFAULT_CHILD_ID)).toMatchObject({ homeDone: [], focusSkill: '1.add.within5' });
+  });
+});
+
 describe('migration to version 2', () => {
   it('starts existing children with no demo seen', async () => {
     const opts = names();

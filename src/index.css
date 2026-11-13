@@ -1495,3 +1495,133 @@ button {
 .five-and-more .dots {
   grid-template-columns: repeat(4, 32px);
 }
+
+/* ---------- to 70, equal groups, measuring, tens (grade 1, ch. 52-55) ---------- */
+
+.odometer-number {
+  padding: 8px 16px;
+  border-radius: 12px;
+  background: var(--ink);
+  color: var(--card);
+  letter-spacing: 0.1em;
+}
+
+.group-box {
+  grid-template-columns: repeat(5, 32px);
+}
+
+.group-box .frame-cell {
+  height: 32px;
+}
+
+.group-box .dot {
+  width: 22px;
+  height: 22px;
+}
+
+.groups-picture .group-box--2,
+.groups-picture .group-box--3,
+.groups-picture .group-box--4 {
+  grid-template-columns: repeat(2, 32px);
+}
+
+.expression--long {
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 56px;
+  gap: 10px;
+}
+
+.measure-picture {
+  --clip: 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.measured {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.measured-object {
+  height: 28px;
+  border-radius: 14px;
+  background: var(--accent);
+}
+
+/* a pencil: a point on the right */
+.measured-object--0 {
+  border-radius: 6px 0 0 6px;
+  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 50%, calc(100% - 24px) 100%, 0 100%);
+  background: var(--star);
+}
+
+.measured-object--1 {
+  background: repeating-linear-gradient(45deg, var(--accent) 0 10px, var(--accent-edge) 10px 20px);
+}
+
+.measured-object--2 {
+  background: var(--mascot-spikes);
+}
+
+.clips {
+  display: flex;
+}
+
+/* a paper clip: two rounded loops, one inside the other */
+.clip {
+  width: var(--clip);
+  height: 20px;
+  border: 3px solid var(--ink);
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 4px var(--card), inset 0 0 0 6px var(--ink);
+  background: var(--card);
+}
+
+.notes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  max-width: 560px;
+}
+
+.note {
+  width: 96px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: 6px;
+  border: 3px solid var(--accent-edge);
+  background: var(--accent-soft);
+  font-family: 'Glossa Reading', system-ui, sans-serif;
+  font-size: 26px;
+}
+
+.note--second {
+  border-color: var(--star-edge);
+  background: var(--star);
+}
+
+.note--faded {
+  opacity: 0.35;
+  border-style: dashed;
+}
+
+.home-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.home-card {
+  padding-top: 12px;
+  border-top: 1px solid var(--card-edge);
+}

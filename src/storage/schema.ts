@@ -26,6 +26,8 @@ export interface Settings {
   seenDemos: string[];
   /** the parent's «practise this», for the next workshop round */
   focusSkill: string | null;
+  /** home activities the parent ticked as done (PRD §3) */
+  homeDone: string[];
   dailyLimitMinutes: number;
   leftHanded: boolean;
   /** 4-digit PIN; null = multiplication gate only */
@@ -59,6 +61,7 @@ export function defaultSettings(childId: string): Settings {
     upToPosition: 0,
     seenDemos: [],
     focusSkill: null,
+    homeDone: [],
     dailyLimitMinutes: DEFAULT_DAILY_LIMIT_MINUTES,
     leftHanded: false,
     parentPin: null,

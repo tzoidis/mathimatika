@@ -24,7 +24,7 @@ export interface RodsState {
   units: number;
 }
 
-export const MAX_RODS = 5;
+export const MAX_RODS = 9;
 export const MAX_CUBES = 29;
 const TEN = 10;
 

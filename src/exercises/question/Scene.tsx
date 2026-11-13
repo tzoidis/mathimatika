@@ -9,6 +9,7 @@ import type { Scene as SceneData } from '../../math-core/generators/types.ts';
 import { IconButton } from '../../ui/IconButton.tsx';
 import { ReplayIcon } from '../../ui/Icons.tsx';
 import { ObjectPicture } from './objects.tsx';
+import type { UiKey } from '../../i18n.ts';
 
 const FRAME_SIZE = 10;
 const SCATTER_CELLS = 24;
@@ -144,6 +145,53 @@ function FiveAndMore({ n }: { n: number }) {
       </div>
       {n > 5 && <Dots n={n - 5} />}
     </div>
+  );
+}
+
+/** One of the equal groups: a frame for five and ten, a little box for the rest. */
+function Group({ k }: { k: number }) {
+  return (
+    <div className={`ten-frame group-box group-box--${k}`}>
+      {Array.from({ length: k }, (_, i) => (
+        <span key={i} className="frame-cell">
+          <span className="dot" />
+        </span>
+      ))}
+    </div>
+  );
+}
+
+/** «5 + 5 + 5 = □» */
+function RepeatedSum({ n, k, slot }: { n: number; k: number; slot: ReactNode }) {
+  return (
+    <div className="expression expression--long">
+      {Array.from({ length: n }, (_, i) => [...(i > 0 ? [<span key={`p${i}`}>+</span>] : []), <span key={i}>{formatNumber(k)}</span>]).flat()}
+      <span>=</span>
+      {slot}
+    </div>
+  );
+}
+
+/** An object with paper clips laid end to end under it, from its left edge. */
+function Measured({ length, clips, object }: { length: number; clips: number; object: number }) {
+  return (
+    <div className="measured">
+      <div className={`measured-object measured-object--${object}`} style={{ width: `calc(${length} * var(--clip))` }} role="img" aria-label={t(`measure.object.${object}` as UiKey)} />
+      <div className="clips">
+        {Array.from({ length: clips }, (_, i) => (
+          <span key={i} className="clip" aria-label={t('measure.clip')} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Note({ value, faded = false, second = false }: { value: number; faded?: boolean; second?: boolean }) {
+  return (
+    <span className={`note ${faded ? 'note--faded' : ''} ${second ? 'note--second' : ''}`}>
+      <strong>{formatNumber(value)}</strong>
+      <small>{t('coin.note')}</small>
+    </span>
   );
 }
 
@@ -448,6 +496,66 @@ export function Scene({ scene, slot, answerOnLine, readable = false }: { scene: 
           </div>
         </div>
       );
+
+    case 'neighbour':
+      return (
+        <div className="scene">
+          <div className="expression odometer">
+            {scene.direction === -1 && slot}
+            <span className="odometer-number">{formatNumber(scene.n)}</span>
+            {scene.direction === 1 && slot}
+          </div>
+        </div>
+      );
+
+    case 'times':
+      return (
+        <div className="scene">
+          {scene.show < 3 && (
+            <div className="groups-picture">
+              {Array.from({ length: scene.n }, (_, i) => (
+                <Group key={i} k={scene.k} />
+              ))}
+            </div>
+          )}
+          {scene.show === 2 ? <div className="expression">{slot}</div> : <RepeatedSum n={scene.n} k={scene.k} slot={slot} />}
+        </div>
+      );
+
+    case 'measure':
+      return (
+        <div className="scene">
+          <div className="measure-picture">
+            <Measured length={scene.length} clips={scene.length + scene.extra} object={scene.object} />
+            {scene.other !== null && <Measured length={scene.other} clips={scene.other} object={(scene.object + 1) % 3} />}
+          </div>
+          <div className="expression">{slot}</div>
+        </div>
+      );
+
+    case 'tensCalc': {
+      const notesA = scene.a / FRAME_SIZE;
+      const notesB = scene.b / FRAME_SIZE;
+      return (
+        <div className="scene">
+          {scene.notes && (
+            <div className="notes">
+              {Array.from({ length: notesA }, (_, i) => (
+                <Note key={i} value={FRAME_SIZE} faded={scene.op === -1 && i >= notesA - notesB} />
+              ))}
+              {scene.op === 1 && Array.from({ length: notesB }, (_, i) => <Note key={notesA + i} value={FRAME_SIZE} second />)}
+            </div>
+          )}
+          <div className="expression">
+            <span>{formatNumber(scene.a)}</span>
+            <span>{scene.op === 1 ? '+' : '−'}</span>
+            <span>{formatNumber(scene.b)}</span>
+            <span>=</span>
+            {slot}
+          </div>
+        </div>
+      );
+    }
 
     case 'addMany':
       return (

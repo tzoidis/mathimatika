@@ -41,6 +41,10 @@ export type Scene =
   | { kind: 'inverse'; a: number; b: number; taken: number }
   | { kind: 'subBridge'; a: number; b: number; frames: boolean }
   | { kind: 'fives'; a: number; b: number; picture: boolean }
+  | { kind: 'neighbour'; n: number; direction: 1 | -1 }
+  | { kind: 'times'; n: number; k: number; show: 1 | 2 | 3 }
+  | { kind: 'measure'; length: number; extra: number; other: number | null; object: number }
+  | { kind: 'tensCalc'; a: number; b: number; op: 1 | -1; notes: boolean }
   | { kind: 'story'; problemId: string; text: string; operation: 'add' | 'subtract' | 'missing' | 'twoStep'; a: number; b: number; c?: number; objects: string[]; pictures: boolean };
 
 export type AnswerMode = 'keypad' | 'tenFrame' | 'numberLine' | 'balance' | 'choice' | 'group' | 'rods' | 'regroup' | 'week';
@@ -52,7 +56,7 @@ export interface Choice {
 }
 
 /** What is read aloud, in order. Every problem in grades 1-2 is (PRD §7). */
-export type Say = { instruction: string } | { number: number } | { clip: string };
+export type Say = { instruction: string } | { number: number; gender?: 'n' | 'f' | 'm' } | { clip: string };
 
 export interface Problem {
   generatorId: string;

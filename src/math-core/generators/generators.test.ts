@@ -96,6 +96,20 @@ function answerFromScene(scene: Scene): number {
       return [...Array(scene.a)].slice(scene.b).length;
     case 'fives':
       return [...Array(5), ...Array(scene.a - 5), ...Array(5), ...Array(scene.b - 5)].length;
+    case 'neighbour':
+      return scene.direction === 1 ? scene.n + 1 : scene.n - 1;
+    case 'times':
+      return [...Array(scene.n)].flatMap(() => [...Array(scene.k)]).length;
+    case 'measure': {
+      // count the clips under the object only, up to its end
+      const under = [...Array(scene.length + scene.extra)].slice(0, scene.length).length;
+      return scene.other === null ? under : under - [...Array(scene.other)].length;
+    }
+    case 'tensCalc': {
+      let total = scene.a;
+      for (let i = 0; i < scene.b / 10; i++) total += scene.op * 10;
+      return total;
+    }
     case 'week': {
       // walk along the cards, going round from Sunday to Monday
       const cards = [1, 2, 3, 4, 5, 6, 7];
@@ -450,5 +464,43 @@ describe('chapters 46-49', () => {
     for (const s of scenes('add.doubles20', 1)) expect(s.kind === 'add' && s.a === s.b).toBe(true);
     for (const s of scenes('add.doubles20', 2)) expect(s.kind === 'add' && Math.abs(s.a - s.b) === 1).toBe(true);
     expect(scenes('add.doubles20', 3).some((s) => s.kind === 'sub')).toBe(true);
+  });
+});
+
+describe('chapters 52-55', () => {
+  const gradeOf = (id: string, params: unknown, answer: number, input: string) => playable(named(id)).grade({ params, answer: ratio(answer), policy: { equality: 'value' } } as Problem, input);
+  const scenes = (id: string, level: Level) => Array.from({ length: SEEDS }, (_, seed) => GENERATORS.find((g) => g.id === id)!.produce({ rng: mulberry32(seed), level }, new Set()).scene);
+
+  it('knows 59 → 50 and going the wrong way', () => {
+    expect(gradeOf('next.to70', { n: 59, direction: 1 }, 60, '50')).toEqual({ ok: false, code: 'CARRY_FORGOTTEN', hintId: 'next-ten' });
+    expect(gradeOf('next.to70', { n: 60, direction: -1 }, 59, '69')).toEqual({ ok: false, code: 'CARRY_FORGOTTEN', hintId: 'next-ten' });
+    expect(gradeOf('next.to70', { n: 63, direction: 1 }, 64, '62')).toEqual({ ok: false, code: 'WRONG_DIRECTION', hintId: 'line-direction' });
+    expect(scenes('next.to70', 2).some((s) => s.kind === 'neighbour' && s.n % 10 === 9 && s.direction === 1)).toBe(true);
+  });
+
+  it('reads «three times five» with the feminine three', () => {
+    const p = GENERATORS.find((g) => g.id === 'times.intro')!.produce({ rng: mulberry32(1), level: 1 }, new Set());
+    expect(p.say[0]).toMatchObject({ gender: 'f' });
+    expect(p.say[1]).toEqual({ instruction: 'times' });
+  });
+
+  it('tells adding the two numbers and counting the groups from the product', () => {
+    const params = { n: 3, k: 5, show: 1 };
+    expect(gradeOf('times.intro', params, 15, '8')).toEqual({ ok: false, code: 'MULT_AS_ADD', hintId: 'equal-groups' });
+    expect(gradeOf('times.intro', params, 15, '3')).toEqual({ ok: false, code: 'COUNTED_GROUPS', hintId: 'equal-groups' });
+    expect(gradeOf('times.intro', params, 15, '20')).toEqual({ ok: false, code: 'OFF_BY_ONE', hintId: 'equal-groups' });
+    for (const level of LEVELS) for (const s of scenes('times.intro', level)) expect(s.kind === 'times' && [2, 5, 10].includes(s.k) && s.n * s.k <= 50).toBe(true);
+  });
+
+  it('measures only up to the end, and how much longer', () => {
+    expect(gradeOf('measure.clips', { length: 5, extra: 2, other: null, object: 0 }, 5, '7')).toEqual({ ok: false, code: 'MEASURED_PAST_END', hintId: 'measure-to-end' });
+    expect(gradeOf('measure.clips', { length: 7, extra: 0, other: 4, object: 0 }, 3, '7')).toEqual({ ok: false, code: 'PART_IS_WHOLE', hintId: 'how-much-longer' });
+    for (const s of scenes('measure.clips', 2)) expect(s.kind === 'measure' && s.extra >= 1).toBe(true);
+  });
+
+  it('knows tens counted as ones', () => {
+    expect(gradeOf('calc.tens', { a: 20, b: 30, op: 1, notes: true }, 50, '5')).toEqual({ ok: false, code: 'PLACE_VALUE', hintId: 'tens-worth' });
+    expect(gradeOf('calc.tens', { a: 34, b: 20, op: 1, notes: false }, 54, '36')).toEqual({ ok: false, code: 'PLACE_VALUE', hintId: 'tens-worth' });
+    for (const level of LEVELS) for (const s of scenes('calc.tens', level)) expect(s.kind === 'tensCalc' && s.b % 10 === 0 && s.a + s.op * s.b <= 70 && s.a + s.op * s.b >= 10).toBe(true);
   });
 });

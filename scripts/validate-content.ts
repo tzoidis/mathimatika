@@ -71,6 +71,14 @@ const regenerated = generateGolden(read<TemplateFile>('word-problems.json'), rea
 if (JSON.stringify(regenerated) !== JSON.stringify(golden.problems)) errors.push('word-problems.golden.json: out of date (run node scripts/word-problems.ts)');
 if (golden.approvedHash !== goldenHash(golden.problems)) errors.push('word-problems.golden.json: not approved by the parent (docs/word-problems.md, then node scripts/word-problems.ts --approve)');
 
+// PRD §3: a home activity belongs to a chapter of the book
+for (const name of readdirSync(contentDir).filter((f) => /^home\.\d\.json$/.test(f))) {
+  const units = read<Curriculum>(name.replace('home', 'book-map')).units.map((u) => u.id);
+  const activities = read<{ activities: { id: string; unit: string }[] }>(name).activities;
+  if (new Set(activities.map((a) => a.id)).size !== activities.length) errors.push(`${name}: an id appears twice`);
+  for (const a of activities) if (!units.includes(a.unit)) errors.push(`${name}: ${a.id} is in no chapter of the book`);
+}
+
 const letters = read<{ units: { graphemes: string[] }[] }>('letters.json').units.flatMap((u) => u.graphemes);
 if (letters.length === 0) errors.push('letters.json: no letters');
 if (new Set(letters).size !== letters.length) errors.push('letters.json: a letter appears twice');

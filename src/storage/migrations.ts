@@ -45,6 +45,13 @@ export const MIGRATIONS: Migration[] = [
       s.focusSkill ??= null;
     }),
   },
+  {
+    version: 6,
+    stores: {},
+    upgrade: (tx) => tx.table('settings').toCollection().modify((s: { homeDone?: string[] }) => {
+      s.homeDone ??= [];
+    }),
+  },
 ];
 
 export const SCHEMA_VERSION = MIGRATIONS[MIGRATIONS.length - 1]!.version;

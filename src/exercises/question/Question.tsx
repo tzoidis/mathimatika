@@ -171,7 +171,7 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
       const mine = ++speech.current;
       for (const part of parts) {
         if (speech.current !== mine) return;
-        await audio.play('number' in part ? numberRequest(part.number) : 'clip' in part ? { kind: 'problem', key: part.clip } : { kind: 'instruction', key: part.instruction });
+        await audio.play('number' in part ? numberRequest(part.number, part.gender) : 'clip' in part ? { kind: 'problem', key: part.clip } : { kind: 'instruction', key: part.instruction });
       }
     },
     [audio],

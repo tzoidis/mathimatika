@@ -47,6 +47,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "hint/equal-groups": {
+    "text": "Κάθε ομάδα έχει το ίδιο. Μέτρα ανά ομάδα.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/equals-balance": {
     "text": "Το ίσον λέει ότι οι δύο πλευρές ζυγίζουν το ίδιο. Δες τη ζυγαριά!",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -77,6 +83,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "hint/how-much-longer": {
+    "text": "Βρες πόσοι συνδετήρες περισσεύουν στο πιο μακρύ.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/line-direction": {
     "text": "Μετά είναι προς τα δεξιά, πριν είναι προς τα αριστερά.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -97,6 +109,18 @@
   },
   "hint/make-ten": {
     "text": "Κάνε πρώτα δεκάδα. Μετά πρόσθεσε ό,τι περισσεύει.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "hint/measure-to-end": {
+    "text": "Μέτρα μέχρι την άκρη του, όχι πιο πέρα.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "hint/next-ten": {
+    "text": "Μετά από το εννέα αλλάζει η δεκάδα.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -329,6 +353,18 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "instruction/measure": {
+    "text": "Πόσους συνδετήρες μακρύ είναι;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/measure-longer": {
+    "text": "Πόσους συνδετήρες πιο μακρύ είναι το πάνω;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "instruction/minus": {
     "text": "πλην",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -397,6 +433,12 @@
   },
   "instruction/tens-units": {
     "text": "Φτιάξε τον αριθμό με ράβδους και κύβους.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/times": {
+    "text": "φορές το",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
