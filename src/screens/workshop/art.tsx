@@ -145,11 +145,3 @@ export const ITEM_PLACES: Record<string, { x: number; y: number; scale: number }
   bird: { x: 860, y: 40, scale: 0.6 },
   mill: { x: 530, y: 330, scale: 1 },
 };
-
-export function ItemPicture({ id, size }: { id: string; size: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 200 200" aria-hidden>
-      {ITEM_ART[id]}
-    </svg>
-  );
-}

@@ -548,7 +548,11 @@ button {
 .keypad-top {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 16px;
+}
+
+.keypad-top .round-dots {
+  margin-left: auto;
 }
 
 .keypad-body {
@@ -1977,4 +1981,68 @@ button {
 .mirror-fold {
   width: 8px;
   background: repeating-linear-gradient(var(--ink) 0 12px, transparent 12px 20px);
+}
+
+/* the rooms of the Workshop, side by side behind two arrows */
+.workshop-rooms {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.workshop-rooms .workshop-scene {
+  flex: 1;
+  min-width: 0;
+}
+
+.room-arrow--back {
+  display: inline-flex;
+  transform: scaleX(-1);
+}
+
+/* ---------- the calm pause (PRD §6): a breath, no clock, nothing to tap ---------- */
+
+.calm {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+}
+
+.calm-breath {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .calm-breath {
+    animation: breathe 3.5s ease-in-out infinite;
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.teacher-list {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.teacher-list li + li {
+  margin-top: 8px;
 }

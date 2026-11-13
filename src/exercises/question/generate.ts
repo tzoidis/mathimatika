@@ -16,6 +16,8 @@ export interface QuestionItem {
   problem: Problem;
   generator: PlayableGenerator;
   praiseKey: string;
+  /** for a twin problem after a worked example: the same skill at the same level */
+  level: Level;
 }
 
 export interface Slot {
@@ -105,7 +107,7 @@ export function generate(ctx: GenerateContext): Round {
     const problem = generator.produce({ rng: ctx.rng, level }, used);
     used.add(problem.key);
     const last = items[items.length - 1]?.praiseKey;
-    items.push({ problem, generator, praiseKey: problem.praise !== undefined && problem.praise !== last ? problem.praise : pick(keys.filter((k) => k !== last), ctx.rng) });
+    items.push({ problem, generator, level, praiseKey: problem.praise !== undefined && problem.praise !== last ? problem.praise : pick(keys.filter((k) => k !== last), ctx.rng) });
   }
   return { id: [QUESTION_ID, ctx.roundKind].join('-'), exerciseId: QUESTION_ID, seed: 0, level: ctx.level, items };
 }

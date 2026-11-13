@@ -21,7 +21,9 @@ import { tenFrame } from '../../manipulatives/tenFrame.tsx';
 import { formatNumber } from '../../math-core/format.ts';
 import type { AnswerMode, Choice, Problem, Say, Scene as SceneData } from '../../math-core/generators/types.ts';
 import { IconButton } from '../../ui/IconButton.tsx';
-import { CheckIcon, SpeakerIcon } from '../../ui/Icons.tsx';
+import { Mascot } from '../../ui/Mascot.tsx';
+import { mulberry32, newSeed } from '../../engine/rng.ts';
+import { CheckIcon, NotYetIcon, SpeakerIcon } from '../../ui/Icons.tsx';
 import { NumPad } from '../../ui/NumPad.tsx';
 import type { ExerciseProps } from '../types.ts';
 import type { QuestionItem } from './generate.ts';
@@ -208,14 +210,29 @@ function WeekAnswer({ scene, correct, revealed, readable, onSubmit }: { scene: E
 const labelOf = (problem: Problem, input: string) => problem.choices?.find((c) => String(c.value) === input)?.label ?? input;
 const rightInput = (problem: Problem) => (problem.choices ? String(problem.answer.n) : formatNumber(problem.answer));
 
+/** A wrong answer this soon after the last move is a quick one (PRD §6: against guessing). Never shown. */
+const QUICK_MS = 2500;
+/** Three quick wrong answers in a row, or one while the question is still being read, bring the calm pause. */
+const QUICK_IN_A_ROW = 3;
+/** How long the calm pause lasts before the question is read again. Never shown. */
+const CALM_MS = 3500;
+/** The worked example's answer stays on screen this long before the twin problem. */
+const EXAMPLE_MS = 1200;
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const MANIPULATIVE_MODES: AnswerMode[] = ['tenFrame', 'numberLine', 'balance', 'rods', 'regroup', 'route', 'mirror'];
 
 export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
   const { audio, settings } = useApp();
   const updateSettings = useUpdateSettings();
   const [seenDemos, setSeenDemos] = useState(settings.seenDemos);
-  const items = round.items as QuestionItem[];
+  const [items, setItems] = useState(() => round.items as QuestionItem[]);
   const [index, setIndex] = useState(0);
+  /** the worked example of «Δεν ξέρω ακόμα» is on screen */
+  const [example, setExample] = useState(false);
+  /** the calm pause after hasty answers */
+  const [calm, setCalm] = useState(false);
   const [input, setInput] = useState('');
   const [attempt, setAttempt] = useState<1 | 2>(1);
   const [revealed, setRevealed] = useState(false);
@@ -229,15 +246,21 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
   const leaving = useRef(false);
   const shownAt = useRef(Date.now());
   const listened = useRef(false);
+  /** the question is still being read aloud */
+  const speaking = useRef(false);
+  const quickWrongs = useRef(0);
+  const lastMoveAt = useRef(Date.now());
 
   /** Plays the parts in order; any newer speech or answer cuts it short. */
   const say = useCallback(
     async (parts: Say[]) => {
       const mine = ++speech.current;
+      speaking.current = true;
       for (const part of parts) {
         if (speech.current !== mine) return;
         await audio.play('number' in part ? numberRequest(part.number, part.gender) : 'clip' in part ? { kind: 'problem', key: part.clip } : { kind: 'instruction', key: part.instruction });
       }
+      if (speech.current === mine) speaking.current = false;
     },
     [audio],
   );
@@ -246,6 +269,7 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
   useEffect(() => {
     if (demoing) return;
     shownAt.current = Date.now();
+    lastMoveAt.current = Date.now();
     listened.current = false;
     void say(item.problem.say);
     return () => {
@@ -270,9 +294,73 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
     setTries(0);
   };
 
+  /** «Δεν ξέρω ακόμα» (PRD §6): the worked example, counted as help, then a twin problem. */
+  const notYet = async () => {
+    if (leaving.current) return;
+    leaving.current = true;
+    const mine = ++speech.current;
+    audio.stop();
+    if (!revealed && attempt === 1) {
+      onAnswer({
+        id: [round.seed, index, 'help'].join('-'),
+        childId: '',
+        ts: Date.now(),
+        exerciseId: problem.generatorId,
+        itemId: problem.key,
+        target: labelOf(problem, rightInput(problem)),
+        given: '',
+        correct: false,
+        askedHelp: true,
+        attempt: 1,
+        soundsRight: false,
+        usedListen: listened.current,
+        latencyMs: Date.now() - shownAt.current,
+        position: index,
+      });
+    }
+    setInput('');
+    setExample(true);
+    setRevealed(true);
+    await audio.play({ kind: 'instruction', key: 'worked-example' });
+    for (const part of problem.say) {
+      if (speech.current !== mine) return;
+      await audio.play('number' in part ? numberRequest(part.number, part.gender) : 'clip' in part ? { kind: 'problem', key: part.clip } : { kind: 'instruction', key: part.instruction });
+    }
+    // the answer said aloud where it is a number the child writes
+    if (problem.answerMode === 'keypad' && speech.current === mine) {
+      await audio.play({ kind: 'instruction', key: 'answer-is' });
+      await audio.play(numberRequest(Number(problem.answer.n)));
+    }
+    await wait(EXAMPLE_MS);
+    if (speech.current !== mine) return;
+    await audio.play({ kind: 'instruction', key: 'twin-problem' });
+    const twin = item.generator.produce({ rng: mulberry32(newSeed()), level: item.level }, new Set([problem.key]));
+    setItems((all) => all.map((it, i) => (i === index ? { ...it, problem: twin } : it)));
+    setExample(false);
+    setRevealed(false);
+    setAttempt(1);
+    setTries((n) => n + 1);
+    leaving.current = false;
+  };
+
+  /** PRD §6: a breath, then the question again; nothing about time is shown. */
+  const calmDown = async () => {
+    quickWrongs.current = 0;
+    leaving.current = true;
+    setCalm(true);
+    await audio.play({ kind: 'instruction', key: 'calm' });
+    await wait(CALM_MS);
+    setCalm(false);
+    leaving.current = false;
+    lastMoveAt.current = Date.now();
+    void say(problem.say);
+  };
+
   const submit = async (answer: string) => {
     if (answer === '' || leaving.current) return;
+    const early = speaking.current;
     speech.current++;
+    speaking.current = false;
     const verdict = item.generator.grade(problem, answer);
 
     if (!revealed) {
@@ -295,6 +383,7 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
     }
 
     if (verdict.ok) {
+      quickWrongs.current = 0;
       setInput(answer);
       leaving.current = true;
       await audio.play({ kind: 'praise', key: attempt === 2 || revealed ? 'kept-trying' : item.praiseKey });
@@ -303,13 +392,19 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
     }
     setInput('');
     setTries((n) => n + 1);
-    if (revealed) {
+    const quick = Date.now() - lastMoveAt.current < QUICK_MS;
+    quickWrongs.current = quick ? quickWrongs.current + 1 : 0;
+    lastMoveAt.current = Date.now();
+    const hasty = early || quickWrongs.current >= QUICK_IN_A_ROW;
+    if (!revealed && attempt === 1) setAttempt(2);
+    else if (!revealed) setRevealed(true);
+    if (hasty) {
+      void calmDown();
+    } else if (revealed) {
       void audio.play({ kind: 'hint', key: 'hmm' });
     } else if (attempt === 1) {
-      setAttempt(2);
       void audio.play({ kind: 'hint', key: verdict.hintId ?? 'hmm' });
     } else {
-      setRevealed(true);
       void audio.play({ kind: 'hint', key: 'together' });
     }
   };
@@ -333,6 +428,11 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
         >
           <SpeakerIcon />
         </IconButton>
+        {!demoing && !example && (
+          <IconButton label={t('exercise.notYet')} onClick={() => void notYet()}>
+            <NotYetIcon />
+          </IconButton>
+        )}
         <ol className="round-dots" aria-hidden>
           {items.map((_, i) => (
             <li key={i} className={i < index ? 'done' : i === index ? 'current' : ''} />
@@ -342,7 +442,7 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
       <div className="keypad-body">
         {answerMode !== 'group' && (
           <div className="keypad-question">
-            <Scene key={index} scene={scene} slot={slot} answerOnLine={answerMode === 'numberLine'} readable={scene.kind === 'story' && isTextAllowed(scene.text, readingContext(settings.upToPosition))} />
+            <Scene key={problem.key} scene={scene} slot={slot} answerOnLine={answerMode === 'numberLine'} readable={scene.kind === 'story' && isTextAllowed(scene.text, readingContext(settings.upToPosition))} />
           </div>
         )}
         {answerMode === 'keypad' && (
@@ -388,6 +488,12 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
         )}
         {answerMode === 'balance' && scene.kind === 'balance' && <ManipulativeAnswer key={manipulativeKey} manipulative={balance} config={{ a: scene.a, total: scene.total }} {...manipulativeProps} />}
       </div>
+      {calm && (
+        <div className="calm" role="status" aria-label={t('exercise.calm')}>
+          <span className="calm-breath" aria-hidden />
+          <Mascot mood="encouraging" size={180} />
+        </div>
+      )}
     </div>
   );
 }

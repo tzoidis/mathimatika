@@ -72,4 +72,6 @@ export interface AnswerLog {
   position: number;
   /** the mistake a detector named, on a wrong answer; for the parent's skill map */
   code?: MisconceptionCode;
+  /** «Δεν ξέρω ακόμα»: the worked example was asked for; counts as help, never as a mistake */
+  askedHelp?: true;
 }

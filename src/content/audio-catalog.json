@@ -281,6 +281,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "instruction/answer-is": {
+    "text": "Η απάντηση είναι",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "instruction/ask-day-after": {
     "text": "Ποια μέρα θα είναι μεθαύριο;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -313,6 +319,12 @@
   },
   "instruction/break": {
     "text": "Ώρα για διάλειμμα! Πάρε μια ανάσα.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/calm": {
+    "text": "Στάσου λίγο. Πάρε μια ανάσα. Ας το δούμε μαζί.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -715,6 +727,12 @@
   },
   "instruction/workshop-hello": {
     "text": "Καλώς ήρθες στο Εργαστήρι!",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/workshop-move": {
+    "text": "Το Εργαστήρι γέμισε! Πάμε σε ένα καινούριο μέρος!",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"

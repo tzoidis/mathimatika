@@ -14,6 +14,7 @@ import { BackupSection } from './BackupSection.tsx';
 import { BookSection, LettersSection } from './CurriculumSections.tsx';
 import { SkillMapSection } from './SkillMapSection.tsx';
 import { HomeSection } from './HomeSection.tsx';
+import { TeacherSection } from './TeacherSection.tsx';
 import { GuideSection } from './GuideSection.tsx';
 import { ParentGate } from './ParentGate.tsx';
 import { OtherSection, TimeSection } from './SettingsSections.tsx';
@@ -89,6 +90,7 @@ export function Parent({ onClose }: { onClose(): void }) {
           <BookSection />
           <SkillMapSection />
           <HomeSection />
+          <TeacherSection />
           <LettersSection />
           <TimeSection />
           <AudioSection />

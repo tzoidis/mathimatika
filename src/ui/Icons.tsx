@@ -82,6 +82,14 @@ export const HareIcon = () => (
   </svg>
 );
 
+/** «Δεν ξέρω ακόμα»: a question mark in a speech bubble */
+export const NotYetIcon = () => (
+  <svg {...common} aria-hidden>
+    <path d="M4 5h16v11H11l-4 4v-4H4z" />
+    <path d="M10 9a2 2 0 1 1 3 1.7c-.7.4-1 .8-1 1.6M12 14.2v.1" />
+  </svg>
+);
+
 export const StarIcon = ({ size = 40 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden>
     <path
