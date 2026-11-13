@@ -9,6 +9,7 @@ import type { Scene as SceneData } from '../../math-core/generators/types.ts';
 import { IconButton } from '../../ui/IconButton.tsx';
 import { ReplayIcon } from '../../ui/Icons.tsx';
 import { ObjectPicture } from './objects.tsx';
+import { DateCards, EventPicture, MonthGrid } from './time.tsx';
 import { CompositionPicture, FigurePicture, PatternItem, PiecePicture, ShapePicture } from './shapes.tsx';
 import { GridPicture } from '../../manipulatives/route.tsx';
 import { COMPOSITIONS } from '../../math-core/generators/space.ts';
@@ -436,7 +437,29 @@ export function Scene({ scene, slot, answerOnLine, readable = false }: { scene: 
     case 'mirror':
     case 'regroup':
     case 'week':
+    case 'order':
       return <div className="scene" />;
+
+    case 'dates':
+      return (
+        <div className="scene">
+          <DateCards today={scene.today} offset={scene.offset} slot={slot} />
+        </div>
+      );
+
+    case 'season':
+      return (
+        <div className="scene">
+          <EventPicture event={scene.event} />
+        </div>
+      );
+
+    case 'month':
+      return (
+        <div className="scene scene--wide">
+          <MonthGrid first={scene.first} length={scene.length} date={scene.date} />
+        </div>
+      );
 
     case 'groups':
       return (

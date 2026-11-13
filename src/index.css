@@ -2046,3 +2046,150 @@ button {
 .teacher-list li + li {
   margin-top: 8px;
 }
+
+/* ---------- time: stories in order, calendar cards, seasons, the month (grade 1, ch. 41) ---------- */
+
+.date-cards {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.date-card {
+  width: 112px;
+  height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 16px;
+  border: 3px solid var(--card-edge);
+  border-top: 24px solid var(--accent);
+  background: var(--card);
+  box-shadow: 0 4px 0 var(--card-edge);
+}
+
+.date-card--today .week-sun {
+  width: 32px;
+  height: 32px;
+  box-shadow: 0 0 0 4px var(--star-edge);
+}
+
+.date-number {
+  font-size: 48px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.date-number .slot {
+  min-width: 72px;
+}
+
+/* the wall calendar lines up with the seven cards under it */
+.scene:has(> .month) {
+  width: 100%;
+}
+
+.month {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 120px));
+  justify-content: center;
+  gap: 4px 8px;
+}
+
+.month-cell {
+  height: 44px;
+  border-top: 6px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--card);
+  font-size: 22px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* the weekend as on the cards below */
+.month-cell--6,
+.month-cell--7 {
+  border-top-color: var(--star-edge);
+}
+
+.month-cell--empty {
+  background: transparent;
+  border-top-color: transparent;
+}
+
+.month-cell--asked {
+  box-shadow: inset 0 0 0 4px var(--accent);
+  font-size: 26px;
+}
+
+.picture-choices--season {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+}
+
+.week--month .week-day {
+  height: 96px;
+}
+
+/* the first time an answer is a picture to tap: the tiles light up in turn, nothing to tap yet */
+.tap-demo .picture-choices,
+.tap-demo .week,
+.tap-demo .scale {
+  pointer-events: none;
+}
+
+.tap-demo .picture-tile,
+.tap-demo .week-day,
+.tap-demo .scale-pan {
+  animation: tap-light 0.9s ease-in-out 2 both;
+}
+
+.tap-demo .picture-tile:nth-child(2),
+.tap-demo .week-day:nth-child(2),
+.tap-demo .scale-pan:nth-of-type(2) {
+  animation-delay: 0.3s;
+}
+
+.tap-demo .picture-tile:nth-child(3),
+.tap-demo .week-day:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+.tap-demo .picture-tile:nth-child(4),
+.tap-demo .week-day:nth-child(4) {
+  animation-delay: 0.9s;
+}
+
+.tap-demo .week-day:nth-child(5) {
+  animation-delay: 1.2s;
+}
+
+.tap-demo .week-day:nth-child(6) {
+  animation-delay: 1.5s;
+}
+
+.tap-demo .week-day:nth-child(7) {
+  animation-delay: 1.8s;
+}
+
+@keyframes tap-light {
+  50% {
+    transform: translateY(-6px);
+    box-shadow: 0 0 0 6px var(--accent-soft), 0 10px 0 var(--card-edge);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tap-demo .picture-tile,
+  .tap-demo .week-day,
+  .tap-demo .scale-pan {
+    animation: none;
+    box-shadow: 0 0 0 6px var(--accent-soft);
+  }
+}

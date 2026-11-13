@@ -12,6 +12,10 @@ import type { CountParams } from './number.ts';
 import { playable, type Generator, type Problem, type Scene } from './types.ts';
 
 const SEEDS = 1000;
+
+/** The month each event falls in, and the season of each month: kept apart from the generator's table. */
+const EVENT_MONTH: Record<string, number> = { flowers: 4, sea: 7, leaves: 10, snow: 1, easter: 4, mayday: 5, 'school-closes': 6, 'school-opens': 9, christmas: 12 };
+const seasonOfMonth = (m: number) => (m >= 3 && m <= 5 ? 1 : m >= 6 && m <= 8 ? 2 : m >= 9 && m <= 11 ? 3 : 4);
 const LEVELS: Level[] = [1, 2, 3];
 const ALL = ALL_GENERATORS;
 const named = (id: string) => ALL.find((g) => g.id === id)!;
@@ -184,6 +188,20 @@ function answerFromScene(scene: Scene): number {
       return FIGURES[scene.figure].pieces;
     case 'mirror':
       return 1;
+    case 'order': {
+      // the stages as they come in the story, then the one asked for
+      const inOrder = [...scene.shown].sort((x, y) => x - y);
+      return inOrder[scene.ask === 'first' ? 0 : scene.ask === 'middle' ? 1 : inOrder.length - 1]!;
+    }
+    case 'dates':
+      return [...Array(scene.today + scene.offset)].length;
+    case 'season':
+      return seasonOfMonth(EVENT_MONTH[scene.event]!);
+    case 'month': {
+      // lay the month out on the wall calendar and read the column
+      const cells = [...Array<number>(scene.first - 1).fill(0), ...Array.from({ length: scene.length }, (_, i) => i + 1)];
+      return (cells.indexOf(scene.date) % 7) + 1;
+    }
     case 'week': {
       // walk along the cards, going round from Sunday to Monday
       const cards = [1, 2, 3, 4, 5, 6, 7];
@@ -497,6 +515,32 @@ describe('chapters 33-42', () => {
     const p = GENERATORS.find((g) => g.id === 'days.week')!.produce({ rng: mulberry32(3), level: 3 }, new Set());
     expect(p.say[0]).toEqual({ instruction: 'today-is' });
     expect(p.say[1]).toMatchObject({ instruction: expect.stringMatching(/^day-[1-7]$/) });
+  });
+
+  it('never shows a story already in order, and knows the end taken for the start', () => {
+    for (const level of LEVELS) for (const s of scenes('time.order', level)) expect(s.kind === 'order' && s.shown.join() !== '1,2,3').toBe(true);
+    expect(gradeOf('time.order', { story: 'egg', shown: [3, 1, 2], ask: 'first' }, 1, '3')).toEqual({ ok: false, code: 'WRONG_DIRECTION', hintId: 'order-think' });
+  });
+
+  it('keeps the dates inside the month and says them as the class does', () => {
+    for (const level of LEVELS) for (const s of scenes('days.dates', level)) expect(s.kind === 'dates' && s.today + s.offset >= 1 && s.today + s.offset <= 30).toBe(true);
+    expect(gradeOf('days.dates', { today: 23, offset: -1 }, 22, '24')).toEqual({ ok: false, code: 'WRONG_DIRECTION', hintId: 'dates-order' });
+    expect(gradeOf('days.dates', { today: 23, offset: -1 }, 22, '23')).toEqual({ ok: false, code: 'OFF_BY_ONE', hintId: 'dates-order' });
+    const p = GENERATORS.find((g) => g.id === 'days.dates')!.produce({ rng: mulberry32(2), level: 2 }, new Set());
+    expect(p.say[1]).toMatchObject({ gender: 'f' });
+  });
+
+  it('asks about nature first and the days of the year later', () => {
+    for (const s of scenes('time.seasons', 1)) expect(s.kind === 'season' && ['flowers', 'sea', 'leaves', 'snow'].includes(s.event)).toBe(true);
+    expect(gradeOf('time.seasons', { event: 'christmas' }, 4, '1')).toEqual({ ok: false, code: 'OFF_BY_ONE', hintId: 'seasons-order' });
+    expect(gradeOf('time.seasons', { event: 'christmas' }, 4, '2')).toEqual({ ok: false });
+  });
+
+  it('reads a date of the month down to its day', () => {
+    // a month that starts on a Wednesday: the 6th is a Monday
+    expect(gradeOf('days.month', { first: 3, length: 30, date: 6 }, 1, '1')).toEqual({ ok: true });
+    expect(gradeOf('days.month', { first: 3, length: 30, date: 6 }, 1, '7')).toEqual({ ok: false, code: 'OFF_BY_ONE', hintId: 'month-column' });
+    for (const s of scenes('days.month', 1)) expect(s.kind === 'month' && s.date <= 7).toBe(true);
   });
 });
 

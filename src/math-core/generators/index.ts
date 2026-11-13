@@ -17,6 +17,7 @@ import {
 import { randInt } from '../../engine/rng.ts';
 import { storyGenerator } from './story.ts';
 import { arrowGenerator, composeGenerator, mirrorGenerator, piecesGenerator, routeGenerator } from './space.ts';
+import { datesGenerator, monthGenerator, orderGenerator, seasonGenerator } from './time.ts';
 import { commuteGenerator, countShapesGenerator, lengthsGenerator, matchGenerator, patternGenerator, sentenceGenerator, whichShapeGenerator } from './geometry.ts';
 import { heavierGenerator, shareGenerator, tenStepGenerator, walletGenerator } from './hundred.ts';
 import { measureGenerator, neighbourGenerator, tensCalcGenerator, timesGenerator } from './grow.ts';
@@ -72,6 +73,10 @@ export const ALL_GENERATORS = [
   regroupGenerator('tens.regroup', '1.place.exchange', 49),
   manyTermsGenerator('add.three', '1.add.many-terms'),
   daysGenerator('days.week', '1.time.sequence'),
+  orderGenerator('time.order', '1.time.sequence'),
+  datesGenerator('days.dates', '1.time.sequence'),
+  seasonGenerator('time.seasons', '1.time.sequence'),
+  monthGenerator('days.month', '1.time.sequence'),
   bridgeGenerator('add.bridge', '1.add.within20.bridge'),
   twoDigitGenerator('calc.2d1d', '1.calc.2d1d.nobridge', false, 49),
   inverseGenerator('calc.inverse', '1.calc.inverse'),

@@ -41,6 +41,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "hint/dates-order": {
+    "text": "Οι μέρες του μήνα πάνε με τη σειρά, όπως οι αριθμοί.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/days-order": {
     "text": "Πες τις μέρες με τη σειρά, από τη Δευτέρα.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -155,8 +161,20 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "hint/month-column": {
+    "text": "Από τον αριθμό, πήγαινε ίσια κάτω ως την κάρτα της μέρας.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/next-ten": {
     "text": "Μετά από το εννέα αλλάζει η δεκάδα.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "hint/order-think": {
+    "text": "Σκέψου τι γίνεται πρώτα και τι μετά.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -187,6 +205,12 @@
   },
   "hint/same-numbers": {
     "text": "Οι ίδιοι αριθμοί με άλλη σειρά. Το άθροισμα δεν αλλάζει.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "hint/seasons-order": {
+    "text": "Άνοιξη, καλοκαίρι, φθινόπωρο, χειμώνας. Σκέψου πότε γίνεται.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -383,6 +407,30 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "instruction/date-ask-after": {
+    "text": "του μήνα. Μεθαύριο πόσες του μήνα θα είναι;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/date-ask-before": {
+    "text": "του μήνα. Προχθές πόσες του μήνα ήταν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/date-ask-tomorrow": {
+    "text": "του μήνα. Αύριο πόσες του μήνα θα είναι;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/date-ask-yesterday": {
+    "text": "του μήνα. Χθες πόσες του μήνα ήταν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "instruction/day-1": {
     "text": "Δευτέρα.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -527,8 +575,38 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "instruction/month-ask": {
+    "text": "του μήνα τι μέρα είναι;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/month-on": {
+    "text": "Στις",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "instruction/number-house": {
     "text": "Ποιος αριθμός λείπει από το σπιτάκι;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/order-first": {
+    "text": "Ποια εικόνα έγινε πρώτη;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/order-last": {
+    "text": "Ποια εικόνα έγινε τελευταία;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/order-middle": {
+    "text": "Ποια εικόνα έγινε στη μέση;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -575,6 +653,60 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "instruction/season-christmas": {
+    "text": "Ποια εποχή είναι τα Χριστούγεννα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/season-easter": {
+    "text": "Ποια εποχή έχουμε Πάσχα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/season-flowers": {
+    "text": "Βγαίνουν τα πρώτα λουλούδια. Ποια εποχή είναι;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/season-leaves": {
+    "text": "Πέφτουν τα φύλλα από τα δέντρα. Ποια εποχή είναι;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/season-mayday": {
+    "text": "Ποια εποχή είναι η γιορτή της Πρωτομαγιάς;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/season-school-closes": {
+    "text": "Ποια εποχή κλείνουν τα σχολεία;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/season-school-opens": {
+    "text": "Ποια εποχή ανοίγουν τα σχολεία;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/season-sea": {
+    "text": "Κολυμπάμε στη θάλασσα. Ποια εποχή είναι;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/season-snow": {
+    "text": "Χιονίζει. Ποια εποχή είναι;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "instruction/see-you-tomorrow": {
     "text": "Παίξαμε πολύ σήμερα! Τα λέμε αύριο!",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -613,6 +745,12 @@
   },
   "instruction/taller": {
     "text": "Ποιο είναι πιο ψηλό;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/tap-demo": {
+    "text": "Δες πώς απαντάς εδώ: πατάς πάνω σε αυτό που ταιριάζει.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"

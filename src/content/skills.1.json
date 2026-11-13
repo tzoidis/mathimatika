@@ -53,7 +53,7 @@
     {"id": "1.problem.addsub.to10", "title": "Προβλήματα πρόσθεσης και αφαίρεσης ως το 10", "requires": ["1.problem.add.to10", "1.sub.within10.large"], "generators": ["story.addsub.to10"], "representations": ["digits"]},
     {"id": "1.place.exchange", "title": "Ανταλλάσσω 10 μονάδες με 1 δεκάδα", "requires": ["1.place.tens-units.to50"], "generators": ["tens.regroup"], "representations": ["dienes", "coins"]},
     {"id": "1.geo.shapes.compose", "title": "Σύνθεση και ανάλυση σχημάτων", "requires": ["1.geo.shapes.name"], "generators": ["compose.count"], "representations": ["shapes"]},
-    {"id": "1.time.sequence", "title": "Χρονική σειρά, ημέρες και ημερολόγιο", "requires": ["1.num.ordinal"], "generators": ["days.week"], "representations": ["calendar"]},
+    {"id": "1.time.sequence", "title": "Χρονική σειρά, ημέρες και ημερολόγιο", "requires": ["1.num.ordinal"], "generators": ["days.week", "time.order", "days.dates", "time.seasons", "days.month"], "representations": ["calendar"]},
     {"id": "1.add.within20.bridge", "title": "Πρόσθεση μέσω της δεκάδας (8 + 5 = 8 + 2 + 3)", "requires": ["1.add.pairs10", "1.num.split.to10", "1.place.tens-units.to50"], "generators": ["add.bridge"], "representations": ["tenFrame", "numberLine", "digits"]},
     {"id": "1.geo.tangram", "title": "Παζλ και τάγκραμ", "requires": ["1.geo.shapes.compose"], "generators": ["tangram.pieces"], "representations": ["shapes"]},
     {"id": "1.calc.2d1d.nobridge", "title": "Διψήφιος με μονοψήφιο, χωρίς αλλαγή δεκάδας (12 + 5)", "requires": ["1.place.tens-units.to50", "1.add.within10.nocarry", "1.sub.within10.large"], "generators": ["calc.2d1d"], "representations": ["dienes", "numberLine", "digits"]},

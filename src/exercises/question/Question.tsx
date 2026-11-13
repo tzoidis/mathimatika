@@ -30,6 +30,7 @@ import type { QuestionItem } from './generate.ts';
 import { Dots, Scene } from './Scene.tsx';
 import { ObjectPicture } from './objects.tsx';
 import { PatternItem, ShapePicture, Tower } from './shapes.tsx';
+import { SeasonPicture, StoryPicture } from './time.tsx';
 
 const MAX_DIGITS = 3;
 
@@ -148,6 +149,10 @@ function PicturesAnswer({ scene, choices, correct, revealed, onSubmit }: { scene
         const [x, y, s] = scene.options[i]!;
         return { label: t('choice.option', { n: formatNumber(i + 1) }), body: <span className="sentence">{[formatNumber(x), '+', formatNumber(y), '=', formatNumber(s)].join(' ')}</span> };
       }
+      case 'order':
+        return { label: t('choice.option', { n: formatNumber(i + 1) }), body: <StoryPicture story={scene.story} stage={c.value} /> };
+      case 'season':
+        return { label: t(`season.${c.value}` as UiKey), body: <SeasonPicture season={c.value} /> };
       default:
         return { label: c.label, body: c.label };
     }
@@ -189,12 +194,12 @@ function HeavierAnswer({ scene, correct, revealed, onSubmit }: { scene: Extract<
 }
 
 /** The week as seven cards from Monday; a name is written only if the child can read it. */
-function WeekAnswer({ scene, correct, revealed, readable, onSubmit }: { scene: Extract<SceneData, { kind: 'week' }>; correct: string; revealed: boolean; readable(text: string): boolean; onSubmit(input: string): void }) {
+function WeekAnswer({ scene, correct, revealed, readable, onSubmit }: { scene: Extract<SceneData, { kind: 'week' | 'month' }>; correct: string; revealed: boolean; readable(text: string): boolean; onSubmit(input: string): void }) {
   return (
-    <div className="week" role="group" aria-label={t('week.label')}>
+    <div className={`week week--${scene.kind}`} role="group" aria-label={t('week.label')}>
       {Array.from({ length: 7 }, (_, i) => i + 1).map((day) => {
         const name = t(`day.${day}` as UiKey);
-        const today = scene.marked && day === scene.today;
+        const today = scene.kind === 'week' && scene.marked && day === scene.today;
         return (
           <button key={day} type="button" aria-label={name} className={`week-day week-day--${day} ${today ? 'week-day--today' : ''} ${revealed && String(day) === correct ? 'choice-tile--shown' : ''}`} onClick={() => onSubmit(String(day))}>
             {today && <span className="week-sun" aria-label={t('week.today')} />}
@@ -222,6 +227,10 @@ const EXAMPLE_MS = 1200;
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const MANIPULATIVE_MODES: AnswerMode[] = ['tenFrame', 'numberLine', 'balance', 'rods', 'regroup', 'route', 'mirror'];
+/** Answers given by tapping a picture: the first time, the tiles light up in turn while a clip says how. */
+const TAP_MODES: AnswerMode[] = ['pictures', 'week', 'heavier'];
+/** How long the tiles keep lighting up after the clip. */
+const TAP_DEMO_MS = 1500;
 
 export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
   const { audio, settings } = useApp();
@@ -240,7 +249,8 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
   const [tries, setTries] = useState(0);
   const item = items[index]!;
   const { problem } = item;
-  const demoing = MANIPULATIVE_MODES.includes(problem.answerMode) && !seenDemos.includes(problem.answerMode);
+  const tapDemo = TAP_MODES.includes(problem.answerMode) && !seenDemos.includes(problem.answerMode);
+  const demoing = (MANIPULATIVE_MODES.includes(problem.answerMode) || tapDemo) && !seenDemos.includes(problem.answerMode);
 
   const speech = useRef(0);
   const leaving = useRef(false);
@@ -283,6 +293,21 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
     setSeenDemos(seen);
     void updateSettings({ seenDemos: seen });
   };
+
+  // the tap demo: nothing to show but the tiles themselves, so they light up while the clip plays
+  useEffect(() => {
+    if (!tapDemo) return;
+    let cancelled = false;
+    void (async () => {
+      await audio.play({ kind: 'instruction', key: 'tap-demo' });
+      await wait(TAP_DEMO_MS);
+      if (!cancelled) demoDone();
+    })();
+    return () => {
+      cancelled = true;
+    };
+    // once per answer mode
+  }, [tapDemo]);
 
   const next = () => {
     leaving.current = false;
@@ -439,7 +464,7 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
           ))}
         </ol>
       </div>
-      <div className="keypad-body">
+      <div className={`keypad-body ${tapDemo ? 'tap-demo' : ''}`}>
         {answerMode !== 'group' && (
           <div className="keypad-question">
             <Scene key={problem.key} scene={scene} slot={slot} answerOnLine={answerMode === 'numberLine'} readable={scene.kind === 'story' && isTextAllowed(scene.text, readingContext(settings.upToPosition))} />
@@ -477,7 +502,7 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
           <ManipulativeAnswer key={manipulativeKey} manipulative={mirror} config={{ half: scene.half, rows: scene.rows, filled: scene.filled }} {...manipulativeProps} />
         )}
         {answerMode === 'heavier' && scene.kind === 'heavier' && <HeavierAnswer scene={scene} correct={rightInput(problem)} revealed={revealed} onSubmit={(a) => void submit(a)} />}
-        {answerMode === 'week' && scene.kind === 'week' && (
+        {answerMode === 'week' && (scene.kind === 'week' || scene.kind === 'month') && (
           <WeekAnswer scene={scene} correct={rightInput(problem)} revealed={revealed} readable={(text) => isTextAllowed(text, readingContext(settings.upToPosition))} onSubmit={(a) => void submit(a)} />
         )}
         {answerMode === 'rods' && scene.kind === 'build' && (
