@@ -6,6 +6,7 @@ import { check, type AcceptPolicy, type MisconceptionCode, type Verdict } from '
 import { parseNumber } from '../format.ts';
 import type { Rational } from '../rational.ts';
 import type { Shape, ShapeKind } from './geometry.ts';
+import type { Figure } from './space.ts';
 
 export interface GenCtx {
   rng: () => number;
@@ -57,9 +58,14 @@ export type Scene =
   | { kind: 'commute'; a: number; b: number }
   | { kind: 'sentence'; a: number; b: number; options: [number, number, number][] }
   | { kind: 'match'; have: number; give: number; spread: boolean }
+  | { kind: 'arrow'; cols: number; rows: number; at: number; star: number }
+  | { kind: 'route'; cols: number; rows: number; start: number; target: number; obstacles: number[]; ask: 'go' | 'steps' }
+  | { kind: 'compose'; picture: string; ask: ShapeKind }
+  | { kind: 'pieces'; figure: Figure; lines: boolean }
+  | { kind: 'mirror'; half: number; rows: number; filled: number[] }
   | { kind: 'story'; problemId: string; text: string; operation: 'add' | 'subtract' | 'missing' | 'twoStep' | 'multiply' | 'divide'; a: number; b: number; c?: number; objects: string[]; pictures: boolean };
 
-export type AnswerMode = 'keypad' | 'tenFrame' | 'numberLine' | 'balance' | 'choice' | 'group' | 'rods' | 'regroup' | 'week' | 'heavier' | 'pictures';
+export type AnswerMode = 'keypad' | 'tenFrame' | 'numberLine' | 'balance' | 'choice' | 'group' | 'rods' | 'regroup' | 'week' | 'heavier' | 'pictures' | 'route' | 'mirror';
 
 /** One of the tiles of a choice question; the answer is `value`, the child sees `label`. */
 export interface Choice {

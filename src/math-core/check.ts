@@ -38,7 +38,9 @@ export type MisconceptionCode =
   | 'SIZE_NOT_WEIGHT'
   | 'SHAPE_CONFUSED'
   | 'POSITION_NOT_LENGTH'
-  | 'PATTERN_BROKEN';
+  | 'PATTERN_BROKEN'
+  | 'ROUTE_MISSED'
+  | 'COPIED_NOT_MIRRORED';
 
 export type Verdict = { ok: true; note?: 'notSimplified' } | { ok: false; code?: MisconceptionCode; hintId?: string };
 

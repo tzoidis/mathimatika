@@ -35,6 +35,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "hint/count-start": {
+    "text": "Μη μετράς το τετραγωνάκι που ξεκινάει.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/days-order": {
     "text": "Πες τις μέρες με τη σειρά, από τη Δευτέρα.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -125,6 +131,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "hint/look-at-star": {
+    "text": "Κοίτα προς τα πού είναι το αστέρι.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/make-ten": {
     "text": "Κάνε πρώτα δεκάδα. Μετά πρόσθεσε ό,τι περισσεύει.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -133,6 +145,12 @@
   },
   "hint/measure-to-end": {
     "text": "Μέτρα μέχρι την άκρη του, όχι πιο πέρα.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "hint/mirror-fold": {
+    "text": "Φαντάσου ότι διπλώνεις το χαρτί στη μέση.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -149,8 +167,20 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "hint/piece-fit": {
+    "text": "Δες πόσες φορές χωράει το κομμάτι μέσα στο σχήμα.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/putting-together": {
     "text": "Εδώ έρχονται κι άλλα. Θα γίνουν περισσότερα.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "hint/route-arrows": {
+    "text": "Πάτα ένα βελάκι τη φορά και κοίτα πού πηγαίνει.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -305,6 +335,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "instruction/count-circles": {
+    "text": "Πόσους κύκλους βλέπεις;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "instruction/count-how-many": {
     "text": "Μέτρησέ τα. Πόσα είναι;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -313,6 +349,18 @@
   },
   "instruction/count-put": {
     "text": "Βάλε τόσα, όσα λέει ο αριθμός.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/count-rectangles": {
+    "text": "Πόσα ορθογώνια βλέπεις;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/count-squares": {
+    "text": "Πόσα τετράγωνα βλέπεις;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -437,6 +485,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "instruction/mirror": {
+    "text": "Κάνε το άλλο μισό ίδιο, σαν καθρέφτης.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "instruction/missing-addend": {
     "text": "Πόσα λείπουν;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -479,6 +533,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "instruction/pieces-how-many": {
+    "text": "Πόσα τέτοια κομμάτια χρειάζονται για το μεγάλο σχήμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "instruction/placeholder-tap": {
     "text": "Πάτα το αστέρι!",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -487,6 +547,18 @@
   },
   "instruction/round-complete": {
     "text": "Μπράβο! Τελείωσες τον γύρο!",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/route-go": {
+    "text": "Πήγαινε τον σκαντζόχοιρο στο αστέρι.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/route-steps": {
+    "text": "Πόσα βήματα θέλει ο σκαντζόχοιρος ως το αστέρι;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -583,6 +655,12 @@
   },
   "instruction/welcome": {
     "text": "Γεια σου! Πάμε στο Εργαστήρι;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/which-arrow": {
+    "text": "Ποιο βελάκι πάει τον σκαντζόχοιρο στο αστέρι;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"

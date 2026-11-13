@@ -13,6 +13,9 @@ import { balance } from '../../manipulatives/balance.tsx';
 import type { Manipulative } from '../../manipulatives/types.ts';
 import { numberLine } from '../../manipulatives/numberLine.tsx';
 import { rods } from '../../manipulatives/rods.tsx';
+import { ArrowGlyph, route } from '../../manipulatives/route.tsx';
+import { mirror } from '../../manipulatives/mirror.tsx';
+import type { Direction } from '../../math-core/generators/space.ts';
 import type { UiKey } from '../../i18n.ts';
 import { tenFrame } from '../../manipulatives/tenFrame.tsx';
 import { formatNumber } from '../../math-core/format.ts';
@@ -137,6 +140,8 @@ function PicturesAnswer({ scene, choices, correct, revealed, onSubmit }: { scene
       }
       case 'pattern':
         return { label: t('choice.option', { n: formatNumber(i + 1) }), body: <PatternItem item={scene.options[i]!} /> };
+      case 'arrow':
+        return { label: t(`route.${c.label}` as UiKey), body: <ArrowGlyph direction={c.label as Direction} size={72} /> };
       case 'sentence': {
         const [x, y, s] = scene.options[i]!;
         return { label: t('choice.option', { n: formatNumber(i + 1) }), body: <span className="sentence">{[formatNumber(x), '+', formatNumber(y), '=', formatNumber(s)].join(' ')}</span> };
@@ -203,7 +208,7 @@ function WeekAnswer({ scene, correct, revealed, readable, onSubmit }: { scene: E
 const labelOf = (problem: Problem, input: string) => problem.choices?.find((c) => String(c.value) === input)?.label ?? input;
 const rightInput = (problem: Problem) => (problem.choices ? String(problem.answer.n) : formatNumber(problem.answer));
 
-const MANIPULATIVE_MODES: AnswerMode[] = ['tenFrame', 'numberLine', 'balance', 'rods', 'regroup'];
+const MANIPULATIVE_MODES: AnswerMode[] = ['tenFrame', 'numberLine', 'balance', 'rods', 'regroup', 'route', 'mirror'];
 
 export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
   const { audio, settings } = useApp();
@@ -365,6 +370,12 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
           />
         )}
         {answerMode === 'pictures' && problem.choices && <PicturesAnswer scene={scene} choices={problem.choices} correct={rightInput(problem)} revealed={revealed} onSubmit={(a) => void submit(a)} />}
+        {answerMode === 'route' && scene.kind === 'route' && (
+          <ManipulativeAnswer key={manipulativeKey} manipulative={route} config={{ cols: scene.cols, rows: scene.rows, start: scene.start, target: scene.target, obstacles: scene.obstacles }} {...manipulativeProps} />
+        )}
+        {answerMode === 'mirror' && scene.kind === 'mirror' && (
+          <ManipulativeAnswer key={manipulativeKey} manipulative={mirror} config={{ half: scene.half, rows: scene.rows, filled: scene.filled }} {...manipulativeProps} />
+        )}
         {answerMode === 'heavier' && scene.kind === 'heavier' && <HeavierAnswer scene={scene} correct={rightInput(problem)} revealed={revealed} onSubmit={(a) => void submit(a)} />}
         {answerMode === 'week' && scene.kind === 'week' && (
           <WeekAnswer scene={scene} correct={rightInput(problem)} revealed={revealed} readable={(text) => isTextAllowed(text, readingContext(settings.upToPosition))} onSubmit={(a) => void submit(a)} />

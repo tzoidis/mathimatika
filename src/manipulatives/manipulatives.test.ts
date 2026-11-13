@@ -2,6 +2,9 @@ import { describe, expect, it } from 'vitest';
 import { balance, tiltOf } from './balance.tsx';
 import { numberLine, showsLabel, tickAt } from './numberLine.tsx';
 import { rods } from './rods.tsx';
+import { route } from './route.tsx';
+import { mirror } from './mirror.tsx';
+import { step } from '../math-core/generators/space.ts';
 import { tenFrame } from './tenFrame.tsx';
 
 describe('ten frame', () => {
@@ -126,5 +129,41 @@ describe('rods and cubes', () => {
     for (const target of [11, 12, 20, 37, 50]) for (const s of rods.demo({ ...build, target })) expect(rods.read(s)).not.toBe(String(target));
     for (const s of rods.demo(regroup)) expect(rods.read(s)).not.toBe('24');
     for (const s of rods.demo({ mode: 'regroup', target: 21, tens: 1, units: 11 })) expect(rods.read(s)).not.toBe('21');
+  });
+});
+
+describe('route on squared paper', () => {
+  const config = { cols: 5, rows: 4, start: 0, target: 7, obstacles: [1] };
+
+  it('reads nothing until the hedgehog moves, then the square it stands on', () => {
+    const state = route.init(config);
+    expect(route.read(state)).toBeNull();
+    expect(route.read({ ...state, at: 5 })).toBe('6');
+    expect(route.read(route.showSolution(config))).toBe('8');
+  });
+
+  it('walks round the rocks, never through them or off the paper', () => {
+    expect(step(config, 0, 'right')).toBe(0);
+    expect(step(config, 0, 'up')).toBe(0);
+    expect(step(config, 0, 'down')).toBe(5);
+  });
+
+  it('never walks to the star in the demo', () => {
+    for (const s of route.demo(config)) expect(s.at).not.toBe(config.target);
+  });
+});
+
+describe('mirror halves', () => {
+  const config = { half: 2, rows: 4, filled: [0, 3, 4] };
+
+  it('reads 1 for a mirror, 2 for a copy, 3 for anything else', () => {
+    expect(mirror.read(mirror.init(config))).toBeNull();
+    expect(mirror.read(mirror.showSolution(config))).toBe('1');
+    expect(mirror.read({ ...config, right: [0, 3, 4] })).toBe('2');
+    expect(mirror.read({ ...config, right: [7] })).toBe('3');
+  });
+
+  it('never shows a square of the answer in the demo', () => {
+    for (const s of mirror.demo(config)) for (const c of s.right) expect(mirror.showSolution(config).right).not.toContain(c);
   });
 });

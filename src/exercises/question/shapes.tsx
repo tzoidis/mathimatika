@@ -3,6 +3,7 @@
 // colour never carries the meaning alone (PRD §7).
 
 import type { Shape } from '../../math-core/generators/geometry.ts';
+import type { Figure, Part } from '../../math-core/generators/space.ts';
 
 const INK = '#2a1c12';
 
@@ -63,5 +64,125 @@ export function Tower({ height, lift = 0 }: { height: number; lift?: number }) {
       <span className="tower-body" style={{ height: height * STEP }} />
       {lift > 0 && <span className="tower-box" style={{ height: lift * STEP }} />}
     </div>
+  );
+}
+
+const PART_FILL: Record<string, string> = { triangle: '#f6c443', square: '#7fa7c9', rectangle: '#6aa35f', circle: '#d96a5a' };
+
+/** A picture made of shapes (book ch. 40), each drawn in its own box. */
+export function CompositionPicture({ parts, size = 300 }: { parts: Part[]; size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" className="composition" aria-hidden>
+      <g stroke={INK} strokeWidth="1.2" strokeLinejoin="round">
+        {parts.map((p, i) => {
+          const fill = PART_FILL[p.kind];
+          const [cx, cy] = [p.x + p.w / 2, p.y + p.h / 2];
+          switch (p.kind) {
+            case 'circle':
+              return <ellipse key={i} cx={cx} cy={cy} rx={p.w / 2} ry={p.h / 2} fill={fill} />;
+            case 'triangle':
+              return (
+                <polygon
+                  key={i}
+                  points={[[cx, p.y], [p.x + p.w, p.y + p.h], [p.x, p.y + p.h]].map((pt) => pt.join(',')).join(' ')}
+                  transform={`rotate(${p.turn ?? 0} ${cx} ${cy})`}
+                  fill={fill}
+                />
+              );
+            default:
+              return <rect key={i} x={p.x} y={p.y} width={p.w} height={p.h} fill={fill} />;
+          }
+        })}
+      </g>
+    </svg>
+  );
+}
+
+const U = 50;
+type Poly = [number, number][];
+
+/** Each figure as its pieces, in units of U; the first piece is the one shown alone. */
+const FIGURE_PIECES: Record<Figure, Poly[]> = {
+  square2: [
+    [[0, 0], [2, 0], [0, 2]],
+    [[2, 0], [2, 2], [0, 2]],
+  ],
+  square4: [
+    [[0, 0], [2, 0], [1, 1]],
+    [[2, 0], [2, 2], [1, 1]],
+    [[2, 2], [0, 2], [1, 1]],
+    [[0, 2], [0, 0], [1, 1]],
+  ],
+  rect2: [
+    [[0, 0], [2, 0], [2, 2], [0, 2]],
+    [[2, 0], [4, 0], [4, 2], [2, 2]],
+  ],
+  rect3: [
+    [[0, 0], [2, 0], [2, 2], [0, 2]],
+    [[2, 0], [4, 0], [4, 2], [2, 2]],
+    [[4, 0], [6, 0], [6, 2], [4, 2]],
+  ],
+  triangle4: [
+    [[2, 0], [3, 2], [1, 2]],
+    [[1, 2], [2, 4], [0, 4]],
+    [[3, 2], [4, 4], [2, 4]],
+    [[1, 2], [3, 2], [2, 4]],
+  ],
+  rect4: [
+    [[0, 0], [2, 0], [0, 2]],
+    [[2, 0], [2, 2], [0, 2]],
+    [[2, 0], [4, 0], [2, 2]],
+    [[4, 0], [4, 2], [2, 2]],
+  ],
+};
+
+const points = (poly: Poly, dx = 0, dy = 0) => poly.map(([x, y]) => [x * U + dx, y * U + dy].join(',')).join(' ');
+
+function bounds(polys: Poly[]) {
+  const xs = polys.flat().map(([x]) => x);
+  const ys = polys.flat().map(([, y]) => y);
+  return { minX: Math.min(...xs), minY: Math.min(...ys), w: Math.max(...xs) - Math.min(...xs), h: Math.max(...ys) - Math.min(...ys) };
+}
+
+/** The whole shape, its cuts drawn or not, at the same scale as the piece. */
+export function FigurePicture({ figure, lines }: { figure: Figure; lines: boolean }) {
+  const polys = FIGURE_PIECES[figure];
+  const b = bounds(polys);
+  return (
+    <svg width={b.w * U * 0.9 + 8} height={b.h * U * 0.9 + 8} viewBox={`-4 -4 ${b.w * U + 8} ${b.h * U + 8}`} aria-hidden className="figure-picture">
+      <g fill="#7fa7c9" stroke={lines ? INK : '#7fa7c9'} strokeWidth="3" strokeLinejoin="round">
+        {polys.map((p, i) => (
+          <polygon key={i} points={points(p)} />
+        ))}
+      </g>
+      <polygon points={points(outlineOf(figure))} fill="none" stroke={INK} strokeWidth="4" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/** The outer edge of each figure. */
+function outlineOf(figure: Figure): Poly {
+  switch (figure) {
+    case 'square2':
+    case 'square4':
+      return [[0, 0], [2, 0], [2, 2], [0, 2]];
+    case 'rect2':
+    case 'rect4':
+      return [[0, 0], [4, 0], [4, 2], [0, 2]];
+    case 'rect3':
+      return [[0, 0], [6, 0], [6, 2], [0, 2]];
+    case 'triangle4':
+      return [[2, 0], [4, 4], [0, 4]];
+  }
+}
+
+/** One piece, alone, at the figure's scale. */
+export function PiecePicture({ figure }: { figure: Figure }) {
+  const piece = FIGURE_PIECES[figure][0]!;
+  const b = bounds([piece]);
+  return (
+    <svg width={b.w * U * 0.9 + 8} height={b.h * U * 0.9 + 8} viewBox={`${b.minX * U - 4} ${b.minY * U - 4} ${b.w * U + 8} ${b.h * U + 8}`} aria-hidden className="piece-picture">
+      <polygon points={points(piece)} fill="#f6c443" stroke={INK} strokeWidth="4" strokeLinejoin="round" />
+    </svg>
   );
 }

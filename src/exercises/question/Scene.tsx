@@ -9,7 +9,9 @@ import type { Scene as SceneData } from '../../math-core/generators/types.ts';
 import { IconButton } from '../../ui/IconButton.tsx';
 import { ReplayIcon } from '../../ui/Icons.tsx';
 import { ObjectPicture } from './objects.tsx';
-import { PatternItem, ShapePicture } from './shapes.tsx';
+import { CompositionPicture, FigurePicture, PatternItem, PiecePicture, ShapePicture } from './shapes.tsx';
+import { GridPicture } from '../../manipulatives/route.tsx';
+import { COMPOSITIONS } from '../../math-core/generators/space.ts';
 import type { UiKey } from '../../i18n.ts';
 
 const FRAME_SIZE = 10;
@@ -431,6 +433,7 @@ export function Scene({ scene, slot, answerOnLine, readable = false }: { scene: 
     case 'heavier':
     case 'whichShape':
     case 'lengths':
+    case 'mirror':
     case 'regroup':
     case 'week':
       return <div className="scene" />;
@@ -628,6 +631,46 @@ export function Scene({ scene, slot, answerOnLine, readable = false }: { scene: 
       return (
         <div className="scene">
           <ShareTable total={scene.total} plates={scene.plates} scattered={scene.scattered} />
+          <div className="expression">{slot}</div>
+        </div>
+      );
+
+    case 'arrow':
+      return (
+        <div className="scene">
+          <GridPicture cols={scene.cols} rows={scene.rows} at={scene.at} target={scene.star} obstacles={[]} />
+        </div>
+      );
+
+    case 'route':
+      // walking it is answered on the grid itself; counting the steps here
+      return scene.ask === 'go' ? (
+        <div className="scene" />
+      ) : (
+        <div className="scene">
+          <GridPicture cols={scene.cols} rows={scene.rows} at={scene.start} target={scene.target} obstacles={scene.obstacles} />
+          <div className="expression">{slot}</div>
+        </div>
+      );
+
+    case 'compose':
+      return (
+        <div className="scene">
+          <CompositionPicture parts={COMPOSITIONS[scene.picture]!} />
+          <div className="expression">{slot}</div>
+        </div>
+      );
+
+    case 'pieces':
+      return (
+        <div className="scene">
+          <div className="pieces">
+            <PiecePicture figure={scene.figure} />
+            <span className="pieces-arrow" aria-hidden>
+              →
+            </span>
+            <FigurePicture figure={scene.figure} lines={scene.lines} />
+          </div>
           <div className="expression">{slot}</div>
         </div>
       );

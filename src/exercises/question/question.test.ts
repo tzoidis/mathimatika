@@ -15,16 +15,16 @@ const round = (kind: RoundKind, chapter: string, seed: number) =>
   generate({ roundKind: kind, level: 1, rng: mulberry32(seed), generators: at(chapter), fresh: fresh(chapter) }).items as QuestionItem[];
 
 describe('what the book makes available', () => {
-  it('offers nothing before a chapter is set, or before the first generator', () => {
+  it('offers nothing before a chapter is set, and the first chapter from the start', () => {
     expect(availableGenerators(1, null)).toEqual([]);
-    expect(at('1')).toEqual([]);
+    expect(at('1').map((g) => g.id)).toEqual(['orient.arrow']);
     expect(availableGenerators(2, '1')).toEqual([]);
   });
 
   it('follows the chapter, in book order', () => {
-    expect(at('2').map((g) => g.id)).toEqual(['shapes.which', 'shapes.count']);
-    expect(at('3').map((g) => g.id)).toEqual(['shapes.which', 'shapes.count', 'match.missing', 'qty.to5', 'jar.to5']);
-    expect(at('5').map((g) => g.id)).toEqual(['shapes.which', 'shapes.count', 'match.missing', 'qty.to5', 'jar.to5', 'subitize.to5', 'put.to5', 'count.to5']);
+    expect(at('2').map((g) => g.id)).toEqual(['orient.arrow', 'shapes.which', 'shapes.count']);
+    expect(at('3').map((g) => g.id)).toEqual(['orient.arrow', 'shapes.which', 'shapes.count', 'match.missing', 'qty.to5', 'jar.to5']);
+    expect(at('5').map((g) => g.id)).toEqual(['orient.arrow', 'shapes.which', 'shapes.count', 'match.missing', 'qty.to5', 'jar.to5', 'subitize.to5', 'put.to5', 'count.to5']);
     const ids = at('17').map((g) => g.id);
     expect(ids).toContain('count.to20');
     expect(ids).not.toContain('add.to10');

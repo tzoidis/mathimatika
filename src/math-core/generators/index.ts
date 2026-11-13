@@ -16,6 +16,7 @@ import {
 } from './operations.ts';
 import { randInt } from '../../engine/rng.ts';
 import { storyGenerator } from './story.ts';
+import { arrowGenerator, composeGenerator, mirrorGenerator, piecesGenerator, routeGenerator } from './space.ts';
 import { commuteGenerator, countShapesGenerator, lengthsGenerator, matchGenerator, patternGenerator, sentenceGenerator, whichShapeGenerator } from './geometry.ts';
 import { heavierGenerator, shareGenerator, tenStepGenerator, walletGenerator } from './hundred.ts';
 import { measureGenerator, neighbourGenerator, tensCalcGenerator, timesGenerator } from './grow.ts';
@@ -100,6 +101,12 @@ export const ALL_GENERATORS = [
   commuteGenerator('add.commute', '1.add.commute'),
   sentenceGenerator('add.sentence', '1.add.symbols'),
   matchGenerator('match.missing', '1.num.match'),
+  arrowGenerator('orient.arrow', '1.geo.orient'),
+  routeGenerator('route.go', '1.geo.routes', 'go'),
+  routeGenerator('route.steps', '1.geo.routes', 'steps'),
+  composeGenerator('compose.count', '1.geo.shapes.compose'),
+  piecesGenerator('tangram.pieces', '1.geo.tangram'),
+  mirrorGenerator('mirror.half', '1.geo.symmetry'),
 ] as Generator<unknown>[];
 
 export const GENERATORS: PlayableGenerator[] = ALL_GENERATORS.map(playable);

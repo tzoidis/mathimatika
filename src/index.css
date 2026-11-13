@@ -1855,3 +1855,126 @@ button {
   min-height: 96px;
   min-width: 280px;
 }
+
+/* ---------- routes, pictures of shapes, pieces, mirror halves (grade 1 geometry) ---------- */
+
+.route-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.grid-paper {
+  --grid-cell: 72px;
+  display: grid;
+  border: 3px solid var(--card-edge);
+  background: var(--card);
+}
+
+.grid-cell {
+  width: var(--grid-cell);
+  height: var(--grid-cell);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--accent-soft);
+}
+
+.grid-cell--rock {
+  background: var(--card-edge);
+  /* a grey stone, so it is never taken for a coin */
+  background-image: radial-gradient(ellipse 34% 28% at 50% 56%, #8b8178 0 96%, transparent 100%);
+}
+
+.grid-cell--hint {
+  outline: 4px dashed var(--accent);
+  outline-offset: -6px;
+}
+
+/* the four arrows as a cross, each 96px */
+.arrow-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 96px);
+  grid-template-rows: repeat(3, 96px);
+  gap: 6px;
+}
+
+.arrow-key {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  border: 3px solid var(--card-edge);
+  background: var(--card);
+  box-shadow: 0 4px 0 var(--card-edge);
+  color: var(--ink);
+}
+
+.arrow-key--up {
+  grid-area: 1 / 2;
+}
+
+.arrow-key--left {
+  grid-area: 2 / 1;
+}
+
+.arrow-key--right {
+  grid-area: 2 / 3;
+}
+
+.arrow-key--down {
+  grid-area: 3 / 2;
+}
+
+.picture-choices--arrow .picture-tile {
+  min-width: 120px;
+  min-height: 120px;
+  align-items: center;
+}
+
+.pieces {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.pieces-arrow {
+  font-size: 48px;
+  color: var(--accent);
+}
+
+.mirror {
+  --mirror-cell: 96px;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
+.mirror-half {
+  display: grid;
+}
+
+.mirror-cell {
+  width: var(--mirror-cell);
+  height: var(--mirror-cell);
+  padding: 0;
+  border: 1px solid var(--card-edge);
+  background: var(--card);
+}
+
+.mirror-cell--on {
+  background: var(--accent);
+}
+
+.mirror-cell--hint {
+  outline: 4px dashed var(--accent);
+  outline-offset: -8px;
+}
+
+/* the fold, where the mirror stands */
+.mirror-fold {
+  width: 8px;
+  background: repeating-linear-gradient(var(--ink) 0 12px, transparent 12px 20px);
+}

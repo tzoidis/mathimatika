@@ -7,6 +7,7 @@ import { formatNumber } from '../format.ts';
 import { equals, ratio } from '../rational.ts';
 import golden from '../../content/word-problems.golden.json';
 import { ALL_GENERATORS, GENERATORS } from './index.ts';
+import { COMPOSITIONS, FIGURES, mirrored } from './space.ts';
 import type { CountParams } from './number.ts';
 import { playable, type Generator, type Problem, type Scene } from './types.ts';
 
@@ -151,6 +152,38 @@ function answerFromScene(scene: Scene): number {
       return scene.options.findIndex(([x, y, s]) => x === scene.a && y === scene.b && x + y === s) + 1;
     case 'match':
       return [...Array(scene.have)].slice(scene.give).length;
+    case 'arrow': {
+      // which way the star lies from the hedgehog: rows first, then columns
+      const [dc, dr] = [(scene.star % scene.cols) - (scene.at % scene.cols), Math.floor(scene.star / scene.cols) - Math.floor(scene.at / scene.cols)];
+      return dr < 0 ? 1 : dc > 0 ? 2 : dr > 0 ? 3 : 4;
+    }
+    case 'route': {
+      if (scene.ask === 'go') return scene.target + 1;
+      // flood the grid from the start, one ring of squares per step
+      let ring = new Set([scene.start]);
+      const seen = new Set(ring);
+      for (let steps = 0; ; steps++) {
+        if (ring.has(scene.target)) return steps;
+        const next = new Set<number>();
+        for (const cell of ring) {
+          const [c, r] = [cell % scene.cols, Math.floor(cell / scene.cols)];
+          for (const [nc, nr] of [[c + 1, r], [c - 1, r], [c, r + 1], [c, r - 1]] as const) {
+            const n = nr * scene.cols + nc;
+            if (nc >= 0 && nr >= 0 && nc < scene.cols && nr < scene.rows && !scene.obstacles.includes(n) && !seen.has(n)) {
+              seen.add(n);
+              next.add(n);
+            }
+          }
+        }
+        ring = next;
+      }
+    }
+    case 'compose':
+      return COMPOSITIONS[scene.picture]!.filter((p) => p.kind === scene.ask).length;
+    case 'pieces':
+      return FIGURES[scene.figure].pieces;
+    case 'mirror':
+      return 1;
     case 'week': {
       // walk along the cards, going round from Sunday to Monday
       const cards = [1, 2, 3, 4, 5, 6, 7];
@@ -641,5 +674,35 @@ describe('geometry and early gaps', () => {
   it('always leaves cookies missing, and knows writing the cookies', () => {
     expect(gradeOf('match.missing', { have: 5, give: 3, spread: true }, 2, '3')).toEqual({ ok: false, code: 'PART_IS_WHOLE', hintId: 'line-up' });
     for (const level of LEVELS) for (const s of scenes('match.missing', level)) expect(s.kind === 'match' && s.give < s.have).toBe(true);
+  });
+});
+
+describe('space: arrows, routes, pictures of shapes, pieces, mirrors', () => {
+  const gradeOf = (id: string, params: unknown, answer: number, input: string) => playable(named(id)).grade({ params, answer: ratio(answer), policy: { equality: 'value' } } as Problem, input);
+  const scenes = (id: string, level: Level) => Array.from({ length: SEEDS }, (_, seed) => GENERATORS.find((g) => g.id === id)!.produce({ rng: mulberry32(seed), level }, new Set()).scene);
+
+  it('names the opposite arrow', () => {
+    expect(gradeOf('orient.arrow', { cols: 3, rows: 3, at: 4, direction: 'up', distance: 1 }, 1, '3')).toEqual({ ok: false, code: 'WRONG_DIRECTION', hintId: 'look-at-star' });
+  });
+
+  it('always leaves a way round the rocks, and counts steps without the first square', () => {
+    for (const level of LEVELS) for (const s of scenes('route.go', level)) expect(s.kind === 'route' && !s.obstacles.includes(s.target) && !s.obstacles.includes(s.start)).toBe(true);
+    expect(scenes('route.go', 3).every((s) => s.kind === 'route' && s.obstacles.length === 5)).toBe(true);
+    const params = { cols: 5, rows: 4, start: 0, target: 3, obstacles: [], ask: 'steps' };
+    expect(gradeOf('route.steps', params, 3, '4')).toEqual({ ok: false, code: 'OFF_BY_ONE', hintId: 'count-start' });
+  });
+
+  it('draws squares as squares, and knows squares and rectangles counted together', () => {
+    for (const parts of Object.values(COMPOSITIONS)) for (const p of parts) if (p.kind === 'square' || p.kind === 'circle') expect(p.w).toBe(p.h);
+    expect(gradeOf('compose.count', { picture: 'robot', ask: 'square' }, 1, '6')).toEqual({ ok: false, code: 'SHAPE_CONFUSED', hintId: 'shape-sides' });
+  });
+
+  it('knows four triangles seen as two', () => {
+    expect(gradeOf('tangram.pieces', { figure: 'square4', lines: false }, 4, '2')).toEqual({ ok: false, code: 'COUNTED_GROUPS', hintId: 'piece-fit' });
+  });
+
+  it('tells a copied half from a mirrored one', () => {
+    expect(gradeOf('mirror.half', { half: 2, rows: 4, filled: [0, 3, 4] }, 1, '2')).toEqual({ ok: false, code: 'COPIED_NOT_MIRRORED', hintId: 'mirror-fold' });
+    expect(mirrored({ half: 3, filled: [0, 4] })).toEqual([2, 4]);
   });
 });
