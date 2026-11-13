@@ -195,6 +195,36 @@ function Note({ value, faded = false, second = false }: { value: number; faded?:
   );
 }
 
+/** Things to share, in rows of five or (level 3) spread about; empty plates under them. */
+function ShareTable({ total, plates, scattered }: { total: number; plates: number; scattered: boolean }) {
+  // a fixed spread, so the same problem always looks the same
+  const cells = new Set(Array.from({ length: total }, (_, i) => (i * 7 + 3) % SCATTER_CELLS));
+  return (
+    <div className="share-table">
+      {scattered ? (
+        <div className="scatter">
+          {Array.from({ length: SCATTER_CELLS }, (_, i) => (
+            <span key={i} className="scatter-cell">
+              {cells.has(i) && <ObjectPicture id="cookie" />}
+            </span>
+          ))}
+        </div>
+      ) : (
+        <div className="share-items">
+          {Array.from({ length: total }, (_, i) => (
+            <ObjectPicture key={i} id="cookie" />
+          ))}
+        </div>
+      )}
+      <div className="plates">
+        {Array.from({ length: plates }, (_, i) => (
+          <span key={i} className="plate" role="img" aria-label={t('share.plate')} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Coin({ value, unit }: { value: number; unit: 'euro' | 'cent' }) {
   return (
     <span className="coin">
@@ -225,6 +255,11 @@ function StoryPictures({ scene }: { scene: Extract<SceneData, { kind: 'story' }>
       return <div className="story-pictures">{row(first, scene.a, (i) => i >= scene.a - scene.b)}</div>;
     case 'missing':
       return <div className="story-pictures">{row(first, scene.b, (i) => i >= scene.a)}</div>;
+    case 'multiply':
+      // a groups of b
+      return <div className="story-pictures story-pictures--groups">{Array.from({ length: scene.a }, (_, g) => <div key={g} className="story-group">{row(first, scene.b, () => false)}</div>)}</div>;
+    case 'divide':
+      return <div className="story-pictures">{row(first, scene.a, () => false)}</div>;
     case 'twoStep': {
       // the last c of all of them have gone
       const gone = scene.c ?? 0;
@@ -392,6 +427,7 @@ export function Scene({ scene, slot, answerOnLine, readable = false }: { scene: 
       );
 
     case 'quantity':
+    case 'heavier':
     case 'regroup':
     case 'week':
       return <div className="scene" />;
@@ -556,6 +592,42 @@ export function Scene({ scene, slot, answerOnLine, readable = false }: { scene: 
         </div>
       );
     }
+
+    case 'tenStep':
+      return (
+        <div className="scene">
+          <div className="expression">
+            <span className="odometer-number">{formatNumber(scene.n)}</span>
+            <span>{scene.direction === 1 ? '+' : '−'}</span>
+            <span>{formatNumber(FRAME_SIZE)}</span>
+            <span>=</span>
+            {slot}
+          </div>
+        </div>
+      );
+
+    case 'wallet':
+      return (
+        <div className="scene">
+          <div className="notes">
+            {scene.notes.map((v, i) => (
+              <Note key={i} value={v} />
+            ))}
+            {scene.coins.map((v, i) => (
+              <Coin key={`c${i}`} value={v} unit="euro" />
+            ))}
+          </div>
+          <div className="expression">{slot}</div>
+        </div>
+      );
+
+    case 'share':
+      return (
+        <div className="scene">
+          <ShareTable total={scene.total} plates={scene.plates} scattered={scene.scattered} />
+          <div className="expression">{slot}</div>
+        </div>
+      );
 
     case 'addMany':
       return (

@@ -101,6 +101,39 @@
       "c": [2, 9],
       "result": [1, 15],
       "text": "Στην αυλή είναι {a} {O:a}. Έρχονται {b} ακόμα. Μετά φεύγουν {c}. Πόσα {O:many} μένουν;"
+    },
+    {
+      "id": "boxes",
+      "title": "Ίσες ομάδες (πολλαπλασιασμός)",
+      "skill": "1.problem.mixed",
+      "operation": "multiply",
+      "objects": "thing",
+      "a": [2, 5],
+      "b": [2, 5],
+      "result": [4, 25],
+      "text": "Σε κάθε κουτί είναι {b} {O:b}. {P} έχει {a} κουτιά. Πόσα {O:many} έχει όλα μαζί;"
+    },
+    {
+      "id": "shareout",
+      "title": "Μοιρασιά",
+      "skill": "1.problem.mixed",
+      "operation": "divide",
+      "objects": "thing",
+      "a": [4, 20],
+      "b": [2, 4],
+      "result": [2, 5],
+      "text": "{P} μοιράζει {a} {O:many} σε {b:macc} φίλους. Πόσα παίρνει ο καθένας;"
+    },
+    {
+      "id": "before",
+      "title": "Πόσα είχε στην αρχή",
+      "skill": "1.problem.mixed",
+      "operation": "add",
+      "objects": "thing",
+      "a": [2, 12],
+      "b": [2, 9],
+      "result": [5, 20],
+      "text": "{P} έδωσε {b} {O:many} {Q:to}. Τώρα έχει {a}. Πόσα {O:many} είχε στην αρχή;"
     }
   ]
 }

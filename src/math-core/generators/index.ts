@@ -16,6 +16,7 @@ import {
 } from './operations.ts';
 import { randInt } from '../../engine/rng.ts';
 import { storyGenerator } from './story.ts';
+import { heavierGenerator, shareGenerator, tenStepGenerator, walletGenerator } from './hundred.ts';
 import { measureGenerator, neighbourGenerator, tensCalcGenerator, timesGenerator } from './grow.ts';
 import { bigDoublesGenerator, fivesGenerator, inverseGenerator, subBridgeGenerator, twoDigitGenerator } from './calc.ts';
 import { bridgeGenerator, buildTensGenerator, daysGenerator, groupsGenerator, manyTermsGenerator, readTensGenerator, regroupGenerator } from './tens.ts';
@@ -62,6 +63,7 @@ export const ALL_GENERATORS = [
   storyGenerator('story.add.to10', '1.problem.add.to10'),
   storyGenerator('story.addsub.to10', '1.problem.addsub.to10'),
   storyGenerator('story.addsub.to20', '1.problem.addsub.to20'),
+  storyGenerator('story.mixed', '1.problem.mixed'),
   groupsGenerator('groups.to50', '1.num.group.tens', 21, 50),
   readTensGenerator('tens.read.to50', '1.place.tens-units.to50', 11, 50),
   buildTensGenerator('tens.build.to50', '1.place.tens-units.to50', 11, 50),
@@ -83,6 +85,13 @@ export const ALL_GENERATORS = [
   timesGenerator('times.intro', '1.mult.intro', [2, 5, 10], 5, 50),
   measureGenerator('measure.clips', '1.len.measure'),
   tensCalcGenerator('calc.tens', '1.calc.tens', 70),
+  readTensGenerator('tens.read.to100', '1.num.to100', 71, 99),
+  buildTensGenerator('tens.build.to100', '1.num.to100', 71, 99),
+  tenStepGenerator('tens.step.to100', '1.num.to100', 100),
+  walletGenerator('money.wallet', '1.money.to100', 100),
+  timesGenerator('times.groups', '1.mult.empirical', [2, 3, 4, 5], 5, 25),
+  shareGenerator('share.plates', '1.div.sharing'),
+  heavierGenerator('weight.heavier', '1.weight.scale'),
 ] as Generator<unknown>[];
 
 export const GENERATORS: PlayableGenerator[] = ALL_GENERATORS.map(playable);

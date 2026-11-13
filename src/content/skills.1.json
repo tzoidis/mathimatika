@@ -69,12 +69,12 @@
     {"id": "1.len.measure", "title": "Μέτρηση μεγεθών", "requires": ["1.len.compare.words", "1.num.count.to50"], "generators": ["measure.clips"], "representations": ["shapes"]},
     {"id": "1.calc.tens", "title": "Πρόσθεση και αφαίρεση με δεκάδες", "requires": ["1.calc.2d1d.nobridge", "1.money.to10"], "generators": ["calc.tens"], "representations": ["dienes", "coins", "digits"]},
     {"id": "1.geo.symmetry", "title": "Συμμετρία", "requires": ["1.geo.shapes.name"], "generators": [], "representations": ["grid"]},
-    {"id": "1.num.to100", "title": "Οι αριθμοί ως το 100", "requires": ["1.num.represent.to70", "1.cmp.to70", "1.place.exchange"], "generators": [], "representations": ["dienes", "numberLine", "digits"]},
-    {"id": "1.money.to100", "title": "Χρήματα ως τα 100 ευρώ", "requires": ["1.money.to10", "1.num.to100"], "generators": [], "representations": ["coins"]},
-    {"id": "1.mult.empirical", "title": "Πολλαπλασιασμός με ομάδες αντικειμένων", "requires": ["1.mult.intro"], "generators": [], "representations": ["counters", "digits"]},
-    {"id": "1.div.sharing", "title": "Μοιρασιές: εισαγωγή στη διαίρεση", "requires": ["1.mult.intro"], "generators": [], "representations": ["counters", "digits"]},
-    {"id": "1.weight.scale", "title": "Βάρος και ζυγαριά", "requires": ["1.len.compare.words"], "generators": [], "representations": ["balance"]},
+    {"id": "1.num.to100", "title": "Οι αριθμοί ως το 100", "requires": ["1.num.represent.to70", "1.cmp.to70", "1.place.exchange"], "generators": ["tens.read.to100", "tens.build.to100", "tens.step.to100"], "representations": ["dienes", "numberLine", "digits"]},
+    {"id": "1.money.to100", "title": "Χρήματα ως τα 100 ευρώ", "requires": ["1.money.to10", "1.num.to100"], "generators": ["money.wallet"], "representations": ["coins"]},
+    {"id": "1.mult.empirical", "title": "Πολλαπλασιασμός με ομάδες αντικειμένων", "requires": ["1.mult.intro"], "generators": ["times.groups"], "representations": ["counters", "digits"]},
+    {"id": "1.div.sharing", "title": "Μοιρασιές: εισαγωγή στη διαίρεση", "requires": ["1.mult.intro"], "generators": ["share.plates"], "representations": ["counters", "digits"]},
+    {"id": "1.weight.scale", "title": "Βάρος και ζυγαριά", "requires": ["1.len.compare.words"], "generators": ["weight.heavier"], "representations": ["balance"]},
     {"id": "1.geo.tiling", "title": "Χαράξεις και πλακόστρωτα", "requires": ["1.geo.tangram", "1.geo.lines"], "generators": [], "representations": ["grid"]},
-    {"id": "1.problem.mixed", "title": "Προβλήματα με όλες τις πράξεις", "requires": ["1.problem.addsub.to20", "1.mult.empirical"], "generators": [], "representations": ["digits"]}
+    {"id": "1.problem.mixed", "title": "Προβλήματα με όλες τις πράξεις", "requires": ["1.problem.addsub.to20", "1.mult.empirical"], "generators": ["story.mixed"], "representations": ["digits"]}
   ]
 }

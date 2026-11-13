@@ -71,6 +71,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "hint/heavy-down": {
+    "text": "Το πιο βαρύ κατεβαίνει. Κοίτα ποια πλευρά είναι κάτω.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/hmm": {
     "text": "Χμμ, για να δούμε.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -127,6 +133,12 @@
   },
   "hint/putting-together": {
     "text": "Εδώ έρχονται κι άλλα. Θα γίνουν περισσότερα.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "hint/share-fair": {
+    "text": "Βάλε ένα σε κάθε πιάτο, ξανά και ξανά, μέχρι να τελειώσουν.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -329,6 +341,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "instruction/heavier": {
+    "text": "Ποιο είναι πιο βαρύ;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "instruction/keypad": {
     "text": "Γράψε την απάντηση με τα ψηφία.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -383,6 +401,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "instruction/money-total": {
+    "text": "Πόσα ευρώ είναι όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "instruction/number-house": {
     "text": "Ποιος αριθμός λείπει από το σπιτάκι;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -407,6 +431,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "instruction/share": {
+    "text": "Μοίρασέ τα εξίσου στα πιάτα. Πόσα παίρνει κάθε πιάτο;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "instruction/show-again": {
     "text": "Να το ξαναδούμε;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -427,6 +457,18 @@
   },
   "instruction/tempo-choose": {
     "text": "Πώς θα παίξουμε; Σαν χελώνα ή σαν λαγός;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/ten-after": {
+    "text": "Ποιος αριθμός είναι δέκα μετά;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/ten-before": {
+    "text": "Ποιος αριθμός είναι δέκα πριν;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -1625,6 +1667,126 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "problem/before-01": {
+    "text": "Η Ελένη έδωσε δύο κουλουράκια στη Μαρία. Τώρα έχει δέκα. Πόσα κουλουράκια είχε στην αρχή;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/before-02": {
+    "text": "Η Ελένη έδωσε επτά κουλουράκια στον Γιώργο. Τώρα έχει εννέα. Πόσα κουλουράκια είχε στην αρχή;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/before-03": {
+    "text": "Ο Γιώργος έδωσε έξι αυτοκινητάκια στην Άννα. Τώρα έχει δέκα. Πόσα αυτοκινητάκια είχε στην αρχή;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/before-04": {
+    "text": "Ο Νίκος έδωσε επτά κουλουράκια στη Μαρία. Τώρα έχει δώδεκα. Πόσα κουλουράκια είχε στην αρχή;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/before-05": {
+    "text": "Η Μαρία έδωσε πέντε αυτοκινητάκια στον Νίκο. Τώρα έχει τέσσερα. Πόσα αυτοκινητάκια είχε στην αρχή;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/before-06": {
+    "text": "Η Ελένη έδωσε δύο μήλα στον Γιώργο. Τώρα έχει τέσσερα. Πόσα μήλα είχε στην αρχή;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/before-07": {
+    "text": "Ο Κώστας έδωσε οκτώ μπαλόνια στην Άννα. Τώρα έχει επτά. Πόσα μπαλόνια είχε στην αρχή;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/before-08": {
+    "text": "Ο Κώστας έδωσε δύο μπαλόνια στον Γιώργο. Τώρα έχει επτά. Πόσα μπαλόνια είχε στην αρχή;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/before-09": {
+    "text": "Ο Γιώργος έδωσε οκτώ λουλούδια στη Μαρία. Τώρα έχει δέκα. Πόσα λουλούδια είχε στην αρχή;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/before-10": {
+    "text": "Η Άννα έδωσε επτά λουλούδια στον Γιώργο. Τώρα έχει έξι. Πόσα λουλούδια είχε στην αρχή;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/before-11": {
+    "text": "Ο Γιώργος έδωσε τέσσερα μπαλόνια στον Κώστα. Τώρα έχει έντεκα. Πόσα μπαλόνια είχε στην αρχή;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/before-12": {
+    "text": "Ο Κώστας έδωσε δύο κουλουράκια στη Μαρία. Τώρα έχει έντεκα. Πόσα κουλουράκια είχε στην αρχή;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/before-13": {
+    "text": "Η Ελένη έδωσε τέσσερα μήλα στη Μαρία. Τώρα έχει έντεκα. Πόσα μήλα είχε στην αρχή;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/before-14": {
+    "text": "Η Ελένη έδωσε οκτώ λουλούδια στην Άννα. Τώρα έχει εννέα. Πόσα λουλούδια είχε στην αρχή;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/before-15": {
+    "text": "Ο Γιώργος έδωσε δύο μολύβια στον Νίκο. Τώρα έχει τέσσερα. Πόσα μολύβια είχε στην αρχή;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/before-16": {
+    "text": "Ο Νίκος έδωσε εννέα μπαλόνια στην Άννα. Τώρα έχει πέντε. Πόσα μπαλόνια είχε στην αρχή;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/before-17": {
+    "text": "Ο Κώστας έδωσε οκτώ μπαλόνια στον Γιώργο. Τώρα έχει οκτώ. Πόσα μπαλόνια είχε στην αρχή;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/before-18": {
+    "text": "Η Μαρία έδωσε επτά μπαλόνια στην Ελένη. Τώρα έχει δύο. Πόσα μπαλόνια είχε στην αρχή;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/before-19": {
+    "text": "Ο Νίκος έδωσε επτά μπαλόνια στην Άννα. Τώρα έχει δώδεκα. Πόσα μπαλόνια είχε στην αρχή;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/before-20": {
+    "text": "Ο Γιώργος έδωσε εννέα μήλα στον Κώστα. Τώρα έχει οκτώ. Πόσα μήλα είχε στην αρχή;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "problem/box-01": {
     "text": "Στο κουτί είναι επτά μήλα. Η Άννα βάζει επτά ακόμα. Πόσα μήλα είναι τώρα στο κουτί;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -1741,6 +1903,126 @@
   },
   "problem/box-20": {
     "text": "Στο κουτί είναι οκτώ κουλουράκια. Η Άννα βάζει έξι ακόμα. Πόσα κουλουράκια είναι τώρα στο κουτί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/boxes-01": {
+    "text": "Σε κάθε κουτί είναι τρία λουλούδια. Ο Γιώργος έχει δύο κουτιά. Πόσα λουλούδια έχει όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/boxes-02": {
+    "text": "Σε κάθε κουτί είναι δύο κουλουράκια. Η Ελένη έχει τέσσερα κουτιά. Πόσα κουλουράκια έχει όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/boxes-03": {
+    "text": "Σε κάθε κουτί είναι πέντε κουλουράκια. Η Άννα έχει τρία κουτιά. Πόσα κουλουράκια έχει όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/boxes-04": {
+    "text": "Σε κάθε κουτί είναι δύο λουλούδια. Η Ελένη έχει πέντε κουτιά. Πόσα λουλούδια έχει όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/boxes-05": {
+    "text": "Σε κάθε κουτί είναι τρία μπαλόνια. Η Ελένη έχει πέντε κουτιά. Πόσα μπαλόνια έχει όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/boxes-06": {
+    "text": "Σε κάθε κουτί είναι τρία μήλα. Ο Νίκος έχει δύο κουτιά. Πόσα μήλα έχει όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/boxes-07": {
+    "text": "Σε κάθε κουτί είναι τρία αυτοκινητάκια. Ο Κώστας έχει πέντε κουτιά. Πόσα αυτοκινητάκια έχει όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/boxes-08": {
+    "text": "Σε κάθε κουτί είναι τέσσερα κουλουράκια. Ο Νίκος έχει δύο κουτιά. Πόσα κουλουράκια έχει όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/boxes-09": {
+    "text": "Σε κάθε κουτί είναι τέσσερα μήλα. Η Ελένη έχει τρία κουτιά. Πόσα μήλα έχει όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/boxes-10": {
+    "text": "Σε κάθε κουτί είναι τρία μολύβια. Η Μαρία έχει πέντε κουτιά. Πόσα μολύβια έχει όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/boxes-11": {
+    "text": "Σε κάθε κουτί είναι πέντε λουλούδια. Ο Κώστας έχει τέσσερα κουτιά. Πόσα λουλούδια έχει όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/boxes-12": {
+    "text": "Σε κάθε κουτί είναι δύο αυτοκινητάκια. Ο Κώστας έχει πέντε κουτιά. Πόσα αυτοκινητάκια έχει όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/boxes-13": {
+    "text": "Σε κάθε κουτί είναι τρία αυτοκινητάκια. Η Μαρία έχει τέσσερα κουτιά. Πόσα αυτοκινητάκια έχει όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/boxes-14": {
+    "text": "Σε κάθε κουτί είναι τέσσερα αυτοκινητάκια. Η Μαρία έχει τρία κουτιά. Πόσα αυτοκινητάκια έχει όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/boxes-15": {
+    "text": "Σε κάθε κουτί είναι τρία μπαλόνια. Ο Νίκος έχει δύο κουτιά. Πόσα μπαλόνια έχει όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/boxes-16": {
+    "text": "Σε κάθε κουτί είναι πέντε μολύβια. Ο Νίκος έχει δύο κουτιά. Πόσα μολύβια έχει όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/boxes-17": {
+    "text": "Σε κάθε κουτί είναι πέντε κουλουράκια. Η Άννα έχει δύο κουτιά. Πόσα κουλουράκια έχει όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/boxes-18": {
+    "text": "Σε κάθε κουτί είναι δύο μολύβια. Ο Κώστας έχει πέντε κουτιά. Πόσα μολύβια έχει όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/boxes-19": {
+    "text": "Σε κάθε κουτί είναι πέντε μπαλόνια. Η Άννα έχει πέντε κουτιά. Πόσα μπαλόνια έχει όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/boxes-20": {
+    "text": "Σε κάθε κουτί είναι τρία κουλουράκια. Ο Κώστας έχει τρία κουτιά. Πόσα κουλουράκια έχει όλα μαζί;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -2461,6 +2743,126 @@
   },
   "problem/need-20": {
     "text": "Ο Κώστας θέλει εννέα μπαλόνια. Έχει ήδη τρία. Πόσα μπαλόνια χρειάζεται ακόμα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/shareout-01": {
+    "text": "Ο Γιώργος μοιράζει δώδεκα μήλα σε τρεις φίλους. Πόσα παίρνει ο καθένας;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/shareout-02": {
+    "text": "Η Μαρία μοιράζει οκτώ κουλουράκια σε δύο φίλους. Πόσα παίρνει ο καθένας;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/shareout-03": {
+    "text": "Ο Νίκος μοιράζει έξι μπαλόνια σε δύο φίλους. Πόσα παίρνει ο καθένας;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/shareout-04": {
+    "text": "Η Μαρία μοιράζει δεκαέξι μολύβια σε τέσσερις φίλους. Πόσα παίρνει ο καθένας;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/shareout-05": {
+    "text": "Η Άννα μοιράζει έξι μολύβια σε δύο φίλους. Πόσα παίρνει ο καθένας;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/shareout-06": {
+    "text": "Ο Κώστας μοιράζει έξι αυτοκινητάκια σε τρεις φίλους. Πόσα παίρνει ο καθένας;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/shareout-07": {
+    "text": "Ο Γιώργος μοιράζει δέκα αυτοκινητάκια σε δύο φίλους. Πόσα παίρνει ο καθένας;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/shareout-08": {
+    "text": "Η Ελένη μοιράζει εννέα αυτοκινητάκια σε τρεις φίλους. Πόσα παίρνει ο καθένας;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/shareout-09": {
+    "text": "Ο Νίκος μοιράζει εννέα μήλα σε τρεις φίλους. Πόσα παίρνει ο καθένας;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/shareout-10": {
+    "text": "Η Μαρία μοιράζει εννέα λουλούδια σε τρεις φίλους. Πόσα παίρνει ο καθένας;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/shareout-11": {
+    "text": "Ο Νίκος μοιράζει έξι μήλα σε τρεις φίλους. Πόσα παίρνει ο καθένας;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/shareout-12": {
+    "text": "Η Ελένη μοιράζει εννέα κουλουράκια σε τρεις φίλους. Πόσα παίρνει ο καθένας;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/shareout-13": {
+    "text": "Ο Γιώργος μοιράζει είκοσι μπαλόνια σε τέσσερις φίλους. Πόσα παίρνει ο καθένας;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/shareout-14": {
+    "text": "Ο Νίκος μοιράζει δεκαπέντε μήλα σε τρεις φίλους. Πόσα παίρνει ο καθένας;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/shareout-15": {
+    "text": "Ο Νίκος μοιράζει δεκαπέντε μολύβια σε τρεις φίλους. Πόσα παίρνει ο καθένας;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/shareout-16": {
+    "text": "Η Ελένη μοιράζει οκτώ κουλουράκια σε τέσσερις φίλους. Πόσα παίρνει ο καθένας;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/shareout-17": {
+    "text": "Η Άννα μοιράζει δέκα μπαλόνια σε δύο φίλους. Πόσα παίρνει ο καθένας;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/shareout-18": {
+    "text": "Η Άννα μοιράζει είκοσι μολύβια σε τέσσερις φίλους. Πόσα παίρνει ο καθένας;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/shareout-19": {
+    "text": "Ο Κώστας μοιράζει οκτώ αυτοκινητάκια σε τέσσερις φίλους. Πόσα παίρνει ο καθένας;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "problem/shareout-20": {
+    "text": "Η Μαρία μοιράζει έξι μπαλόνια σε τρεις φίλους. Πόσα παίρνει ο καθένας;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"

@@ -23,6 +23,7 @@ import { NumPad } from '../../ui/NumPad.tsx';
 import type { ExerciseProps } from '../types.ts';
 import type { QuestionItem } from './generate.ts';
 import { Dots, Scene } from './Scene.tsx';
+import { ObjectPicture } from './objects.tsx';
 
 const MAX_DIGITS = 3;
 
@@ -117,6 +118,28 @@ function ChoiceAnswer({ choices, correct, revealed, onSubmit }: { choices: Choic
           {c.label}
         </button>
       ))}
+    </div>
+  );
+}
+
+/** The scale itself is the answer: tap the pan with the heavier thing. */
+function HeavierAnswer({ scene, correct, revealed, onSubmit }: { scene: Extract<SceneData, { kind: 'heavier' }>; correct: string; revealed: boolean; onSubmit(input: string): void }) {
+  const pan = (side: 'left' | 'right', id: string, value: number) => (
+    <button
+      type="button"
+      aria-label={t('scale.pan')}
+      className={`scale-pan scale-pan--${side} ${scene.heavy === side ? 'scale-pan--down' : 'scale-pan--up'} ${scene.bigSide === side ? 'scale-pan--big' : ''} ${revealed && String(value) === correct ? 'choice-tile--shown' : ''}`}
+      onClick={() => onSubmit(String(value))}
+    >
+      <ObjectPicture id={id} />
+    </button>
+  );
+  return (
+    <div className={`scale scale--${scene.heavy}`}>
+      <div className="scale-beam" />
+      <div className="scale-post" />
+      {pan('left', scene.left, -1)}
+      {pan('right', scene.right, 1)}
     </div>
   );
 }
@@ -304,6 +327,7 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
             {...manipulativeProps}
           />
         )}
+        {answerMode === 'heavier' && scene.kind === 'heavier' && <HeavierAnswer scene={scene} correct={rightInput(problem)} revealed={revealed} onSubmit={(a) => void submit(a)} />}
         {answerMode === 'week' && scene.kind === 'week' && (
           <WeekAnswer scene={scene} correct={rightInput(problem)} revealed={revealed} readable={(text) => isTextAllowed(text, readingContext(settings.upToPosition))} onSubmit={(a) => void submit(a)} />
         )}

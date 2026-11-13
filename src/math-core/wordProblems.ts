@@ -9,7 +9,7 @@ import type { SkillId } from '../engine/types.ts';
 import { numberToGreekWords } from './greekWords.ts';
 
 /** twoStep: a come, b more come, c go away (the book's car park, ch. 50) */
-export type Operation = 'add' | 'subtract' | 'missing' | 'twoStep';
+export type Operation = 'add' | 'subtract' | 'missing' | 'twoStep' | 'multiply' | 'divide';
 
 export interface Person {
   id: string;
@@ -69,8 +69,22 @@ export interface WordProblem {
   speech: string;
 }
 
-export const answerOf = (operation: Operation, a: number, b: number, c = 0): number =>
-  operation === 'add' ? a + b : operation === 'subtract' ? a - b : operation === 'missing' ? b - a : a + b - c;
+export function answerOf(operation: Operation, a: number, b: number, c = 0): number {
+  switch (operation) {
+    case 'add':
+      return a + b;
+    case 'subtract':
+      return a - b;
+    case 'missing':
+      return b - a;
+    case 'twoStep':
+      return a + b - c;
+    case 'multiply':
+      return a * b;
+    case 'divide':
+      return a / b;
+  }
+}
 
 const capitalize = (s: string) => s.charAt(0).toLocaleUpperCase('el') + s.slice(1);
 
@@ -88,15 +102,16 @@ interface Choice {
 const crossesTen = (t: Template, a: number, b: number) => !t.bridge || (t.operation === 'subtract' ? b > a % 10 : (a % 10) + b >= 10);
 
 function render(template: string, c: Choice, spoken: boolean): string {
-  const number = (n: number) => (spoken ? numberToGreekWords(n, 'n', 'nom') : String(n));
+  // «σε 3 φίλους» is said «σε τρεις φίλους»: {b:macc}
+  const number = (n: number, form?: string) => (!spoken ? String(n) : form === 'macc' ? numberToGreekWords(n, 'm', 'acc') : numberToGreekWords(n, 'n', 'nom'));
   const filled = template.replace(/\{(\w+)(?::(\w+))?\}/g, (slot, name: string, form?: string) => {
     switch (name) {
       case 'a':
-        return number(c.a);
+        return number(c.a, form);
       case 'b':
-        return number(c.b);
+        return number(c.b, form);
       case 'c':
-        return number(c.c);
+        return number(c.c, form);
       case 'P':
         return c.person.nom;
       case 'Q':
@@ -138,7 +153,7 @@ export function generateGolden(file: TemplateFile, lexicon: Lexicon): WordProble
       const b = randInt(t.b[0], t.b[1], rng);
       const third = t.c ? randInt(t.c[0], t.c[1], rng) : 0;
       const answer = answerOf(t.operation, a, b, third);
-      if (answer < t.result[0] || answer > t.result[1] || !crossesTen(t, a, b)) continue;
+      if (!Number.isInteger(answer) || answer < t.result[0] || answer > t.result[1] || !crossesTen(t, a, b)) continue;
       const person = pick(lexicon.people, rng);
       const other = pick(lexicon.people.filter((p) => p !== person), rng);
       const object = pick(objects, rng);

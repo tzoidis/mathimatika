@@ -77,6 +77,21 @@ const ART: Record<string, ReactNode> = {
       <path d="M29 41 Q32 44 35 41" fill="none" stroke="#2a1c12" strokeWidth="2" />
     </>
   ),
+  // for the scale: closed packages, so what is inside (and its weight) cannot be seen
+  parcel: (
+    <>
+      <rect x="10" y="20" width="44" height="36" rx="3" fill="#7fa7c9" stroke="#2a1c12" strokeWidth="3" />
+      <path d="M32 20 V56 M10 34 H54" stroke="#2a1c12" strokeWidth="3" />
+      <path d="M32 20 Q22 8 18 16 Q24 22 32 20 Q42 8 46 16 Q40 22 32 20 Z" fill="#d96a5a" stroke="#2a1c12" strokeWidth="2" />
+    </>
+  ),
+  sack: (
+    <>
+      <path d="M20 22 Q8 40 14 54 Q32 62 50 54 Q56 40 44 22 Z" fill="#c9a66b" stroke="#2a1c12" strokeWidth="3" strokeLinejoin="round" />
+      <path d="M22 22 L26 12 H38 L42 22 Z" fill="#c9a66b" stroke="#2a1c12" strokeWidth="3" strokeLinejoin="round" />
+      <path d="M22 22 H42" stroke="#7c5a3a" strokeWidth="4" />
+    </>
+  ),
 };
 
 export const OBJECT_IDS = Object.keys(ART);

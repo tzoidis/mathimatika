@@ -45,9 +45,13 @@ export type Scene =
   | { kind: 'times'; n: number; k: number; show: 1 | 2 | 3 }
   | { kind: 'measure'; length: number; extra: number; other: number | null; object: number }
   | { kind: 'tensCalc'; a: number; b: number; op: 1 | -1; notes: boolean }
-  | { kind: 'story'; problemId: string; text: string; operation: 'add' | 'subtract' | 'missing' | 'twoStep'; a: number; b: number; c?: number; objects: string[]; pictures: boolean };
+  | { kind: 'tenStep'; n: number; direction: 1 | -1 }
+  | { kind: 'wallet'; notes: number[]; coins: number[] }
+  | { kind: 'share'; total: number; plates: number; scattered: boolean }
+  | { kind: 'heavier'; left: string; right: string; heavy: 'left' | 'right'; bigSide: 'left' | 'right' | null }
+  | { kind: 'story'; problemId: string; text: string; operation: 'add' | 'subtract' | 'missing' | 'twoStep' | 'multiply' | 'divide'; a: number; b: number; c?: number; objects: string[]; pictures: boolean };
 
-export type AnswerMode = 'keypad' | 'tenFrame' | 'numberLine' | 'balance' | 'choice' | 'group' | 'rods' | 'regroup' | 'week';
+export type AnswerMode = 'keypad' | 'tenFrame' | 'numberLine' | 'balance' | 'choice' | 'group' | 'rods' | 'regroup' | 'week' | 'heavier';
 
 /** One of the tiles of a choice question; the answer is `value`, the child sees `label`. */
 export interface Choice {

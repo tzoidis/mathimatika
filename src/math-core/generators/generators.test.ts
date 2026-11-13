@@ -5,6 +5,7 @@ import { mulberry32 } from '../../engine/rng.ts';
 import type { Level } from '../../engine/types.ts';
 import { formatNumber } from '../format.ts';
 import { equals, ratio } from '../rational.ts';
+import golden from '../../content/word-problems.golden.json';
 import { ALL_GENERATORS, GENERATORS } from './index.ts';
 import type { CountParams } from './number.ts';
 import { playable, type Generator, type Problem, type Scene } from './types.ts';
@@ -110,6 +111,24 @@ function answerFromScene(scene: Scene): number {
       for (let i = 0; i < scene.b / 10; i++) total += scene.op * 10;
       return total;
     }
+    case 'tenStep': {
+      let n = scene.n;
+      for (let i = 0; i < 10; i++) n += scene.direction;
+      return n;
+    }
+    case 'wallet': {
+      let total = 0;
+      for (const v of [...scene.notes, ...scene.coins]) total += v;
+      return total;
+    }
+    case 'share': {
+      // deal one to each plate in turn until none are left
+      const plates = Array.from({ length: scene.plates }, () => 0);
+      for (let i = 0; i < scene.total; i++) plates[i % scene.plates]!++;
+      return plates[0]!;
+    }
+    case 'heavier':
+      return scene.heavy === 'left' ? -1 : 1;
     case 'week': {
       // walk along the cards, going round from Sunday to Monday
       const cards = [1, 2, 3, 4, 5, 6, 7];
@@ -122,6 +141,8 @@ function answerFromScene(scene: Scene): number {
       const numbers = (scene.text.match(/\d+/g) ?? []).map(Number);
       const [first, second] = scene.operation === 'missing' ? [numbers[1]!, numbers[0]!] : [numbers[0]!, numbers[1]!];
       if (scene.operation === 'twoStep') return numbers[0]! + numbers[1]! - numbers[2]!;
+      if (scene.operation === 'multiply') return numbers[0]! * numbers[1]!;
+      if (scene.operation === 'divide') return numbers[0]! / numbers[1]!;
       return scene.operation === 'add' ? first + second : scene.operation === 'subtract' ? first - second : second - first;
     }
   }
@@ -158,7 +179,7 @@ describe.each(ALL.map((g) => [g.id, g] as const))('%s', (_id, g) => {
     each(g, (p, _params, label) => {
       expect(equals(p.answer, ratio(answerFromScene(p.scene))), label).toBe(true);
       expect(p.answer.d, label).toBe(1n);
-      if (!['compare', 'line', 'quantity', 'whichSign'].includes(p.scene.kind)) expect(p.answer.n > 0n, label).toBe(true);
+      if (!['compare', 'line', 'quantity', 'whichSign', 'heavier'].includes(p.scene.kind)) expect(p.answer.n > 0n, label).toBe(true);
     });
   });
 
@@ -502,5 +523,59 @@ describe('chapters 52-55', () => {
     expect(gradeOf('calc.tens', { a: 20, b: 30, op: 1, notes: true }, 50, '5')).toEqual({ ok: false, code: 'PLACE_VALUE', hintId: 'tens-worth' });
     expect(gradeOf('calc.tens', { a: 34, b: 20, op: 1, notes: false }, 54, '36')).toEqual({ ok: false, code: 'PLACE_VALUE', hintId: 'tens-worth' });
     for (const level of LEVELS) for (const s of scenes('calc.tens', level)) expect(s.kind === 'tensCalc' && s.b % 10 === 0 && s.a + s.op * s.b <= 70 && s.a + s.op * s.b >= 10).toBe(true);
+  });
+});
+
+describe('chapters 58-60', () => {
+  const gradeOf = (id: string, params: unknown, answer: number, input: string) => playable(named(id)).grade({ params, answer: ratio(answer), policy: { equality: 'value' } } as Problem, input);
+  const scenes = (id: string, level: Level) => Array.from({ length: SEEDS }, (_, seed) => GENERATORS.find((g) => g.id === id)!.produce({ rng: mulberry32(seed), level }, new Set()).scene);
+
+  it('steps by ten, and knows a step of one', () => {
+    expect(gradeOf('tens.step.to100', { n: 47, direction: 1 }, 57, '48')).toEqual({ ok: false, code: 'PLACE_VALUE', hintId: 'tens-worth' });
+    expect(gradeOf('tens.step.to100', { n: 47, direction: 1 }, 57, '37')).toEqual({ ok: false, code: 'WRONG_DIRECTION', hintId: 'line-direction' });
+    for (const s of scenes('tens.step.to100', 1)) expect(s.kind === 'tenStep' && s.n % 10 === 0).toBe(true);
+  });
+
+  it('adds money up to 100 euro, notes and coins', () => {
+    expect(gradeOf('money.wallet', { notes: [20, 10], coins: [2, 1] }, 33, '4')).toEqual({ ok: false, code: 'COUNTED_COINS', hintId: 'coin-value' });
+    expect(gradeOf('money.wallet', { notes: [20, 10], coins: [2, 1] }, 33, '30')).toEqual({ ok: false, code: 'TERM_MISSED', hintId: 'add-all' });
+    for (const level of LEVELS) for (const s of scenes('money.wallet', level)) expect(s.kind === 'wallet' && [...s.notes, ...s.coins].reduce((a, b) => a + b, 0) <= 100).toBe(true);
+  });
+
+  it('shares out equally, and knows the whole or the plates for the share', () => {
+    const params = { k: 3, each: 4, scattered: false };
+    expect(gradeOf('share.plates', params, 4, '12')).toEqual({ ok: false, code: 'PART_IS_WHOLE', hintId: 'share-fair' });
+    expect(gradeOf('share.plates', params, 4, '3')).toEqual({ ok: false, code: 'COUNTED_GROUPS', hintId: 'share-fair' });
+    for (const s of scenes('share.plates', 2)) expect(s.kind === 'share' && s.total % s.plates === 0 && s.total <= 20).toBe(true);
+  });
+
+  it('draws the lighter thing bigger from level 2, and names choosing by size', () => {
+    const params = { left: 'parcel', right: 'sack', heavy: 'left', bigSide: 'right' };
+    expect(gradeOf('weight.heavier', params, -1, '1')).toEqual({ ok: false, code: 'SIZE_NOT_WEIGHT', hintId: 'heavy-down' });
+    for (const s of scenes('weight.heavier', 2)) expect(s.kind === 'heavier' && s.bigSide !== s.heavy && s.bigSide !== null).toBe(true);
+    for (const s of scenes('weight.heavier', 1)) expect(s.kind === 'heavier' && s.bigSide === null).toBe(true);
+  });
+
+  it('plays equal groups of two to five for the book\'s petals and wheels', () => {
+    for (const level of LEVELS) for (const s of scenes('times.groups', level)) expect(s.kind === 'times' && [2, 3, 4, 5].includes(s.k) && s.n * s.k <= 25).toBe(true);
+  });
+});
+
+describe('word problems of mixed kinds', () => {
+  const story = (id: string) => named(id);
+  const gradeStory = (id: string, problemId: string, input: string) => {
+    const g = story(id);
+    const problem = (golden as { problems: { id: string; answer: number }[] }).problems.find((x) => x.id === problemId)!;
+    return playable(g).grade({ params: { problem, pictures: true }, answer: ratio(problem.answer), policy: { equality: 'value' } } as Problem, input);
+  };
+
+  it('gives each kind of problem its own hint for the other operation', () => {
+    // 12 apples shared by 3: 12 − 3 = 9
+    expect(gradeStory('story.mixed', 'shareout-01', '9')).toEqual({ ok: false, code: 'OPERATION_SWAP', hintId: 'share-fair' });
+    // 3 flowers in each of 2 boxes: 3 + 2 = 5
+    expect(gradeStory('story.mixed', 'boxes-01', '5')).toEqual({ ok: false, code: 'OPERATION_SWAP', hintId: 'equal-groups' });
+    // gave 2, has 10 now: 10 − 2 = 8
+    expect(gradeStory('story.mixed', 'before-01', '8')).toEqual({ ok: false, code: 'OPERATION_SWAP', hintId: 'putting-together' });
+    expect(gradeStory('story.addsub.to20', 'takeout-01', '19')).toEqual({ ok: false, code: 'OPERATION_SWAP', hintId: 'taking-away' });
   });
 });

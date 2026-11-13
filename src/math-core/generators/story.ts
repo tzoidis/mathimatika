@@ -6,9 +6,9 @@ import golden from '../../content/word-problems.golden.json' with { type: 'json'
 import { randInt } from '../../engine/rng.ts';
 import type { SkillId } from '../../engine/types.ts';
 import { ratio } from '../rational.ts';
-import type { WordProblem } from '../wordProblems.ts';
+import type { Operation, WordProblem } from '../wordProblems.ts';
 import { given, nOffByOne } from './number.ts';
-import type { GenCtx, Generator } from './types.ts';
+import type { GenCtx, Generator, MisconceptionDetector } from './types.ts';
 
 export const GOLDEN_PROBLEMS = golden.problems as WordProblem[];
 
@@ -18,7 +18,21 @@ export interface StoryParams {
 }
 
 /** the other operation: for two steps, adding all three */
-const swapped = (p: WordProblem) => (p.operation === 'add' ? Math.abs(p.a - p.b) : p.operation === 'twoStep' ? p.a + p.b + (p.c ?? 0) : p.a + p.b);
+function swapped(p: WordProblem): number {
+  switch (p.operation) {
+    case 'add':
+      return Math.abs(p.a - p.b);
+    case 'twoStep':
+      return p.a + p.b + (p.c ?? 0);
+    // the groups added instead of multiplied, the share taken away instead of divided
+    case 'multiply':
+      return p.a + p.b;
+    case 'divide':
+      return p.a - p.b;
+    default:
+      return p.a + p.b;
+  }
+}
 const shownNumber = (p: WordProblem) => (p.operation === 'missing' ? p.b : p.a);
 
 export function storyGenerator(id: string, skill: SkillId): Generator<StoryParams> {
@@ -35,12 +49,8 @@ export function storyGenerator(id: string, skill: SkillId): Generator<StoryParam
       say: [{ clip: p.problem.id }],
     }),
     detectors: [
-      {
-        code: 'OPERATION_SWAP',
-        hintId: p0(pool) === 'add' ? 'putting-together' : 'taking-away',
-        simulate: (p) => (swapped(p.problem) === p.problem.answer || swapped(p.problem) < 1 ? null : ratio(swapped(p.problem))),
-        detect: (p, a) => swapped(p.problem) !== p.problem.answer && given(swapped(p.problem), a),
-      },
+      // the other operation, with the hint for the kind of problem it is
+      ...SWAP_HINTS.map(([operations, hintId]) => swapDetector(operations, hintId)),
       {
         // wrote a number that is already in the problem
         code: 'PART_IS_WHOLE',
@@ -52,7 +62,20 @@ export function storyGenerator(id: string, skill: SkillId): Generator<StoryParam
   };
 }
 
-/** The operation of a skill's problems: they share one per skill but for «addsub». */
-function p0(pool: readonly WordProblem[]): string {
-  return pool.every((p) => p.operation === 'add') ? 'add' : 'other';
+/** Which hint a swapped operation gets, by the kind of problem. */
+const SWAP_HINTS: [readonly Operation[], string][] = [
+  [['add'], 'putting-together'],
+  [['subtract', 'missing', 'twoStep'], 'taking-away'],
+  [['multiply'], 'equal-groups'],
+  [['divide'], 'share-fair'],
+];
+
+function swapDetector(operations: readonly Operation[], hintId: string): MisconceptionDetector<StoryParams> {
+  const applies = (p: StoryParams) => operations.includes(p.problem.operation) && swapped(p.problem) !== p.problem.answer;
+  return {
+    code: 'OPERATION_SWAP',
+    hintId,
+    simulate: (p) => (!applies(p) || swapped(p.problem) < 1 ? null : ratio(swapped(p.problem))),
+    detect: (p, a) => applies(p) && given(swapped(p.problem), a),
+  };
 }
