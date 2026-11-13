@@ -5,6 +5,7 @@ import type { Level, SkillId } from '../../engine/types.ts';
 import { check, type AcceptPolicy, type MisconceptionCode, type Verdict } from '../check.ts';
 import { parseNumber } from '../format.ts';
 import type { Rational } from '../rational.ts';
+import type { Shape, ShapeKind } from './geometry.ts';
 
 export interface GenCtx {
   rng: () => number;
@@ -49,9 +50,16 @@ export type Scene =
   | { kind: 'wallet'; notes: number[]; coins: number[] }
   | { kind: 'share'; total: number; plates: number; scattered: boolean }
   | { kind: 'heavier'; left: string; right: string; heavy: 'left' | 'right'; bigSide: 'left' | 'right' | null }
+  | { kind: 'whichShape'; target: ShapeKind; tiles: Shape[] }
+  | { kind: 'countShapes'; shapes: Shape[] }
+  | { kind: 'lengths'; ask: 'taller' | 'shorter'; left: number; right: number; raised: 'left' | 'right' | null }
+  | { kind: 'pattern'; sequence: number[]; options: number[] }
+  | { kind: 'commute'; a: number; b: number }
+  | { kind: 'sentence'; a: number; b: number; options: [number, number, number][] }
+  | { kind: 'match'; have: number; give: number; spread: boolean }
   | { kind: 'story'; problemId: string; text: string; operation: 'add' | 'subtract' | 'missing' | 'twoStep' | 'multiply' | 'divide'; a: number; b: number; c?: number; objects: string[]; pictures: boolean };
 
-export type AnswerMode = 'keypad' | 'tenFrame' | 'numberLine' | 'balance' | 'choice' | 'group' | 'rods' | 'regroup' | 'week' | 'heavier';
+export type AnswerMode = 'keypad' | 'tenFrame' | 'numberLine' | 'balance' | 'choice' | 'group' | 'rods' | 'regroup' | 'week' | 'heavier' | 'pictures';
 
 /** One of the tiles of a choice question; the answer is `value`, the child sees `label`. */
 export interface Choice {

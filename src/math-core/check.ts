@@ -35,7 +35,10 @@ export type MisconceptionCode =
   | 'TERM_MISSED'
   | 'PLACE_VALUE'
   | 'MEASURED_PAST_END'
-  | 'SIZE_NOT_WEIGHT';
+  | 'SIZE_NOT_WEIGHT'
+  | 'SHAPE_CONFUSED'
+  | 'POSITION_NOT_LENGTH'
+  | 'PATTERN_BROKEN';
 
 export type Verdict = { ok: true; note?: 'notSimplified' } | { ok: false; code?: MisconceptionCode; hintId?: string };
 

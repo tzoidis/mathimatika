@@ -9,6 +9,7 @@ import type { Scene as SceneData } from '../../math-core/generators/types.ts';
 import { IconButton } from '../../ui/IconButton.tsx';
 import { ReplayIcon } from '../../ui/Icons.tsx';
 import { ObjectPicture } from './objects.tsx';
+import { PatternItem, ShapePicture } from './shapes.tsx';
 import type { UiKey } from '../../i18n.ts';
 
 const FRAME_SIZE = 10;
@@ -428,6 +429,8 @@ export function Scene({ scene, slot, answerOnLine, readable = false }: { scene: 
 
     case 'quantity':
     case 'heavier':
+    case 'whichShape':
+    case 'lengths':
     case 'regroup':
     case 'week':
       return <div className="scene" />;
@@ -625,6 +628,71 @@ export function Scene({ scene, slot, answerOnLine, readable = false }: { scene: 
       return (
         <div className="scene">
           <ShareTable total={scene.total} plates={scene.plates} scattered={scene.scattered} />
+          <div className="expression">{slot}</div>
+        </div>
+      );
+
+    case 'countShapes':
+      return (
+        <div className="scene">
+          <div className="shapes-field">
+            {scene.shapes.map((s, i) => (
+              <ShapePicture key={i} shape={s} size={96} />
+            ))}
+          </div>
+          <div className="expression">{slot}</div>
+        </div>
+      );
+
+    case 'pattern':
+      return (
+        <div className="scene">
+          <div className="pattern-row">
+            {scene.sequence.map((item, i) => (item === -1 ? <span key={i} className="pattern-gap" /> : <PatternItem key={i} item={item} size={64} />))}
+          </div>
+        </div>
+      );
+
+    case 'commute':
+      return (
+        <div className="scene">
+          <div className="expression">
+            <span>{formatNumber(scene.a)}</span>
+            <span>+</span>
+            <span>{formatNumber(scene.b)}</span>
+            <span>=</span>
+            <span>{formatNumber(scene.b)}</span>
+            <span>+</span>
+            {slot}
+          </div>
+        </div>
+      );
+
+    case 'sentence':
+      return (
+        <div className="scene">
+          <div className="dot-groups">
+            <Dots n={scene.a} />
+            <Dots n={scene.b} />
+          </div>
+        </div>
+      );
+
+    case 'match':
+      return (
+        <div className="scene">
+          <div className="match">
+            <div className="match-row">
+              {Array.from({ length: scene.have }, (_, i) => (
+                <ObjectPicture key={i} id="kitten" />
+              ))}
+            </div>
+            <div className={`match-row ${scene.spread ? 'match-row--spread' : ''}`}>
+              {Array.from({ length: scene.give }, (_, i) => (
+                <ObjectPicture key={i} id="cookie" />
+              ))}
+            </div>
+          </div>
           <div className="expression">{slot}</div>
         </div>
       );

@@ -16,6 +16,7 @@ import {
 } from './operations.ts';
 import { randInt } from '../../engine/rng.ts';
 import { storyGenerator } from './story.ts';
+import { commuteGenerator, countShapesGenerator, lengthsGenerator, matchGenerator, patternGenerator, sentenceGenerator, whichShapeGenerator } from './geometry.ts';
 import { heavierGenerator, shareGenerator, tenStepGenerator, walletGenerator } from './hundred.ts';
 import { measureGenerator, neighbourGenerator, tensCalcGenerator, timesGenerator } from './grow.ts';
 import { bigDoublesGenerator, fivesGenerator, inverseGenerator, subBridgeGenerator, twoDigitGenerator } from './calc.ts';
@@ -92,6 +93,13 @@ export const ALL_GENERATORS = [
   timesGenerator('times.groups', '1.mult.empirical', [2, 3, 4, 5], 5, 25),
   shareGenerator('share.plates', '1.div.sharing'),
   heavierGenerator('weight.heavier', '1.weight.scale'),
+  whichShapeGenerator('shapes.which', '1.geo.shapes.name'),
+  countShapesGenerator('shapes.count', '1.geo.shapes.name'),
+  lengthsGenerator('lengths.compare', '1.len.compare.words'),
+  patternGenerator('pattern.next', '1.pattern.shapes'),
+  commuteGenerator('add.commute', '1.add.commute'),
+  sentenceGenerator('add.sentence', '1.add.symbols'),
+  matchGenerator('match.missing', '1.num.match'),
 ] as Generator<unknown>[];
 
 export const GENERATORS: PlayableGenerator[] = ALL_GENERATORS.map(playable);

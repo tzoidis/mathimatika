@@ -71,6 +71,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "hint/from-the-ground": {
+    "text": "Κοίτα από κάτω ως πάνω, όχι πού φτάνει η κορυφή.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/heavy-down": {
     "text": "Το πιο βαρύ κατεβαίνει. Κοίτα ποια πλευρά είναι κάτω.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -107,6 +113,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "hint/line-up": {
+    "text": "Βάλε ένα κουλουράκι απέναντι σε κάθε γατάκι.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/look-at-addition": {
     "text": "Κοίτα την πρόσθεση από πάνω. Σε βοηθάει!",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -131,8 +143,26 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "hint/pattern-say": {
+    "text": "Πες το μοτίβο δυνατά από την αρχή.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/putting-together": {
     "text": "Εδώ έρχονται κι άλλα. Θα γίνουν περισσότερα.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "hint/same-numbers": {
+    "text": "Οι ίδιοι αριθμοί με άλλη σειρά. Το άθροισμα δεν αλλάζει.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "hint/shape-sides": {
+    "text": "Μέτρα τις πλευρές του. Πόσες είναι;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -187,6 +217,12 @@
   },
   "hint/together": {
     "text": "Ας το δούμε μαζί.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "hint/turned-shape": {
+    "text": "Ένα σχήμα μένει το ίδιο, όσο κι αν το γυρίσεις.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -281,6 +317,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "instruction/count-triangles": {
+    "text": "Πόσα τρίγωνα βλέπεις;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "instruction/day-1": {
     "text": "Δευτέρα.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -371,6 +413,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "instruction/match-missing": {
+    "text": "Κάθε γατάκι θέλει ένα κουλουράκι. Πόσα κουλουράκια λείπουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "instruction/measure": {
     "text": "Πόσους συνδετήρες μακρύ είναι;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -395,6 +443,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "instruction/missing-number": {
+    "text": "Ποιος αριθμός λείπει;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "instruction/money-exchange": {
     "text": "Πόσα νομίσματα του ενός χρειάζονται;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -409,6 +463,18 @@
   },
   "instruction/number-house": {
     "text": "Ποιος αριθμός λείπει από το σπιτάκι;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/pattern-missing": {
+    "text": "Τι λείπει από το μοτίβο;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/pattern-next": {
+    "text": "Τι έρχεται μετά;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -437,6 +503,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "instruction/shorter": {
+    "text": "Ποιο είναι πιο κοντό;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "instruction/show-again": {
     "text": "Να το ξαναδούμε;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -451,6 +523,12 @@
   },
   "instruction/subtract": {
     "text": "Πόσα μένουν;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/taller": {
+    "text": "Ποιο είναι πιο ψηλό;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -505,6 +583,36 @@
   },
   "instruction/welcome": {
     "text": "Γεια σου! Πάμε στο Εργαστήρι;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/which-circle": {
+    "text": "Ποιο είναι κύκλος;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/which-rectangle": {
+    "text": "Ποιο είναι ορθογώνιο;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/which-square": {
+    "text": "Ποιο είναι τετράγωνο;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/which-sum": {
+    "text": "Ποια πρόσθεση δείχνει η εικόνα;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/which-triangle": {
+    "text": "Ποιο είναι τρίγωνο;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"

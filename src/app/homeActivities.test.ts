@@ -14,8 +14,9 @@ describe('home activities', () => {
 
   it('appear only once the class reaches their chapter', () => {
     expect(reachedActivities(1, curriculum, null)).toEqual([]);
-    expect(reachedActivities(1, curriculum, '53')).toEqual([]);
-    expect(reachedActivities(1, curriculum, '54').map((a) => a.id)).toEqual(['span', 'steps', 'litre']);
+    expect(reachedActivities(1, curriculum, '25')).toEqual([]);
+    expect(reachedActivities(1, curriculum, '26').map((a) => a.id)).toEqual(['lines']);
+    expect(reachedActivities(1, curriculum, '54').map((a) => a.id)).toEqual(['span', 'steps', 'litre', 'tangram', 'lines']);
     expect(reachedActivities(1, curriculum, '60')[0]!.id).toBe('weigh');
     expect(reachedActivities(1, curriculum, '64').length).toBe(homeActivities(1).length);
   });

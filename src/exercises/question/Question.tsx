@@ -24,6 +24,7 @@ import type { ExerciseProps } from '../types.ts';
 import type { QuestionItem } from './generate.ts';
 import { Dots, Scene } from './Scene.tsx';
 import { ObjectPicture } from './objects.tsx';
+import { PatternItem, ShapePicture, Tower } from './shapes.tsx';
 
 const MAX_DIGITS = 3;
 
@@ -118,6 +119,42 @@ function ChoiceAnswer({ choices, correct, revealed, onSubmit }: { choices: Choic
           {c.label}
         </button>
       ))}
+    </div>
+  );
+}
+
+/** Tiles that are pictures: shapes, the two things being compared, pattern pieces, sums. */
+function PicturesAnswer({ scene, choices, correct, revealed, onSubmit }: { scene: SceneData; choices: Choice[]; correct: string; revealed: boolean; onSubmit(input: string): void }) {
+  const content = (c: Choice, i: number) => {
+    switch (scene.kind) {
+      case 'whichShape':
+        return { label: t(`shape.${scene.tiles[i]!.kind}` as UiKey), body: <ShapePicture shape={scene.tiles[i]!} /> };
+      case 'lengths': {
+        const side = i === 0 ? 'left' : 'right';
+        // the box lifts the shorter one so its top ends higher than the taller one's
+        const lift = scene.raised === side ? Math.abs(scene.left - scene.right) + 2 : 0;
+        return { label: t(i === 0 ? 'choice.left' : 'choice.right'), body: <Tower height={side === 'left' ? scene.left : scene.right} lift={lift} /> };
+      }
+      case 'pattern':
+        return { label: t('choice.option', { n: formatNumber(i + 1) }), body: <PatternItem item={scene.options[i]!} /> };
+      case 'sentence': {
+        const [x, y, s] = scene.options[i]!;
+        return { label: t('choice.option', { n: formatNumber(i + 1) }), body: <span className="sentence">{[formatNumber(x), '+', formatNumber(y), '=', formatNumber(s)].join(' ')}</span> };
+      }
+      default:
+        return { label: c.label, body: c.label };
+    }
+  };
+  return (
+    <div className={`picture-choices picture-choices--${scene.kind}`}>
+      {choices.map((c, i) => {
+        const { label, body } = content(c, i);
+        return (
+          <button key={c.value} type="button" aria-label={label} className={`picture-tile ${revealed && String(c.value) === correct ? 'choice-tile--shown' : ''}`} onClick={() => onSubmit(String(c.value))}>
+            {body}
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -327,6 +364,7 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
             {...manipulativeProps}
           />
         )}
+        {answerMode === 'pictures' && problem.choices && <PicturesAnswer scene={scene} choices={problem.choices} correct={rightInput(problem)} revealed={revealed} onSubmit={(a) => void submit(a)} />}
         {answerMode === 'heavier' && scene.kind === 'heavier' && <HeavierAnswer scene={scene} correct={rightInput(problem)} revealed={revealed} onSubmit={(a) => void submit(a)} />}
         {answerMode === 'week' && scene.kind === 'week' && (
           <WeekAnswer scene={scene} correct={rightInput(problem)} revealed={revealed} readable={(text) => isTextAllowed(text, readingContext(settings.upToPosition))} onSubmit={(a) => void submit(a)} />

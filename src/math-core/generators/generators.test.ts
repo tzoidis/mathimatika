@@ -129,6 +129,28 @@ function answerFromScene(scene: Scene): number {
     }
     case 'heavier':
       return scene.heavy === 'left' ? -1 : 1;
+    case 'whichShape':
+      return scene.tiles.findIndex((s) => s.kind === scene.target) + 1;
+    case 'countShapes':
+      return scene.shapes.filter((s) => s.kind === 'triangle').length;
+    case 'lengths':
+      return (scene.ask === 'taller') === scene.left > scene.right ? -1 : 1;
+    case 'pattern': {
+      // the shortest repeat that every piece shown agrees with, then the piece it puts in the gap
+      const seq = scene.sequence;
+      const gap = seq.indexOf(-1);
+      for (let period = 1; period < seq.length; period++) {
+        const agrees = seq.every((x, i) => x === -1 || seq.every((y, j) => y === -1 || (i - j) % period !== 0 || x === y));
+        if (agrees) return scene.options.indexOf(seq.find((x, i) => x !== -1 && (i - gap) % period === 0)!) + 1;
+      }
+      return NaN;
+    }
+    case 'commute':
+      return scene.a;
+    case 'sentence':
+      return scene.options.findIndex(([x, y, s]) => x === scene.a && y === scene.b && x + y === s) + 1;
+    case 'match':
+      return [...Array(scene.have)].slice(scene.give).length;
     case 'week': {
       // walk along the cards, going round from Sunday to Monday
       const cards = [1, 2, 3, 4, 5, 6, 7];
@@ -179,7 +201,7 @@ describe.each(ALL.map((g) => [g.id, g] as const))('%s', (_id, g) => {
     each(g, (p, _params, label) => {
       expect(equals(p.answer, ratio(answerFromScene(p.scene))), label).toBe(true);
       expect(p.answer.d, label).toBe(1n);
-      if (!['compare', 'line', 'quantity', 'whichSign', 'heavier'].includes(p.scene.kind)) expect(p.answer.n > 0n, label).toBe(true);
+      if (!['compare', 'line', 'quantity', 'whichSign', 'heavier', 'lengths'].includes(p.scene.kind)) expect(p.answer.n > 0n, label).toBe(true);
     });
   });
 
@@ -577,5 +599,47 @@ describe('word problems of mixed kinds', () => {
     // gave 2, has 10 now: 10 − 2 = 8
     expect(gradeStory('story.mixed', 'before-01', '8')).toEqual({ ok: false, code: 'OPERATION_SWAP', hintId: 'putting-together' });
     expect(gradeStory('story.addsub.to20', 'takeout-01', '19')).toEqual({ ok: false, code: 'OPERATION_SWAP', hintId: 'taking-away' });
+  });
+});
+
+describe('geometry and early gaps', () => {
+  const gradeOf = (id: string, params: unknown, answer: number, input: string) => playable(named(id)).grade({ params, answer: ratio(answer), policy: { equality: 'value' } } as Problem, input);
+  const scenes = (id: string, level: Level) => Array.from({ length: SEEDS }, (_, seed) => GENERATORS.find((g) => g.id === id)!.produce({ rng: mulberry32(seed), level }, new Set()).scene);
+
+  it('turns and stretches shapes only from level 2, and keeps square and rectangle apart until then', () => {
+    for (const s of scenes('shapes.which', 1)) {
+      expect(s.kind === 'whichShape' && s.tiles.every((t) => t.rotate === 0)).toBe(true);
+      const kinds = s.kind === 'whichShape' ? s.tiles.map((t) => t.kind) : [];
+      expect(kinds.includes('square') && kinds.includes('rectangle')).toBe(false);
+    }
+    expect(scenes('shapes.which', 2).some((s) => s.kind === 'whichShape' && s.tiles.some((t) => t.rotate !== 0))).toBe(true);
+  });
+
+  it('knows counting every shape, and leaving out the turned triangles', () => {
+    const tri = (rotate: number) => ({ kind: 'triangle', rotate, size: 100, variant: 0 });
+    const params = { shapes: [tri(0), tri(45), tri(0), { kind: 'circle', rotate: 0, size: 100, variant: 0 }] };
+    expect(gradeOf('shapes.count', params, 3, '4')).toEqual({ ok: false, code: 'PART_IS_WHOLE', hintId: 'shape-sides' });
+    expect(gradeOf('shapes.count', params, 3, '2')).toEqual({ ok: false, code: 'SHAPE_CONFUSED', hintId: 'turned-shape' });
+  });
+
+  it('puts the shorter one on a box at level 3, and names choosing by the top', () => {
+    const params = { ask: 'taller', left: 3, right: 6, raised: 'left' };
+    expect(gradeOf('lengths.compare', params, 1, '-1')).toEqual({ ok: false, code: 'POSITION_NOT_LENGTH', hintId: 'from-the-ground' });
+    for (const s of scenes('lengths.compare', 3)) expect(s.kind === 'lengths' && s.raised === (s.left < s.right ? 'left' : 'right')).toBe(true);
+  });
+
+  it('builds patterns AB first, with the gap at the end until level 3', () => {
+    for (const s of scenes('pattern.next', 1)) expect(s.kind === 'pattern' && s.sequence.at(-1) === -1 && new Set(s.sequence.filter((x) => x !== -1)).size === 2).toBe(true);
+    expect(scenes('pattern.next', 3).some((s) => s.kind === 'pattern' && s.sequence.at(-1) !== -1)).toBe(true);
+  });
+
+  it('knows 3 + 5 = 5 + 8 and 3 + 5 = 5 + 5', () => {
+    expect(gradeOf('add.commute', { a: 3, b: 5 }, 3, '8')).toEqual({ ok: false, code: 'PART_IS_WHOLE', hintId: 'same-numbers' });
+    expect(gradeOf('add.commute', { a: 3, b: 5 }, 3, '5')).toEqual({ ok: false, code: 'ADDED_PARTS', hintId: 'same-numbers' });
+  });
+
+  it('always leaves cookies missing, and knows writing the cookies', () => {
+    expect(gradeOf('match.missing', { have: 5, give: 3, spread: true }, 2, '3')).toEqual({ ok: false, code: 'PART_IS_WHOLE', hintId: 'line-up' });
+    for (const level of LEVELS) for (const s of scenes('match.missing', level)) expect(s.kind === 'match' && s.give < s.have).toBe(true);
   });
 });

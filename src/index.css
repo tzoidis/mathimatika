@@ -1746,3 +1746,112 @@ button {
 .story-group .story-row {
   max-width: 130px;
 }
+
+/* ---------- shapes, lengths, patterns (grade 1 geometry) ---------- */
+
+.picture-choices {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.picture-tile {
+  min-width: 160px;
+  min-height: 160px;
+  padding: 16px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  border-radius: 24px;
+  border: 3px solid var(--card-edge);
+  background: var(--card);
+  box-shadow: 0 4px 0 var(--card-edge);
+}
+
+.picture-choices--whichShape .picture-tile,
+.picture-choices--pattern .picture-tile,
+.picture-choices--sentence .picture-tile {
+  align-items: center;
+}
+
+.sentence {
+  font-family: 'Glossa Reading', system-ui, sans-serif;
+  font-size: 44px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.shapes-field {
+  max-width: 560px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pattern-row {
+  max-width: 760px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pattern-gap {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  border: 4px dashed var(--accent);
+}
+
+/* a tall thing on the ground: the ground line is the same for both tiles */
+.tower {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 340px;
+}
+
+.tower-body {
+  width: 40px;
+  border-radius: 20px 20px 4px 4px;
+  background: var(--mascot-spikes);
+}
+
+.tower-box {
+  width: 72px;
+  border-radius: 4px;
+  background: var(--card-edge);
+  border: 3px solid var(--star-edge);
+}
+
+.match {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.match-row {
+  display: flex;
+  gap: 8px;
+}
+
+.match-row--spread {
+  gap: 72px;
+}
+
+/* three sums read best one under the other */
+.picture-choices--sentence {
+  flex-direction: column;
+  gap: 16px;
+}
+
+.picture-choices--sentence .picture-tile {
+  min-height: 96px;
+  min-width: 280px;
+}
