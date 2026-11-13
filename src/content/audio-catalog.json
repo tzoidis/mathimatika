@@ -492,7 +492,7 @@
     "format": "mp3_24000_48"
   },
   "instruction/minus": {
-    "text": "πλην",
+    "text": "μείον",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
