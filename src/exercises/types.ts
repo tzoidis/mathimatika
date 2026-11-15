@@ -25,6 +25,8 @@ export interface ExerciseProps {
   round: Round;
   onAnswer(e: AnswerLog): void;
   onComplete(): void;
+  /** which round of the session this is, from 0; for the stars at the top */
+  roundIndex?: number;
 }
 
 export interface ExerciseModule {

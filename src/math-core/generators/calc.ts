@@ -57,7 +57,6 @@ export function twoDigitGenerator(id: string, skill: SkillId, bridge: boolean, m
       answer: ratio(resultOf(p)),
       scene: { kind: 'calc', a: p.a, b: p.b, op: p.op, picture: p.picture },
       say: [{ number: p.a }, { instruction: p.op === 1 ? 'and' : 'minus' }, { number: p.b }, { instruction: sign(p.op) }],
-      ...(bridge && p.picture ? { praise: 'made-ten' } : {}),
     }),
     detectors: bridge
       ? [
@@ -140,8 +139,7 @@ export function subBridgeGenerator(id: string, skill: SkillId): Generator<SubBri
     build: (p) => ({
       answer: ratio(subRight(p)),
       scene: p.style === 'up' ? { kind: 'missing', a: p.b, total: p.a, dots: false } : { kind: 'subBridge', a: p.a, b: p.b, frames: p.style === 'frames' },
-      say: p.style === 'up' ? [{ number: p.b }, { instruction: 'and' }, { instruction: 'missing-addend' }] : [{ number: p.a }, { instruction: 'minus' }, { number: p.b }, { instruction: 'subtract' }],
-      ...(p.style === 'frames' ? { praise: 'went-through-ten' } : {}),
+      say: p.style === 'up' ? [{ number: p.b }, { instruction: 'missing-addend' }, { number: p.a }] : [{ number: p.a }, { instruction: 'minus' }, { number: p.b }, { instruction: 'subtract' }],
     }),
     detectors: [
       // 15 − 6 = 11: six take away five, and the ten kept
@@ -173,7 +171,6 @@ export function fivesGenerator(id: string, skill: SkillId): Generator<FivesParam
       answer: ratio(fivesRight(p)),
       scene: { kind: 'fives', a: p.a, b: p.b, picture: p.picture },
       say: [{ number: p.a }, { instruction: 'and' }, { number: p.b }, { instruction: 'add' }],
-      ...(p.picture ? { praise: 'two-fives' } : {}),
     }),
     detectors: [
       // 7 + 8 = 5: two and three, the fives left out

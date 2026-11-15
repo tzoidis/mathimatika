@@ -147,7 +147,8 @@ export function missingGenerator(id: string, skill: SkillId, lo: number, hi: num
     build: (p) => ({
       answer: ratio(missingOf(p)),
       scene: { kind: 'missing', a: p.a, total: p.total, dots: p.dots },
-      say: [{ number: p.a }, { instruction: 'and' }, { instruction: 'missing-addend' }],
+      // the total is said too: by ear alone the question can be answered
+      say: [{ number: p.a }, { instruction: 'missing-addend' }, { number: p.total }],
     }),
     detectors: [
       { code: 'PART_IS_WHOLE', hintId: 'equals-balance', simulate: (p) => ratio(p.total), detect: (p, a) => given(p.total, a) },
@@ -220,14 +221,13 @@ export function signChoiceGenerator(id: string, skill: SkillId, max: number): Ge
       answerMode: 'choice',
       choices: SIGNS,
     }),
-    detectors: [
-      {
-        code: 'OPERATION_SWAP',
-        hintId: 'taking-away',
-        simulate: (p) => ratio(-p.operation),
-        detect: (p, a) => given(-p.operation, a),
-      },
-    ],
+    // the hint says what the picture does: some come, or some go
+    detectors: ([1, -1] as const).map((operation) => ({
+      code: 'OPERATION_SWAP' as const,
+      hintId: operation === 1 ? 'putting-together' : 'taking-away',
+      simulate: (p: SignParams) => (p.operation === operation ? ratio(-p.operation) : null),
+      detect: (p: SignParams, a: Rational) => p.operation === operation && given(-p.operation, a),
+    })),
   };
 }
 
@@ -330,7 +330,7 @@ export function coinsGenerator(id: string, skill: SkillId, max: number): Generat
     build: (p) => ({
       answer: ratio(sum(p.coins)),
       scene: { kind: 'coins', coins: p.coins, unit: p.unit },
-      say: [{ instruction: 'add' }],
+      say: [{ instruction: p.unit === 'euro' ? 'money-coins-euro' : 'money-coins-cent' }],
     }),
     detectors: [
       {
@@ -359,7 +359,7 @@ export function exchangeGenerator(id: string, skill: SkillId): Generator<Exchang
     build: (p) => ({
       answer: ratio(p.coin),
       scene: { kind: 'exchange', coin: p.coin, unit: p.unit },
-      say: [{ instruction: 'money-exchange' }],
+      say: [{ instruction: p.unit === 'euro' ? 'money-exchange-euro' : 'money-exchange-cent' }],
     }),
     detectors: [
       {

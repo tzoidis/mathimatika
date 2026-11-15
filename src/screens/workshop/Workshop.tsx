@@ -8,7 +8,7 @@ import workshop from '../../content/workshop.json';
 import { t } from '../../i18n.ts';
 import { formatNumber } from '../../math-core/format.ts';
 import { buyItem, ownedItems } from '../../storage/progress.ts';
-import { justMoved, openRooms, roomChoices } from '../../storage/workshop.ts';
+import { justMoved, nextChoices, openRooms, roomChoices } from '../../storage/workshop.ts';
 import { IconButton } from '../../ui/IconButton.tsx';
 import { HomeIcon, NextIcon, StarIcon } from '../../ui/Icons.tsx';
 import { ITEM_ART, ITEM_PLACES } from './art.tsx';
@@ -42,6 +42,16 @@ export function Workshop({ onHome }: { onHome(): void }) {
   const rooms = owned ? openRooms(workshop.rooms, workshop.items, owned) : [];
   const shown = viewing ?? room.id;
   const canChoose = choices.length > 0 && shown === room.id;
+  // not enough stars yet: the next two things, pale, and how many stars are still missing
+  const upcoming =
+    owned && choices.length === 0 && shown === room.id
+      ? nextChoices(
+          workshop.items.filter((i) => i.room === room.id).map((i) => i.id),
+          owned,
+          room.price,
+          room.price,
+        )
+      : [];
 
   useEffect(() => {
     if (owned === null) return;
@@ -78,13 +88,17 @@ export function Workshop({ onHome }: { onHome(): void }) {
 
       <div className="workshop-body">
         <div className="workshop-rooms">
-          {rooms.length > 1 && (
-            <span className="room-arrow room-arrow--back">
-              <IconButton label={t('workshop.previousRoom')} onClick={() => setViewing(rooms[Math.max(0, index - 1)]!.id)}>
-                <NextIcon />
-              </IconButton>
-            </span>
-          )}
+          {/* an arrow only where there is a room to go to; the space stays so the scene does not jump */}
+          {rooms.length > 1 &&
+            (index > 0 ? (
+              <span className="room-arrow room-arrow--back">
+                <IconButton label={t('workshop.previousRoom')} onClick={() => setViewing(rooms[index - 1]!.id)}>
+                  <NextIcon />
+                </IconButton>
+              </span>
+            ) : (
+              <span className="icon-button-space" aria-hidden />
+            ))}
           <svg className="workshop-scene" viewBox="0 0 1000 620" role="img" aria-label={t('workshop.scene', { room: workshop.rooms.find((r) => r.id === shown)?.title ?? '', n: formatNumber(inShown.length) })}>
             {ROOM_SCENES[shown]}
             {inShown.map((id) => {
@@ -96,11 +110,14 @@ export function Workshop({ onHome }: { onHome(): void }) {
               ) : null;
             })}
           </svg>
-          {rooms.length > 1 && (
-            <IconButton label={t('workshop.nextRoom')} onClick={() => setViewing(rooms[Math.min(rooms.length - 1, index + 1)]!.id)}>
-              <NextIcon />
-            </IconButton>
-          )}
+          {rooms.length > 1 &&
+            (index < rooms.length - 1 ? (
+              <IconButton label={t('workshop.nextRoom')} onClick={() => setViewing(rooms[index + 1]!.id)}>
+                <NextIcon />
+              </IconButton>
+            ) : (
+              <span className="icon-button-space" aria-hidden />
+            ))}
         </div>
 
         {canChoose && (
@@ -110,6 +127,23 @@ export function Workshop({ onHome }: { onHome(): void }) {
                 <ItemPicture id={id} size={120} />
               </button>
             ))}
+          </div>
+        )}
+
+        {upcoming.length > 0 && (
+          <div className="workshop-upcoming" role="img" aria-label={room.price - child.stars === 1 ? t('workshop.missingOne') : t('workshop.missing', { n: formatNumber(room.price - child.stars) })}>
+            <div className="workshop-choices">
+              {upcoming.map((id) => (
+                <span key={id} className="workshop-choice workshop-choice--later">
+                  <ItemPicture id={id} size={120} />
+                </span>
+              ))}
+            </div>
+            <span className="workshop-stars-needed">
+              {Array.from({ length: room.price }, (_, i) => (
+                <StarIcon key={i} size={44} hollow={i >= child.stars} />
+              ))}
+            </span>
           </div>
         )}
 

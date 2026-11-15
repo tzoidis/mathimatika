@@ -37,6 +37,9 @@ export interface Adapt {
 
 export const NO_HISTORY: Adapt = { progress: new Map(), today: '2000-01-01', focus: null };
 
+/** The mix ends with one of this many latest number-sense exercises. */
+const LATEST_SENSE = 3;
+
 /** Two hard questions in a row, and the next one is easy (PRD §6). */
 const HARD_IN_A_ROW = 2;
 
@@ -84,8 +87,9 @@ export function planRound(kind: RoundKind, generators: readonly PlayableGenerato
   if (kind === 'warmup') slots = [...slots].sort((a, b) => a.level - b.level);
   // the mix ends with an easy question, and keeps one of number sense
   if (kind === 'mix') {
-    const sense = generators.filter(isNumberSense);
-    slots.push({ generator: sense[0] ?? generators[0]!, level: 1 });
+    // one of the latest number-sense exercises, so it grows with the class
+    const sense = generators.filter(isNumberSense).slice(-LATEST_SENSE);
+    slots.push({ generator: sense.length > 0 ? pick(sense, rng) : generators[0]!, level: 1 });
   }
 
   let hard = 0;

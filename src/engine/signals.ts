@@ -3,6 +3,7 @@
 // attempts, and in words that never name a condition. Derived from the answers, never
 // stored. Only first attempts count, never speed.
 
+import { counts } from './adaptive.ts';
 import type { AnswerLog } from './types.ts';
 
 export type SignalKind = 'subitize' | 'compare' | 'line';
@@ -65,7 +66,7 @@ const RULES: Rule[] = [
 export function teacherSignals(answers: readonly AnswerLog[]): Signal[] {
   const signals: Signal[] = [];
   for (const rule of RULES) {
-    const firsts = answers.filter((a) => a.attempt === 1 && !a.askedHelp && rule.pick(a)).sort((x, y) => x.ts - y.ts);
+    const firsts = answers.filter((a) => counts(a) && !a.askedHelp && rule.pick(a)).sort((x, y) => x.ts - y.ts);
     if (firsts.length < MIN_ATTEMPTS) continue;
     if (firsts[firsts.length - 1]!.ts - firsts[0]!.ts < MIN_DAYS * DAY_MS) continue;
     const half = Math.floor(firsts.length / 2);

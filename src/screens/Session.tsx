@@ -40,7 +40,7 @@ export function Session({ onHome, onWorkshop }: { onHome(): void; onWorkshop(): 
     case 'play':
       return (
         <main className="screen session">
-          <RoundPlayer key={state.round} roundKind={phase.roundKind} onComplete={() => dispatch({ type: 'roundComplete' })} />
+          <RoundPlayer key={state.round} roundIndex={state.round} roundKind={phase.roundKind} onComplete={() => dispatch({ type: 'roundComplete' })} />
         </main>
       );
 

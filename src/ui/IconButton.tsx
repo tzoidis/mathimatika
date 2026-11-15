@@ -10,7 +10,8 @@ export function IconButton({
   label: string;
   onClick(): void;
   children: ReactNode;
-  variant?: 'plain' | 'primary';
+  /** soft: a rounded square, for a button that must not be mistaken for its round neighbours */
+  variant?: 'plain' | 'primary' | 'soft';
 }) {
   return (
     <button type="button" className={`icon-button icon-button--${variant}`} aria-label={label} onClick={onClick}>

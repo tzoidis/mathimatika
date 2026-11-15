@@ -90,13 +90,14 @@ export const NotYetIcon = () => (
   </svg>
 );
 
-export const StarIcon = ({ size = 40 }: { size?: number }) => (
+/** `hollow`: an outline, for a star not yet earned (shape as well as colour, PRD §7). */
+export const StarIcon = ({ size = 40, hollow = false }: { size?: number; hollow?: boolean }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden>
     <path
       d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.2l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z"
-      fill="var(--star)"
+      fill={hollow ? 'none' : 'var(--star)'}
       stroke="var(--star-edge)"
-      strokeWidth="1.2"
+      strokeWidth={hollow ? 1.8 : 1.2}
       strokeLinejoin="round"
     />
   </svg>

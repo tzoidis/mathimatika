@@ -1,24 +1,30 @@
 // Progress per skill (PRD §6, §8), worked out from the answers alone: nothing is stored
 // beside them, so it can never drift from what the child actually did, and clearing the
-// answers resets it. Only first attempts count. Latency plays no part.
+// answers resets it. Only first attempts count, and not those that say little: the twin
+// right after a worked example, or a wrong answer given in haste. Latency plays no part.
 
 import type { MisconceptionCode } from '../math-core/check.ts';
 import type { AnswerLog, Level, SkillId } from './types.ts';
 
 export type SkillState = 'notStarted' | 'practising' | 'stabilising' | 'mastered';
 
-/** PRD §6: review after 1, 3, 7, 14 and 30 days; a miss starts again from the first. */
+/** PRD §6: review after 1, 3, 7, 14 and 30 days; a day with a miss steps back one. */
 export const REVIEW_DAYS = [1, 3, 7, 14, 30];
 /** A skill is new, and practised on its own, on its first this many days. */
 export const NEW_DAYS = 3;
+/** The stage is judged on the last this many answers at it, whatever day they came. */
 const WINDOW = 5;
 const WINDOW_RIGHT = 4;
+/** …with the window good on this many different days, so one lucky day is not enough. */
 const GOOD_DAYS_TO_RISE = 2;
-const MISSES_TO_FALL = 2;
+/** Misses within the window that send the stage back. */
+const MISSES_TO_FALL = 3;
 const MASTERY_DAYS = 3;
 const MASTERY_GAP_DAYS = 7;
-/** A mistake is «the usual one» only once it has happened this often. */
+/** A mistake is «the usual one» only once it has happened this often… */
 const DOMINANT_MIN = 2;
+/** …among this many latest answers, so an old habit fades once it is gone. */
+const DOMINANT_RECENT = 20;
 
 export interface SkillProgress {
   skill: SkillId;
@@ -52,52 +58,51 @@ export function addDays(day: string, n: number): string {
 export const isNew = (p: SkillProgress | undefined): boolean => !p || p.days < NEW_DAYS;
 export const isDue = (p: SkillProgress | undefined, today: string): boolean => !!p?.dueDay && dayNumber(p.dueDay) <= dayNumber(today);
 
+/** The answers that say something about the skill. */
+export const counts = (a: AnswerLog): boolean => a.attempt === 1 && !a.twin && !(a.hasty && !a.correct);
+
 export function skillProgress(skill: SkillId, answers: readonly AnswerLog[], dateOf: (ts: number) => string): SkillProgress {
-  const firsts = answers.filter((a) => a.attempt === 1).sort((a, b) => a.ts - b.ts);
+  const firsts = answers.filter(counts).sort((a, b) => a.ts - b.ts);
 
   let stage: Level = 1;
-  let misses = 0;
+  let window: boolean[] = [];
   let goodDays = new Set<string>();
-  let todayAtStage = new Map<string, boolean[]>();
   const symbolicDays: string[] = [];
   const byDay = new Map<string, boolean>();
-  const codes = new Map<MisconceptionCode, AnswerLog[]>();
 
   for (const a of firsts) {
     const day = dateOf(a.ts);
     if (a.correct && stage === 3 && !symbolicDays.includes(day)) symbolicDays.push(day);
     byDay.set(day, (byDay.get(day) ?? true) && a.correct);
-    if (!a.correct && a.code) codes.set(a.code, [...(codes.get(a.code) ?? []), a]);
+    // an easier question answered right says nothing about this stage; a miss there does
+    if (a.correct && a.level !== undefined && a.level < stage) continue;
 
-    const results = [...(todayAtStage.get(day) ?? []), a.correct];
-    todayAtStage.set(day, results);
-    misses = a.correct ? 0 : misses + 1;
-
-    if (misses >= MISSES_TO_FALL) {
+    window = [...window, a.correct].slice(-WINDOW);
+    if (window.filter((r) => !r).length >= MISSES_TO_FALL) {
       stage = Math.max(1, stage - 1) as Level;
-      misses = 0;
+      window = [];
       goodDays = new Set();
-      todayAtStage = new Map();
       continue;
     }
-    const recent = results.slice(-WINDOW);
-    if (recent.length === WINDOW && recent.filter(Boolean).length >= WINDOW_RIGHT) goodDays.add(day);
+    if (window.length === WINDOW && window.filter(Boolean).length >= WINDOW_RIGHT) goodDays.add(day);
     if (goodDays.size >= GOOD_DAYS_TO_RISE && stage < 3) {
       stage = (stage + 1) as Level;
+      window = [];
       goodDays = new Set();
-      todayAtStage = new Map();
     }
   }
 
-  // review box: a clean day moves it on, any miss sends it back to the start
+  // review box: a clean day moves it on, a day with a miss one step back
   let box = -1;
-  for (const clean of byDay.values()) box = clean ? Math.min(box + 1, REVIEW_DAYS.length - 1) : 0;
+  for (const clean of byDay.values()) box = clean ? Math.min(box + 1, REVIEW_DAYS.length - 1) : Math.max(box - 1, 0);
   const days = [...byDay.keys()];
   const lastDay = days[days.length - 1] ?? null;
 
   const gaps = symbolicDays.slice(1).map((d, i) => dayNumber(d) - dayNumber(symbolicDays[i]!));
   const mastered = symbolicDays.length >= MASTERY_DAYS && gaps.some((g) => g >= MASTERY_GAP_DAYS);
 
+  const codes = new Map<MisconceptionCode, AnswerLog[]>();
+  for (const a of firsts.slice(-DOMINANT_RECENT)) if (!a.correct && a.code) codes.set(a.code, [...(codes.get(a.code) ?? []), a]);
   let dominant: SkillProgress['dominant'] = null;
   for (const [code, list] of codes) {
     if (list.length >= DOMINANT_MIN && (!dominant || list.length > codes.get(dominant.code)!.length)) {

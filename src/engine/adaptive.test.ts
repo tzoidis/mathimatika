@@ -47,10 +47,31 @@ describe('stages', () => {
     expect(progress([...day(0, good), ...day(1, good), ...day(2, good), ...day(3, good)]).stage).toBe(3);
   });
 
-  it('falls after two misses in a row, and not after one', () => {
+  it('falls after three misses among the last five, and not after two', () => {
     const up = [...day(0, [true, true, true, true, true]), ...day(1, [true, true, true, true, true])];
     expect(progress([...up, ...day(2, [false, true, false])]).stage).toBe(2);
-    expect(progress([...up, ...day(2, [false, false])]).stage).toBe(1);
+    expect(progress([...up, ...day(2, [false]), ...day(5, [false])]).stage).toBe(2);
+    expect(progress([...up, ...day(2, [false, true]), ...day(3, [false, true, false])]).stage).toBe(1);
+  });
+
+  it('rises on a skill played once or twice a day, as old skills are', () => {
+    const answers = [0, 1, 2, 3, 4, 5].flatMap((d) => day(d, d % 2 === 0 ? [true] : [true, true]));
+    expect(progress(answers).stage).toBe(2);
+  });
+
+  it('leaves out the twin of a worked example and a hasty miss', () => {
+    const twins = day(0, [false, false, false]).map((x) => ({ ...x, twin: true as const }));
+    const hasty = day(0, [false, false, false]).map((x) => ({ ...x, hasty: true as const }));
+    expect(progress(twins).attempts).toBe(0);
+    expect(progress(hasty).attempts).toBe(0);
+    expect(progress(day(0, [true]).map((x) => ({ ...x, hasty: true as const }))).attempts).toBe(1);
+  });
+
+  it('does not rise on easy questions, but falls on them', () => {
+    const up = [...day(0, Array(5).fill(true)), ...day(1, Array(5).fill(true))];
+    const easy = (d: number, results: boolean[]) => day(d, results).map((x) => ({ ...x, level: 1 as const }));
+    expect(progress([...up, ...easy(2, Array(5).fill(true)), ...easy(3, Array(5).fill(true))]).stage).toBe(2);
+    expect(progress([...up, ...easy(2, [false, false, false])]).stage).toBe(1);
   });
 
   it('ignores second attempts', () => {
@@ -80,8 +101,10 @@ describe('the review queue', () => {
     expect(due([0, 1, 4, 11, 25, 55])).toBe(addDays('2026-01-01', 55 + 30));
   });
 
-  it('starts again from one day after a miss', () => {
+  it('steps back one after a day with a miss', () => {
     expect(progress([...day(0, [true]), ...day(1, [true]), ...day(4, [true, false])]).dueDay).toBe(addDays('2026-01-01', 5));
+    // 14 days out, a miss brings it back to 7, not to 1
+    expect(progress([0, 1, 4, 11].flatMap((d) => day(d, [true])).concat(day(25, [false]))).dueDay).toBe(addDays('2026-01-01', 25 + 7));
   });
 });
 
@@ -110,6 +133,12 @@ describe('what the parent sees', () => {
     expect(once.dominant).toBeNull();
     const twice = progress([a(0, false, { code: 'DIGIT_REVERSAL', given: '41', target: '14' }), a(0, false, { code: 'OFF_BY_ONE' }), a(1, false, { code: 'DIGIT_REVERSAL', given: '31', target: '13' })]);
     expect(twice.dominant).toEqual({ code: 'DIGIT_REVERSAL', given: '31', target: '13' });
+  });
+
+  it('forgets a usual mistake once twenty answers have gone by without it', () => {
+    const old = [a(0, false, { code: 'DIGIT_REVERSAL' }), a(0, false, { code: 'DIGIT_REVERSAL' })];
+    expect(progress([...old, ...day(1, Array(18).fill(true))]).dominant).not.toBeNull();
+    expect(progress([...old, ...day(1, Array(20).fill(true))]).dominant).toBeNull();
   });
 
   it('keeps skills apart and leaves out unknown exercises', () => {

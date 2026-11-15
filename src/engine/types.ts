@@ -74,4 +74,10 @@ export interface AnswerLog {
   code?: MisconceptionCode;
   /** «Δεν ξέρω ακόμα»: the worked example was asked for; counts as help, never as a mistake */
   askedHelp?: true;
+  /** the level the question was played at; an easy one answered right does not raise the stage */
+  level?: Level;
+  /** the twin problem right after a worked example: the child has just seen how, so it does not count */
+  twin?: true;
+  /** given while the question was still being read, or in a run of quick misses (PRD §6); a wrong one does not count */
+  hasty?: true;
 }

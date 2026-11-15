@@ -14,7 +14,7 @@ import { generatorById } from '../math-core/generators/index.ts';
 import { localDate } from '../storage/schema.ts';
 import { completeRound, recordAnswer } from '../storage/progress.ts';
 
-export function RoundPlayer({ roundKind, onComplete }: { roundKind: RoundKind; onComplete(): void }) {
+export function RoundPlayer({ roundKind, roundIndex, onComplete }: { roundKind: RoundKind; roundIndex: number; onComplete(): void }) {
   const app = useApp();
   const { db, child, settings } = app;
   // Fixed for the life of the round: finishing it refreshes the star and round counts.
@@ -65,5 +65,5 @@ export function RoundPlayer({ roundKind, onComplete }: { roundKind: RoundKind; o
       .finally(onComplete);
   };
 
-  return <Component round={round} onAnswer={onAnswer} onComplete={complete} />;
+  return <Component round={round} onAnswer={onAnswer} onComplete={complete} roundIndex={roundIndex} />;
 }

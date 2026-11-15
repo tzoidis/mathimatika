@@ -21,7 +21,8 @@ import { tenFrame } from '../../manipulatives/tenFrame.tsx';
 import { formatNumber } from '../../math-core/format.ts';
 import type { AnswerMode, Choice, Problem, Say, Scene as SceneData } from '../../math-core/generators/types.ts';
 import { IconButton } from '../../ui/IconButton.tsx';
-import { Mascot } from '../../ui/Mascot.tsx';
+import { Mascot, type Mood } from '../../ui/Mascot.tsx';
+import { RoundProgress } from '../../ui/RoundProgress.tsx';
 import { mulberry32, newSeed } from '../../engine/rng.ts';
 import { CheckIcon, NotYetIcon, SpeakerIcon } from '../../ui/Icons.tsx';
 import { NumPad } from '../../ui/NumPad.tsx';
@@ -34,8 +35,10 @@ import { SeasonPicture, StoryPicture } from './time.tsx';
 
 const MAX_DIGITS = 3;
 
-/** How long each step of a first-time demo stays on screen. */
-const DEMO_STEP_MS = 800;
+/** How long each step of a demo stays on screen. */
+const DEMO_STEP_MS = 1300;
+/** A demo plays the first time; «listen» plays it again until it has been seen this many times. */
+const DEMO_TIMES = 3;
 
 function ManipulativeAnswer<S, C>({
   manipulative,
@@ -232,7 +235,7 @@ const TAP_MODES: AnswerMode[] = ['pictures', 'week', 'heavier'];
 /** How long the tiles keep lighting up after the clip. */
 const TAP_DEMO_MS = 1500;
 
-export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
+export function Question({ round, onAnswer, onComplete, roundIndex = 0 }: ExerciseProps) {
   const { audio, settings } = useApp();
   const updateSettings = useUpdateSettings();
   const [seenDemos, setSeenDemos] = useState(settings.seenDemos);
@@ -242,6 +245,12 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
   const [example, setExample] = useState(false);
   /** the calm pause after hasty answers */
   const [calm, setCalm] = useState(false);
+  /** this question is the twin of a worked example: its answers are logged but do not count */
+  const [twin, setTwin] = useState(false);
+  /** the hedgehog by the question shows how the last answer went, so it is seen without sound too */
+  const [mood, setMood] = useState<Mood>('encouraging');
+  /** «listen» asked to see the demo again */
+  const [replay, setReplay] = useState(false);
   const [input, setInput] = useState('');
   const [attempt, setAttempt] = useState<1 | 2>(1);
   const [revealed, setRevealed] = useState(false);
@@ -249,8 +258,10 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
   const [tries, setTries] = useState(0);
   const item = items[index]!;
   const { problem } = item;
-  const tapDemo = TAP_MODES.includes(problem.answerMode) && !seenDemos.includes(problem.answerMode);
-  const demoing = (MANIPULATIVE_MODES.includes(problem.answerMode) || tapDemo) && !seenDemos.includes(problem.answerMode);
+  const hasDemo = MANIPULATIVE_MODES.includes(problem.answerMode) || TAP_MODES.includes(problem.answerMode);
+  const demoTimes = seenDemos.filter((m) => m === problem.answerMode).length;
+  const demoing = hasDemo && (demoTimes === 0 || replay);
+  const tapDemo = demoing && TAP_MODES.includes(problem.answerMode);
 
   const speech = useRef(0);
   const leaving = useRef(false);
@@ -288,9 +299,11 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
     };
   }, [audio, item, say, demoing]);
 
+  // each showing is remembered, so «listen» can bring it back only the first few times
   const demoDone = () => {
     const seen = [...seenDemos, problem.answerMode];
     setSeenDemos(seen);
+    setReplay(false);
     void updateSettings({ seenDemos: seen });
   };
 
@@ -317,6 +330,8 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
     setAttempt(1);
     setRevealed(false);
     setTries(0);
+    setTwin(false);
+    setMood('encouraging');
   };
 
   /** «Δεν ξέρω ακόμα» (PRD §6): the worked example, counted as help, then a twin problem. */
@@ -325,9 +340,9 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
     leaving.current = true;
     const mine = ++speech.current;
     audio.stop();
-    if (!revealed && attempt === 1) {
+    if (!revealed) {
       onAnswer({
-        id: [round.seed, index, 'help'].join('-'),
+        id: [round.seed, index, tries, 'help'].join('-'),
         childId: '',
         ts: Date.now(),
         exerciseId: problem.generatorId,
@@ -336,7 +351,9 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
         given: '',
         correct: false,
         askedHelp: true,
-        attempt: 1,
+        attempt,
+        level: item.level,
+        ...(twin ? { twin: true as const } : {}),
         soundsRight: false,
         usedListen: listened.current,
         latencyMs: Date.now() - shownAt.current,
@@ -359,11 +376,13 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
     await wait(EXAMPLE_MS);
     if (speech.current !== mine) return;
     await audio.play({ kind: 'instruction', key: 'twin-problem' });
-    const twin = item.generator.produce({ rng: mulberry32(newSeed()), level: item.level }, new Set([problem.key]));
-    setItems((all) => all.map((it, i) => (i === index ? { ...it, problem: twin } : it)));
+    const similar = item.generator.produce({ rng: mulberry32(newSeed()), level: item.level }, new Set([problem.key]));
+    setItems((all) => all.map((it, i) => (i === index ? { ...it, problem: similar } : it)));
     setExample(false);
     setRevealed(false);
     setAttempt(1);
+    setTwin(true);
+    setMood('encouraging');
     setTries((n) => n + 1);
     leaving.current = false;
   };
@@ -387,10 +406,13 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
     speech.current++;
     speaking.current = false;
     const verdict = item.generator.grade(problem, answer);
+    const quick = !verdict.ok && Date.now() - lastMoveAt.current < QUICK_MS;
+    const hasty = !verdict.ok && (early || (quick && quickWrongs.current + 1 >= QUICK_IN_A_ROW));
 
     if (!revealed) {
       onAnswer({
-        id: [round.seed, index, attempt].join('-'),
+        // tries tells apart the twin's answers from those of the question it replaced
+        id: [round.seed, index, tries, attempt].join('-'),
         childId: '',
         ts: Date.now(),
         exerciseId: problem.generatorId,
@@ -400,6 +422,9 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
         correct: verdict.ok,
         ...(!verdict.ok && verdict.code ? { code: verdict.code } : {}),
         attempt,
+        level: item.level,
+        ...(twin ? { twin: true as const } : {}),
+        ...(hasty ? { hasty: true as const } : {}),
         soundsRight: false,
         usedListen: listened.current,
         latencyMs: Date.now() - shownAt.current,
@@ -407,6 +432,7 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
       });
     }
 
+    setMood(verdict.ok ? 'happy' : 'thinking');
     if (verdict.ok) {
       quickWrongs.current = 0;
       setInput(answer);
@@ -417,10 +443,8 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
     }
     setInput('');
     setTries((n) => n + 1);
-    const quick = Date.now() - lastMoveAt.current < QUICK_MS;
     quickWrongs.current = quick ? quickWrongs.current + 1 : 0;
     lastMoveAt.current = Date.now();
-    const hasty = early || quickWrongs.current >= QUICK_IN_A_ROW;
     if (!revealed && attempt === 1) setAttempt(2);
     else if (!revealed) setRevealed(true);
     if (hasty) {
@@ -448,21 +472,28 @@ export function Question({ round, onAnswer, onComplete }: ExerciseProps) {
           label={t('exercise.listen')}
           onClick={() => {
             listened.current = true;
-            void say(problem.say);
+            if (demoing || leaving.current) return;
+            // while the way to answer is still new, «listen» shows it again
+            if (hasDemo && demoTimes < DEMO_TIMES && attempt === 1 && !revealed) {
+              speech.current++;
+              audio.stop();
+              setReplay(true);
+            } else void say(problem.say);
           }}
         >
           <SpeakerIcon />
         </IconButton>
-        {!demoing && !example && (
-          <IconButton label={t('exercise.notYet')} onClick={() => void notYet()}>
+        <RoundProgress round={roundIndex} question={index} questions={items.length} />
+        <span className={`question-mascot question-mascot--${mood}`} aria-hidden>
+          <Mascot mood={mood} size={96} />
+        </span>
+        {!demoing && !example ? (
+          <IconButton label={t('exercise.notYet')} variant="soft" onClick={() => void notYet()}>
             <NotYetIcon />
           </IconButton>
+        ) : (
+          <span className="icon-button-space" aria-hidden />
         )}
-        <ol className="round-dots" aria-hidden>
-          {items.map((_, i) => (
-            <li key={i} className={i < index ? 'done' : i === index ? 'current' : ''} />
-          ))}
-        </ol>
       </div>
       <div className={`keypad-body ${tapDemo ? 'tap-demo' : ''}`}>
         {answerMode !== 'group' && (

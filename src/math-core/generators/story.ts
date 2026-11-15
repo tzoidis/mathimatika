@@ -6,7 +6,7 @@ import golden from '../../content/word-problems.golden.json' with { type: 'json'
 import { randInt } from '../../engine/rng.ts';
 import type { SkillId } from '../../engine/types.ts';
 import { ratio } from '../rational.ts';
-import type { Operation, WordProblem } from '../wordProblems.ts';
+import type { WordProblem } from '../wordProblems.ts';
 import { given, nOffByOne } from './number.ts';
 import type { GenCtx, Generator, MisconceptionDetector } from './types.ts';
 
@@ -50,7 +50,7 @@ export function storyGenerator(id: string, skill: SkillId): Generator<StoryParam
     }),
     detectors: [
       // the other operation, with the hint for the kind of problem it is
-      ...SWAP_HINTS.map(([operations, hintId]) => swapDetector(operations, hintId)),
+      ...SWAP_HINTS.map(([kind, hintId]) => swapDetector(kind, hintId)),
       {
         // wrote a number that is already in the problem
         code: 'PART_IS_WHOLE',
@@ -62,16 +62,21 @@ export function storyGenerator(id: string, skill: SkillId): Generator<StoryParam
   };
 }
 
-/** Which hint a swapped operation gets, by the kind of problem. */
-const SWAP_HINTS: [readonly Operation[], string][] = [
-  [['add'], 'putting-together'],
-  [['subtract', 'missing', 'twoStep'], 'taking-away'],
-  [['multiply'], 'equal-groups'],
-  [['divide'], 'share-fair'],
+/** Which hint a swapped operation gets, by what happens in the story. */
+const SWAP_HINTS: [(p: WordProblem) => boolean, string][] = [
+  // «είχε στην αρχή»: some were given away, so there were more before
+  [(p) => p.operation === 'add' && p.template === 'before', 'had-more-before'],
+  [(p) => p.operation === 'add' && p.template !== 'before', 'putting-together'],
+  [(p) => p.operation === 'subtract', 'taking-away'],
+  // «χρειάζεται ακόμα»: from what there is up to what is wanted
+  [(p) => p.operation === 'missing', 'how-many-more'],
+  [(p) => p.operation === 'twoStep', 'one-step-at-a-time'],
+  [(p) => p.operation === 'multiply', 'equal-groups'],
+  [(p) => p.operation === 'divide', 'share-fair'],
 ];
 
-function swapDetector(operations: readonly Operation[], hintId: string): MisconceptionDetector<StoryParams> {
-  const applies = (p: StoryParams) => operations.includes(p.problem.operation) && swapped(p.problem) !== p.problem.answer;
+function swapDetector(kind: (p: WordProblem) => boolean, hintId: string): MisconceptionDetector<StoryParams> {
+  const applies = (p: StoryParams) => kind(p.problem) && swapped(p.problem) !== p.problem.answer;
   return {
     code: 'OPERATION_SWAP',
     hintId,

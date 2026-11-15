@@ -78,7 +78,8 @@ describe('the shape of a session', () => {
   it('starts easy and ends easy', () => {
     for (let seed = 0; seed < SEEDS; seed++) {
       expect(plan('warmup', seed)[0]!.level).toBe(1);
-      expect(plan('mix', seed)[4]).toMatchObject({ level: 1, generator: { id: 'qty.to5' } });
+      expect(plan('mix', seed)[4]!.level).toBe(1);
+      expect(isNumberSense(plan('mix', seed)[4]!.generator)).toBe(true);
     }
   });
 

@@ -183,7 +183,8 @@ export function monthGenerator(id: string, skill: SkillId): Generator<MonthParam
     build: (p) => ({
       answer: ratio(weekdayOf(p)),
       scene: { kind: 'month', first: p.first, length: p.length, date: p.date },
-      say: [{ instruction: 'month-on' }, { number: p.date, gender: 'f' }, { instruction: 'month-ask' }],
+      // «Την πρώτη», not «Στις μία»
+      say: p.date === 1 ? [{ instruction: 'month-first' }] : [{ instruction: 'month-on' }, { number: p.date, gender: 'f' }, { instruction: 'month-ask' }],
       answerMode: 'week',
     }),
     detectors: [

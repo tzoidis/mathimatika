@@ -226,7 +226,6 @@ export function bridgeGenerator(id: string, skill: SkillId): Generator<BridgePar
       answer: ratio(p.a + p.b),
       scene: { kind: 'bridge', a: p.a, b: p.b, frames: p.frames },
       say: [{ number: p.a }, { instruction: 'and' }, { number: p.b }, { instruction: 'add' }],
-      ...(p.frames ? { praise: 'made-ten' } : {}),
     }),
     detectors: [
       { code: 'CARRY_FORGOTTEN', hintId: 'make-ten', simulate: (p) => mistake(p.a + p.b - TEN, p.a + p.b), detect: (p, a) => given(p.a + p.b - TEN, a) },

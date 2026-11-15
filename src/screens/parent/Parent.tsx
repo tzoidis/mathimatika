@@ -18,6 +18,19 @@ import { TeacherSection } from './TeacherSection.tsx';
 import { GuideSection } from './GuideSection.tsx';
 import { ParentGate } from './ParentGate.tsx';
 import { OtherSection, TimeSection } from './SettingsSections.tsx';
+import { TodaySection } from './TodaySection.tsx';
+import type { ReactNode } from 'react';
+import type { UiKey } from '../../i18n.ts';
+
+/** A section folded under its title, so the screen opens on the card at a glance. */
+function Fold({ title, children }: { title: UiKey; children: ReactNode }) {
+  return (
+    <details className="parent-fold">
+      <summary>{t(title)}</summary>
+      {children}
+    </details>
+  );
+}
 
 function StorageStatus() {
   const [persisted, setPersisted] = useState<boolean | null>(null);
@@ -87,16 +100,44 @@ export function Parent({ onClose }: { onClose(): void }) {
           <StorageStatus />
           {backupDue(settings.lastBackupAt, hasProgress) && <p className="warn-text">{t('parent.backupDue')}</p>}
           <GuideSection open={!hasProgress} />
-          <BookSection />
-          <SkillMapSection />
-          <HomeSection />
-          <TeacherSection />
-          <LettersSection />
-          <TimeSection />
-          <AudioSection />
-          <OtherSection />
-          <BackupSection />
-          <AboutSection />
+          {hasProgress && <TodaySection />}
+          {/* until a chapter is set, it is the first thing to do */}
+          {settings.upToUnit === null ? (
+            <BookSection />
+          ) : (
+            <Fold title="parent.section.book">
+              <BookSection />
+            </Fold>
+          )}
+          <Fold title="parent.section.skills">
+            <SkillMapSection />
+          </Fold>
+          <Fold title="parent.section.home">
+            <HomeSection />
+          </Fold>
+          {settings.grade <= 2 && (
+            <Fold title="parent.section.teacher">
+              <TeacherSection />
+            </Fold>
+          )}
+          <Fold title="parent.section.letters">
+            <LettersSection />
+          </Fold>
+          <Fold title="parent.section.time">
+            <TimeSection />
+          </Fold>
+          <Fold title="parent.section.audio">
+            <AudioSection />
+          </Fold>
+          <Fold title="parent.section.other">
+            <OtherSection />
+          </Fold>
+          <Fold title="parent.section.backup">
+            <BackupSection />
+          </Fold>
+          <Fold title="parent.section.about">
+            <AboutSection />
+          </Fold>
         </>
       )}
     </main>

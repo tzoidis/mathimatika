@@ -89,6 +89,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "hint/had-more-before": {
+    "text": "Πριν τα δώσει, είχε περισσότερα από όσα έχει τώρα.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "hint/heavy-down": {
     "text": "Το πιο βαρύ κατεβαίνει. Κοίτα ποια πλευρά είναι κάτω.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -103,6 +109,12 @@
   },
   "hint/house-parts": {
     "text": "Το σπιτάκι έχει δύο μέρη. Το ένα το βλέπεις. Πόσο είναι το άλλο;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "hint/how-many-more": {
+    "text": "Ξεκίνα από όσα έχει και μέτρα ως όσα θέλει.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -169,6 +181,12 @@
   },
   "hint/next-ten": {
     "text": "Μετά από το εννέα αλλάζει η δεκάδα.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "hint/one-step-at-a-time": {
+    "text": "Ένα βήμα τη φορά: πρώτα όσα έρχονται, μετά όσα φεύγουν.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -384,7 +402,7 @@
     "format": "mp3_24000_48"
   },
   "instruction/count-put": {
-    "text": "Βάλε τόσα, όσα λέει ο αριθμός.",
+    "text": "Βάλε τόσες μάρκες, όσες λέει ο αριθμός.",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -528,13 +546,13 @@
     "format": "mp3_24000_48"
   },
   "instruction/measure": {
-    "text": "Πόσους συνδετήρες μακρύ είναι;",
+    "text": "Πόσοι συνδετήρες χωράνε από τη μια άκρη ως την άλλη;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
   "instruction/measure-longer": {
-    "text": "Πόσους συνδετήρες πιο μακρύ είναι το πάνω;",
+    "text": "Πόσοι συνδετήρες περισσεύουν στο πάνω;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -552,7 +570,7 @@
     "format": "mp3_24000_48"
   },
   "instruction/missing-addend": {
-    "text": "Πόσα λείπουν;",
+    "text": "και πόσα κάνουν",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -563,8 +581,26 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
-  "instruction/money-exchange": {
-    "text": "Πόσα νομίσματα του ενός χρειάζονται;",
+  "instruction/money-coins-cent": {
+    "text": "Πόσα λεπτά κάνουν όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/money-coins-euro": {
+    "text": "Πόσα ευρώ κάνουν όλα μαζί;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/money-exchange-cent": {
+    "text": "Πόσα νομίσματα του ενός λεπτού χρειάζονται;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/money-exchange-euro": {
+    "text": "Πόσα νομίσματα του ενός ευρώ χρειάζονται;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -576,7 +612,13 @@
     "format": "mp3_24000_48"
   },
   "instruction/month-ask": {
-    "text": "του μήνα τι μέρα είναι;",
+    "text": "του μήνα ποια μέρα είναι;",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/month-first": {
+    "text": "Την πρώτη του μήνα ποια μέρα είναι;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
@@ -594,19 +636,19 @@
     "format": "mp3_24000_48"
   },
   "instruction/order-first": {
-    "text": "Ποια εικόνα έγινε πρώτη;",
+    "text": "Τι έγινε πρώτα;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
   "instruction/order-last": {
-    "text": "Ποια εικόνα έγινε τελευταία;",
+    "text": "Τι έγινε στο τέλος;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
   "instruction/order-middle": {
-    "text": "Ποια εικόνα έγινε στη μέση;",
+    "text": "Τι έγινε στη μέση;",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"

@@ -497,9 +497,9 @@ describe('chapters 33-42', () => {
     expect(gradeOf('add.bridge', { a: 8, b: 5, frames: true }, 13, '31')).toEqual({ ok: false, code: 'DIGIT_REVERSAL', hintId: 'teen-digits' });
   });
 
-  it('praises making ten only when the frames show it', () => {
+  it('never praises a strategy the child may not have used', () => {
     const bridge = GENERATORS.find((g) => g.id === 'add.bridge')!;
-    expect(bridge.produce({ rng: mulberry32(1), level: 1 }, new Set()).praise).toBe('made-ten');
+    expect(bridge.produce({ rng: mulberry32(1), level: 1 }, new Set()).praise).toBeUndefined();
     expect(bridge.produce({ rng: mulberry32(1), level: 3 }, new Set()).praise).toBeUndefined();
   });
 
@@ -570,11 +570,11 @@ describe('chapters 46-49', () => {
     expect(scenes('sub.bridge', 3).some((s) => s.kind === 'missing')).toBe(true);
   });
 
-  it('adds two fives first, and praises it when the picture shows them', () => {
+  it('adds two fives first, without praising a strategy the child may not have used', () => {
     expect(gradeOf('add.fives', { a: 7, b: 8, picture: true }, 15, '5')).toEqual({ ok: false, code: 'CARRY_FORGOTTEN', hintId: 'five-and-five' });
     for (const s of scenes('add.fives', 1)) expect(s.kind === 'fives' && s.b === 5).toBe(true);
     const fives = GENERATORS.find((g) => g.id === 'add.fives')!;
-    expect(fives.produce({ rng: mulberry32(2), level: 2 }, new Set()).praise).toBe('two-fives');
+    expect(fives.produce({ rng: mulberry32(2), level: 2 }, new Set()).praise).toBeUndefined();
     expect(fives.produce({ rng: mulberry32(2), level: 3 }, new Set()).praise).toBeUndefined();
   });
 
@@ -674,7 +674,7 @@ describe('word problems of mixed kinds', () => {
     // 3 flowers in each of 2 boxes: 3 + 2 = 5
     expect(gradeStory('story.mixed', 'boxes-01', '5')).toEqual({ ok: false, code: 'OPERATION_SWAP', hintId: 'equal-groups' });
     // gave 2, has 10 now: 10 − 2 = 8
-    expect(gradeStory('story.mixed', 'before-01', '8')).toEqual({ ok: false, code: 'OPERATION_SWAP', hintId: 'putting-together' });
+    expect(gradeStory('story.mixed', 'before-01', '8')).toEqual({ ok: false, code: 'OPERATION_SWAP', hintId: 'had-more-before' });
     expect(gradeStory('story.addsub.to20', 'takeout-01', '19')).toEqual({ ok: false, code: 'OPERATION_SWAP', hintId: 'taking-away' });
   });
 });
