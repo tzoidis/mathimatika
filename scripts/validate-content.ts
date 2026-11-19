@@ -4,6 +4,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { numberClips } from '../src/audio/numberClips.ts';
+import { numberSpeech } from './generate-audio/number-list.ts';
 import { validateCurriculum } from '../src/engine/curriculum.ts';
 import type { Curriculum, SkillGraph } from '../src/engine/types.ts';
 import { GENERATORS } from '../src/math-core/generators/index.ts';
@@ -37,7 +38,7 @@ const clips: [string, string][] = [
   ...audio.praise.map((text, i): [string, string] => [`praise/${i + 1}`, text]),
   ...Object.entries(audio.strategyPraise).map(([key, text]): [string, string] => [`praise/${key}`, text]),
   ...Object.entries(audio.hints).map(([key, text]): [string, string] => [`hint/${key}`, text]),
-  ...numberClips().map(({ key, text }): [string, string] => [`number/${key}`, text]),
+  ...numberClips().map(({ key, text }): [string, string] => [`number/${key}`, numberSpeech[key] ?? text]),
   ...read<{ problems: WordProblem[] }>('word-problems.golden.json').problems.map((p): [string, string] => [`problem/${p.id}`, p.speech]),
 ];
 

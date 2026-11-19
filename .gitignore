@@ -12,3 +12,4 @@ docs/*.pdf
 .DS_Store
 .vscode/*
 !.vscode/extensions.json
+audio-trials/
