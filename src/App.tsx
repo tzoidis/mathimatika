@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { AppProvider, useApp } from './app/AppContext.tsx';
 import { themeFor } from './app/theme.ts';
 import { Home } from './screens/Home.tsx';
@@ -9,11 +9,15 @@ import { Workshop } from './screens/workshop/Workshop.tsx';
 import { ErrorBoundary } from './ui/ErrorBoundary.tsx';
 import { Mascot } from './ui/Mascot.tsx';
 
-type Screen = { name: 'start' } | { name: 'home' } | { name: 'session' } | { name: 'workshop' } | { name: 'parent'; from: 'start' | 'home' };
+// development only: one exercise at one stage (src/dev/TryScreen.tsx); not in the production build
+const TryScreen = import.meta.env.DEV ? lazy(() => import('./dev/TryScreen.tsx')) : null;
+const trying = import.meta.env.DEV && new URLSearchParams(location.search).has('try');
+
+type Screen = { name: 'start' } | { name: 'home' } | { name: 'session' } | { name: 'workshop' } | { name: 'parent'; from: 'start' | 'home' } | { name: 'try' };
 
 function Screens() {
   const { settings } = useApp();
-  const [screen, setScreen] = useState<Screen>({ name: 'start' });
+  const [screen, setScreen] = useState<Screen>(trying ? { name: 'try' } : { name: 'start' });
   const home = () => setScreen({ name: 'home' });
 
   useEffect(() => {
@@ -27,6 +31,11 @@ function Screens() {
         {screen.name === 'home' && <Home onPlay={() => setScreen({ name: 'session' })} onWorkshop={() => setScreen({ name: 'workshop' })} onParent={() => setScreen({ name: 'parent', from: 'home' })} />}
         {screen.name === 'session' && <Session onHome={home} onWorkshop={() => setScreen({ name: 'workshop' })} />}
         {screen.name === 'workshop' && <Workshop onHome={home} />}
+        {screen.name === 'try' && TryScreen && (
+          <Suspense fallback={null}>
+            <TryScreen search={location.search} />
+          </Suspense>
+        )}
         {/* back to «Πάμε!» when opened there: its tap is what unlocks the sound */}
         {screen.name === 'parent' && <Parent onClose={() => (screen.from === 'start' ? setScreen({ name: 'start' }) : home())} />}
       </ErrorBoundary>

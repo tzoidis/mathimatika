@@ -5,6 +5,7 @@ Offline PWA for practising primary-school maths (grades 1-6), following the clas
 ## Commands
 
 - `npm run dev` – Vite dev server
+- `npm run dev`, then `?try=<generator id>&level=1|2|3` (optional `&seed=N`) – plays one exercise at one stage, writing no answers; `?try=` alone lists them. Dev server only, not in the build (`src/dev/TryScreen.tsx`)
 - `npm run dev:lan` – dev server reachable from the tablet on the home Wi-Fi (plain http: no secure-context APIs without a fallback)
 - `npm test` – Vitest (`npm run test:watch` for watch mode)
 - `npm run validate-content` – checks `src/content/*.json` (runs in CI)

@@ -496,7 +496,8 @@ export function Question({ round, onAnswer, onComplete, roundIndex = 0 }: Exerci
             listened.current = true;
             if (demoing || leaving.current) return;
             // while the way to answer is still new, «listen» shows it again
-            if (hasDemo && demoTimes < DEMO_TIMES && attempt === 1 && !revealed) {
+            // the week has its own help: «listen» reads it card by card instead
+            if (hasDemo && demoTimes < DEMO_TIMES && attempt === 1 && !revealed && scene.kind !== 'week') {
               speech.current++;
               audio.stop();
               setReplay(true);
