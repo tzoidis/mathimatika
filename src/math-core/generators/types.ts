@@ -67,7 +67,7 @@ export type Scene =
   | { kind: 'order'; story: Story; shown: number[]; ask: OrderAsk }
   | { kind: 'dates'; today: number; offset: number }
   | { kind: 'season'; event: string }
-  | { kind: 'month'; first: number; length: number; date: number }
+  | { kind: 'month'; first: number; length: number; date: number; walk: boolean }
   | { kind: 'story'; problemId: string; text: string; operation: 'add' | 'subtract' | 'missing' | 'twoStep' | 'multiply' | 'divide'; a: number; b: number; c?: number; objects: string[]; pictures: boolean };
 
 export type AnswerMode = 'keypad' | 'tenFrame' | 'numberLine' | 'balance' | 'choice' | 'group' | 'rods' | 'regroup' | 'week' | 'heavier' | 'pictures' | 'route' | 'mirror';

@@ -165,6 +165,8 @@ export interface MonthParams {
   /** how many days the month has */
   length: 30 | 31;
   date: number;
+  /** the week is read aloud card by card, its column lit, before the question: the first stage */
+  walk: boolean;
 }
 
 export const weekdayOf = (p: Pick<MonthParams, 'first' | 'date'>) => dayAfter(p.first, p.date - 1);
@@ -175,14 +177,14 @@ export function monthGenerator(id: string, skill: SkillId): Generator<MonthParam
     skill,
     params: ({ rng, level }: GenCtx) => {
       const length = pick([30, 31] as const, rng);
-      return { first: randInt(1, DAYS, rng), length, date: randInt(1, level === 1 ? DAYS : level === 2 ? 21 : length, rng) };
+      return { first: randInt(1, DAYS, rng), length, date: randInt(1, level === 1 ? DAYS : level === 2 ? 21 : length, rng), walk: level === 1 };
     },
     // the month fits in six rows of the calendar
     constraints: [(p) => p.date >= 1 && p.date <= p.length, (p) => p.first - 1 + p.length <= 6 * DAYS],
     key: (p) => [id, p.first, p.length, p.date].join(':'),
     build: (p) => ({
       answer: ratio(weekdayOf(p)),
-      scene: { kind: 'month', first: p.first, length: p.length, date: p.date },
+      scene: { kind: 'month', first: p.first, length: p.length, date: p.date, walk: p.walk },
       // «Την πρώτη», not «Στις μία»
       say: p.date === 1 ? [{ instruction: 'month-first' }] : [{ instruction: 'month-on' }, { number: p.date, gender: 'f' }, { instruction: 'month-ask' }],
       answerMode: 'week',

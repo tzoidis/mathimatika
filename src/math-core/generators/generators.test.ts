@@ -538,9 +538,12 @@ describe('chapters 33-42', () => {
 
   it('reads a date of the month down to its day', () => {
     // a month that starts on a Wednesday: the 6th is a Monday
-    expect(gradeOf('days.month', { first: 3, length: 30, date: 6 }, 1, '1')).toEqual({ ok: true });
-    expect(gradeOf('days.month', { first: 3, length: 30, date: 6 }, 1, '7')).toEqual({ ok: false, code: 'OFF_BY_ONE', hintId: 'month-column' });
+    expect(gradeOf('days.month', { first: 3, length: 30, date: 6, walk: false }, 1, '1')).toEqual({ ok: true });
+    expect(gradeOf('days.month', { first: 3, length: 30, date: 6, walk: false }, 1, '7')).toEqual({ ok: false, code: 'OFF_BY_ONE', hintId: 'month-column' });
     for (const s of scenes('days.month', 1)) expect(s.kind === 'month' && s.date <= 7).toBe(true);
+    // the week is read aloud before the question at the first stage only
+    for (const s of scenes('days.month', 1)) expect(s).toMatchObject({ walk: true });
+    for (const s of scenes('days.month', 2)) expect(s).toMatchObject({ walk: false });
   });
 });
 
@@ -739,6 +742,11 @@ describe('space: arrows, routes, pictures of shapes, pieces, mirrors', () => {
   it('draws squares as squares, and knows squares and rectangles counted together', () => {
     for (const parts of Object.values(COMPOSITIONS)) for (const p of parts) if (p.kind === 'square' || p.kind === 'circle') expect(p.w).toBe(p.h);
     expect(gradeOf('compose.count', { picture: 'robot', ask: 'square' }, 1, '6')).toEqual({ ok: false, code: 'SHAPE_CONFUSED', hintId: 'shape-sides' });
+  });
+
+  it('always draws the lines inside the figure in grade 1', () => {
+    const g = GENERATORS.find((x) => x.id === 'tangram.pieces')!;
+    for (const level of [1, 2, 3] as const) for (let seed = 0; seed < 20; seed++) expect(g.produce({ rng: mulberry32(seed), level }, new Set()).scene).toMatchObject({ kind: 'pieces', lines: true });
   });
 
   it('knows four triangles seen as two', () => {

@@ -277,7 +277,7 @@ function StoryPictures({ scene }: { scene: Extract<SceneData, { kind: 'story' }>
   }
 }
 
-export function Scene({ scene, slot, answerOnLine, readable = false }: { scene: SceneData; slot: ReactNode; answerOnLine: boolean; readable?: boolean }) {
+export function Scene({ scene, slot, answerOnLine, readable = false, lit = null }: { scene: SceneData; slot: ReactNode; answerOnLine: boolean; readable?: boolean; lit?: number | null }) {
   switch (scene.kind) {
     case 'count':
       return (
@@ -458,7 +458,7 @@ export function Scene({ scene, slot, answerOnLine, readable = false }: { scene: 
     case 'month':
       return (
         <div className="scene scene--wide">
-          <MonthGrid first={scene.first} length={scene.length} date={scene.date} />
+          <MonthGrid first={scene.first} length={scene.length} date={scene.date} lit={lit} />
         </div>
       );
 

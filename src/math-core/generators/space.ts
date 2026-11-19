@@ -280,7 +280,9 @@ export function piecesGenerator(id: string, skill: SkillId): Generator<PiecesPar
   return {
     id,
     skill,
-    params: ({ rng, level }: GenCtx) => ({ figure: pick(level === 1 ? (['square2', 'rect2', 'rect3'] as Figure[]) : figures, rng), lines: level === 1 }),
+    // the lines inside always show: without them (once stage 2) it was too hard for grade 1 (parent, 2026-11-19);
+    // the stages differ in the figures only
+    params: ({ rng, level }: GenCtx) => ({ figure: pick(level === 1 ? (['square2', 'rect2', 'rect3'] as Figure[]) : figures, rng), lines: true }),
     constraints: [(p) => p.figure in FIGURES],
     key: (p) => [id, p.figure, p.lines ? 1 : 0].join(':'),
     build: (p) => ({

@@ -69,6 +69,8 @@ export function Parent({ onClose }: { onClose(): void }) {
   const [unlocked, setUnlocked] = useState(false);
   const [installAck, setInstallAck] = useState(isInstalled);
   const [hasProgress, setHasProgress] = useState(false);
+  // decided once per visit, so choosing the chapter does not fold it away under the parent's finger
+  const [bookFirst] = useState(settings.upToUnit === null);
   const updateReady = useUpdateReady();
 
   useEffect(() => {
@@ -99,12 +101,11 @@ export function Parent({ onClose }: { onClose(): void }) {
           )}
           <StorageStatus />
           {backupDue(settings.lastBackupAt, hasProgress) && <p className="warn-text">{t('parent.backupDue')}</p>}
-          <GuideSection open={!hasProgress} />
+          {/* until a chapter is set, it is the first thing to do, above the guide */}
+          {bookFirst && <BookSection />}
+          <GuideSection open={!hasProgress && !bookFirst} />
           {hasProgress && <TodaySection />}
-          {/* until a chapter is set, it is the first thing to do */}
-          {settings.upToUnit === null ? (
-            <BookSection />
-          ) : (
+          {!bookFirst && (
             <Fold title="parent.section.book">
               <BookSection />
             </Fold>

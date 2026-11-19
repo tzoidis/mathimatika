@@ -296,12 +296,13 @@ export function DateCards({ today, offset, slot }: { today: number; offset: numb
 }
 
 /** The month as a wall calendar, Monday first, with the asked date ringed. */
-export function MonthGrid({ first, length, date }: { first: number; length: number; date: number }) {
+/** `lit`: the day of the week being read aloud, whose column lights up with its card below. */
+export function MonthGrid({ first, length, date, lit = null }: { first: number; length: number; date: number; lit?: number | null }) {
   const cells = [...Array<null>(first - 1).fill(null), ...Array.from({ length }, (_, i) => i + 1)];
   return (
     <div className="month" aria-hidden>
       {cells.map((n, i) => (
-        <span key={i} className={`month-cell month-cell--${(i % 7) + 1} ${n === null ? 'month-cell--empty' : ''} ${n === date ? 'month-cell--asked' : ''}`}>
+        <span key={i} className={`month-cell month-cell--${(i % 7) + 1} ${n === null ? 'month-cell--empty' : ''} ${n === date ? 'month-cell--asked' : ''} ${n !== null && (i % 7) + 1 === lit ? 'month-cell--lit' : ''}`}>
           {n === null ? '' : formatNumber(n)}
         </span>
       ))}

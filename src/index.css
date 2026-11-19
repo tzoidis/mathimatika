@@ -109,6 +109,18 @@ button {
   text-align: center;
 }
 
+.first-run {
+  padding: 16px 20px;
+  border-radius: 16px;
+  border: 2px solid var(--card-edge);
+  background: var(--card);
+  font-size: 17px;
+}
+
+.first-run p {
+  margin: 6px 0 0;
+}
+
 .parent-entry .parent-button {
   display: inline-flex;
   align-items: center;
@@ -2284,6 +2296,12 @@ button {
 .month-cell--asked {
   box-shadow: inset 0 0 0 4px var(--accent);
   font-size: 26px;
+}
+
+/* the column of the day being read aloud, with its card below */
+.month-cell--lit {
+  background: var(--star);
+  transition: background 0.2s;
 }
 
 .picture-choices--season {

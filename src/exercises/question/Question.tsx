@@ -208,7 +208,7 @@ const WEEK_WALK: Spoken[] = [...Array.from({ length: 7 }, (_, i): Spoken[] => [{
  */
 function spokenFor(problem: Problem, listening: boolean): Spoken[] {
   const { scene } = problem;
-  return scene.kind === 'week' && (scene.walk || listening) ? [...WEEK_WALK, ...problem.say] : problem.say;
+  return (scene.kind === 'week' || scene.kind === 'month') && (scene.walk || listening) ? [...WEEK_WALK, ...problem.say] : problem.say;
 }
 
 /** The week as seven cards from Monday; a name is written only if the child can read it. Today always has the sun. */
@@ -497,7 +497,7 @@ export function Question({ round, onAnswer, onComplete, roundIndex = 0 }: Exerci
             if (demoing || leaving.current) return;
             // while the way to answer is still new, «listen» shows it again
             // the week has its own help: «listen» reads it card by card instead
-            if (hasDemo && demoTimes < DEMO_TIMES && attempt === 1 && !revealed && scene.kind !== 'week') {
+            if (hasDemo && demoTimes < DEMO_TIMES && attempt === 1 && !revealed && scene.kind !== 'week' && scene.kind !== 'month') {
               speech.current++;
               audio.stop();
               setReplay(true);
@@ -521,7 +521,7 @@ export function Question({ round, onAnswer, onComplete, roundIndex = 0 }: Exerci
       <div className={`keypad-body ${tapDemo ? 'tap-demo' : ''}`}>
         {answerMode !== 'group' && (
           <div className="keypad-question">
-            <Scene key={problem.key} scene={scene} slot={slot} answerOnLine={answerMode === 'numberLine'} readable={scene.kind === 'story' && isTextAllowed(scene.text, readingContext(settings.upToPosition))} />
+            <Scene key={problem.key} scene={scene} slot={slot} answerOnLine={answerMode === 'numberLine'} readable={scene.kind === 'story' && isTextAllowed(scene.text, readingContext(settings.upToPosition))} lit={lit} />
           </div>
         )}
         {answerMode === 'keypad' && (

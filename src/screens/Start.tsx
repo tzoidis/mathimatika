@@ -10,7 +10,9 @@ import { LockIcon } from '../ui/Icons.tsx';
 import { Mascot } from '../ui/Mascot.tsx';
 
 export function Start({ onGo, onParent }: { onGo(): void; onParent(): void }) {
-  const { audio, recheckVoice } = useApp();
+  const { audio, recheckVoice, settings } = useApp();
+  // until the parent says where the class is, the rounds have no maths in them
+  const firstRun = settings.upToUnit === null;
   const updateReady = useUpdateReady();
 
   useEffect(() => {
@@ -34,7 +36,13 @@ export function Start({ onGo, onParent }: { onGo(): void; onParent(): void }) {
         {t('start.go')}
       </button>
       <div className="parent-entry">
-        <button type="button" className="parent-button" onClick={onParent}>
+        {firstRun && (
+          <div className="first-run">
+            <strong>{t('start.firstRun.title')}</strong>
+            <p>{t('start.firstRun.body')}</p>
+          </div>
+        )}
+        <button type="button" className={`parent-button ${firstRun ? 'primary' : ''}`} onClick={onParent}>
           <LockIcon />
           {t('start.parent')}
         </button>
