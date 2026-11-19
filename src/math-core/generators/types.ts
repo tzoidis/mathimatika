@@ -39,7 +39,7 @@ export type Scene =
   | { kind: 'regroup'; tens: number; units: number }
   | { kind: 'addMany'; terms: number[]; dots: boolean }
   | { kind: 'bridge'; a: number; b: number; frames: boolean }
-  | { kind: 'week'; today: number; offset: number; marked: boolean }
+  | { kind: 'week'; today: number; offset: number; walk: boolean }
   | { kind: 'calc'; a: number; b: number; op: 1 | -1; picture: boolean }
   | { kind: 'inverse'; a: number; b: number; taken: number }
   | { kind: 'subBridge'; a: number; b: number; frames: boolean }

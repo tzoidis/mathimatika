@@ -1549,6 +1549,20 @@ button {
   white-space: nowrap;
 }
 
+/* the card whose day is being read aloud */
+.week-day--lit {
+  transform: translateY(-12px);
+  background: var(--star);
+  transition: transform 0.2s, background 0.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .week-day--lit {
+    transform: none;
+    transition: none;
+  }
+}
+
 /* the answer shown after two tries: dashed all round, the top band kept */
 .week-day.choice-tile--shown {
   border: 4px dashed var(--accent);

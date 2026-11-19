@@ -196,15 +196,30 @@ function HeavierAnswer({ scene, correct, revealed, onSubmit }: { scene: Extract<
   );
 }
 
-/** The week as seven cards from Monday; a name is written only if the child can read it. */
-function WeekAnswer({ scene, correct, revealed, readable, onSubmit }: { scene: Extract<SceneData, { kind: 'week' | 'month' }>; correct: string; revealed: boolean; readable(text: string): boolean; onSubmit(input: string): void }) {
+/** A part of what is read aloud: a clip, or which card of the week lights up while the next one plays. */
+type Spoken = Say | { light: number | null };
+
+/** The week read aloud from Monday, each card lighting up as its day is said. */
+const WEEK_WALK: Spoken[] = [...Array.from({ length: 7 }, (_, i): Spoken[] => [{ light: i + 1 }, { instruction: `day-${i + 1}` }]).flat(), { light: null }];
+
+/**
+ * What a question says. The cards of the week carry no names a child of grade 1 can read,
+ * so at the first stage the week is read card by card first, and «listen» always does so.
+ */
+function spokenFor(problem: Problem, listening: boolean): Spoken[] {
+  const { scene } = problem;
+  return scene.kind === 'week' && (scene.walk || listening) ? [...WEEK_WALK, ...problem.say] : problem.say;
+}
+
+/** The week as seven cards from Monday; a name is written only if the child can read it. Today always has the sun. */
+function WeekAnswer({ scene, lit, correct, revealed, readable, onSubmit }: { scene: Extract<SceneData, { kind: 'week' | 'month' }>; lit: number | null; correct: string; revealed: boolean; readable(text: string): boolean; onSubmit(input: string): void }) {
   return (
     <div className={`week week--${scene.kind}`} role="group" aria-label={t('week.label')}>
       {Array.from({ length: 7 }, (_, i) => i + 1).map((day) => {
         const name = t(`day.${day}` as UiKey);
-        const today = scene.kind === 'week' && scene.marked && day === scene.today;
+        const today = scene.kind === 'week' && day === scene.today;
         return (
-          <button key={day} type="button" aria-label={name} className={`week-day week-day--${day} ${today ? 'week-day--today' : ''} ${revealed && String(day) === correct ? 'choice-tile--shown' : ''}`} onClick={() => onSubmit(String(day))}>
+          <button key={day} type="button" aria-label={name} className={`week-day week-day--${day} ${today ? 'week-day--today' : ''} ${lit === day ? 'week-day--lit' : ''} ${revealed && String(day) === correct ? 'choice-tile--shown' : ''}`} onClick={() => onSubmit(String(day))}>
             {today && <span className="week-sun" aria-label={t('week.today')} />}
             {readable(name) && <span className="week-name">{name}</span>}
           </button>
@@ -251,6 +266,8 @@ export function Question({ round, onAnswer, onComplete, roundIndex = 0 }: Exerci
   const [mood, setMood] = useState<Mood>('encouraging');
   /** «listen» asked to see the demo again */
   const [replay, setReplay] = useState(false);
+  /** the card of the week being read aloud */
+  const [lit, setLit] = useState<number | null>(null);
   const [input, setInput] = useState('');
   const [attempt, setAttempt] = useState<1 | 2>(1);
   const [revealed, setRevealed] = useState(false);
@@ -274,14 +291,19 @@ export function Question({ round, onAnswer, onComplete, roundIndex = 0 }: Exerci
 
   /** Plays the parts in order; any newer speech or answer cuts it short. */
   const say = useCallback(
-    async (parts: Say[]) => {
+    async (parts: Spoken[]) => {
       const mine = ++speech.current;
       speaking.current = true;
       for (const part of parts) {
-        if (speech.current !== mine) return;
+        if (speech.current !== mine) return setLit(null);
+        if ('light' in part) {
+          setLit(part.light);
+          continue;
+        }
         await audio.play('number' in part ? numberRequest(part.number, part.gender) : 'clip' in part ? { kind: 'problem', key: part.clip } : { kind: 'instruction', key: part.instruction });
       }
       if (speech.current === mine) speaking.current = false;
+      else setLit(null);
     },
     [audio],
   );
@@ -292,7 +314,7 @@ export function Question({ round, onAnswer, onComplete, roundIndex = 0 }: Exerci
     shownAt.current = Date.now();
     lastMoveAt.current = Date.now();
     listened.current = false;
-    void say(item.problem.say);
+    void say(spokenFor(item.problem, false));
     return () => {
       speech.current++;
       audio.stop();
@@ -397,7 +419,7 @@ export function Question({ round, onAnswer, onComplete, roundIndex = 0 }: Exerci
     setCalm(false);
     leaving.current = false;
     lastMoveAt.current = Date.now();
-    void say(problem.say);
+    void say(spokenFor(problem, false));
   };
 
   const submit = async (answer: string) => {
@@ -478,7 +500,7 @@ export function Question({ round, onAnswer, onComplete, roundIndex = 0 }: Exerci
               speech.current++;
               audio.stop();
               setReplay(true);
-            } else void say(problem.say);
+            } else void say(spokenFor(problem, true));
           }}
         >
           <SpeakerIcon />
@@ -534,7 +556,7 @@ export function Question({ round, onAnswer, onComplete, roundIndex = 0 }: Exerci
         )}
         {answerMode === 'heavier' && scene.kind === 'heavier' && <HeavierAnswer scene={scene} correct={rightInput(problem)} revealed={revealed} onSubmit={(a) => void submit(a)} />}
         {answerMode === 'week' && (scene.kind === 'week' || scene.kind === 'month') && (
-          <WeekAnswer scene={scene} correct={rightInput(problem)} revealed={revealed} readable={(text) => isTextAllowed(text, readingContext(settings.upToPosition))} onSubmit={(a) => void submit(a)} />
+          <WeekAnswer scene={scene} lit={lit} correct={rightInput(problem)} revealed={revealed} readable={(text) => isTextAllowed(text, readingContext(settings.upToPosition))} onSubmit={(a) => void submit(a)} />
         )}
         {answerMode === 'rods' && scene.kind === 'build' && (
           <ManipulativeAnswer key={manipulativeKey} manipulative={rods} config={{ mode: 'build', target: scene.n, tens: 0, units: 0 }} {...manipulativeProps} />

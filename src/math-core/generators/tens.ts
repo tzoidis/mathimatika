@@ -243,8 +243,8 @@ export interface DaysParams {
   today: number;
   /** −2 the day before yesterday … +2 the day after tomorrow */
   offset: -2 | -1 | 1 | 2;
-  /** today's card is marked */
-  marked: boolean;
+  /** the week is read aloud card by card before the question: the first stage */
+  walk: boolean;
 }
 
 export const DAYS = 7;
@@ -258,14 +258,14 @@ export function daysGenerator(id: string, skill: SkillId): Generator<DaysParams>
     skill,
     params({ rng, level }: GenCtx) {
       const offset = (level === 3 ? [-2, -1, 1, 2] : [-1, 1])[randInt(0, level === 3 ? 3 : 1, rng)] as DaysParams['offset'];
-      return { today: randInt(1, DAYS, rng), offset, marked: level === 1 };
+      return { today: randInt(1, DAYS, rng), offset, walk: level === 1 };
     },
     // the week only goes round the corner once the child knows it by heart
-    constraints: [(p) => p.today >= 1 && p.today <= DAYS, (p) => !p.marked || (p.today + p.offset >= 1 && p.today + p.offset <= DAYS)],
+    constraints: [(p) => p.today >= 1 && p.today <= DAYS, (p) => !p.walk || (p.today + p.offset >= 1 && p.today + p.offset <= DAYS)],
     key: (p) => [id, p.today, p.offset].join(':'),
     build: (p) => ({
       answer: ratio(answerOf(p)),
-      scene: { kind: 'week', today: p.today, offset: p.offset, marked: p.marked },
+      scene: { kind: 'week', today: p.today, offset: p.offset, walk: p.walk },
       say: [{ instruction: 'today-is' }, { instruction: `day-${p.today}` }, { instruction: ASK[p.offset] }],
       answerMode: 'week',
     }),

@@ -503,10 +503,10 @@ describe('chapters 33-42', () => {
     expect(bridge.produce({ rng: mulberry32(1), level: 3 }, new Set()).praise).toBeUndefined();
   });
 
-  it('goes round the week from Sunday to Monday, but not while today is marked', () => {
-    expect(gradeOf('days.week', { today: 7, offset: 1, marked: false }, 1, '1')).toEqual({ ok: true });
-    expect(gradeOf('days.week', { today: 2, offset: 1, marked: false }, 3, '1')).toEqual({ ok: false, code: 'WRONG_DIRECTION', hintId: 'days-order' });
-    expect(gradeOf('days.week', { today: 2, offset: 2, marked: false }, 4, '3')).toEqual({ ok: false, code: 'OFF_BY_ONE', hintId: 'days-order' });
+  it('goes round the week from Sunday to Monday, but not at the first stage', () => {
+    expect(gradeOf('days.week', { today: 7, offset: 1, walk: false }, 1, '1')).toEqual({ ok: true });
+    expect(gradeOf('days.week', { today: 2, offset: 1, walk: false }, 3, '1')).toEqual({ ok: false, code: 'WRONG_DIRECTION', hintId: 'days-order' });
+    expect(gradeOf('days.week', { today: 2, offset: 2, walk: false }, 4, '3')).toEqual({ ok: false, code: 'OFF_BY_ONE', hintId: 'days-order' });
     for (const s of scenes('days.week', 1)) expect(s.kind === 'week' && s.today + s.offset >= 1 && s.today + s.offset <= 7).toBe(true);
     expect(scenes('days.week', 2).some((s) => s.kind === 'week' && (s.today + s.offset === 8 || s.today + s.offset === 0))).toBe(true);
   });

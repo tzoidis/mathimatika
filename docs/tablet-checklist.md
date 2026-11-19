@@ -35,6 +35,7 @@ Date: ____________
 | 2 | Tens and units (ch. 33-39) | Build a number with rods and cubes. Tie 10 cubes into a rod. Read the number in the place-value table. Every tap target is big enough for a finger. | |
 | 3 | Through ten, 2-digit ± 1-digit (ch. 42-50) | The ten frames sit side by side. The hints are about «κάνω δέκα». In subtraction the clip says «μείον», not «πλην». | |
 | 4 | Time (ch. 41) | Put the pictures of a story in order: first, last, in the middle. Fill in yesterday and tomorrow on the calendar cards. Pick the tree of the right season. On the month calendar, find the circled date's day on the cards below: the columns line up with the cards in portrait and in landscape. | |
+| 4β | The days of the week (ch. 41) | «Σήμερα είναι … Ποια μέρα θα είναι αύριο;»: today's card always has the sun. At the first stage the seven cards light up one by one while Eleni says Δευτέρα … Κυριακή, then the question; «Άκου» does the same at every stage. Tapping a card mid-way stops the reading. |  |
 | 5 | Picture answers, first time | The first time an answer is a picture to tap (pictures, the week, the scale), the tiles light up one after another with the clip «Δες πώς απαντάς εδώ…», then the question is read. It does not happen again. | |
 | 6 | To 100, money, groups (ch. 52-62) | Paper clips, ten more or less, the wallet with notes and coins, sharing onto plates, the heavier pan. | |
 | 7 | Shapes and space (part 4) | Which shape, counting triangles, taller and shorter, patterns, arrows, routes round rocks, pieces of a shape, mirror halves. | |
