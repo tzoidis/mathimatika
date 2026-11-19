@@ -392,7 +392,8 @@ export function Scene({ scene, slot, answerOnLine, readable = false }: { scene: 
 
     case 'floor':
       return (
-        <div className="scene">
+        // the answer beside the building: under it, ten floors and the pad do not fit a portrait tablet
+        <div className="scene scene--floor">
           <div className="building">
             {Array.from({ length: scene.floors }, (_, i) => scene.floors - i).map((f) => (
               <div key={f} className={`floor ${f === scene.floor ? 'floor--lit' : ''}`} />
@@ -547,7 +548,8 @@ export function Scene({ scene, slot, answerOnLine, readable = false }: { scene: 
       return (
         <div className="scene">
           {scene.picture && (
-            <div className="dot-groups">
+            // one above the other, as two rows of a twenty frame: side by side they are wider than a tablet
+            <div className="dot-groups dot-groups--stacked">
               <FiveAndMore n={scene.a} />
               <FiveAndMore n={scene.b} />
             </div>
@@ -767,7 +769,8 @@ export function Scene({ scene, slot, answerOnLine, readable = false }: { scene: 
       return (
         <div className="scene">
           {scene.dots && (
-            <div className="dot-groups">
+            // three groups at full size and the pad are wider than a 1024px tablet
+            <div className="dot-groups dot-groups--many">
               {scene.terms.map((n, i) => (
                 <Dots key={i} n={n} />
               ))}

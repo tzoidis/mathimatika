@@ -883,6 +883,26 @@ button {
   gap: 48px;
 }
 
+.dot-groups--many {
+  gap: 24px;
+}
+
+.dot-groups--many .dots {
+  grid-template-columns: repeat(5, 24px);
+  gap: 6px;
+}
+
+.dot-groups--many .dot {
+  width: 24px;
+  height: 24px;
+}
+
+.dot-groups--stacked {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
 .ten-frames {
   display: flex;
   flex-direction: column;
@@ -1117,6 +1137,12 @@ button {
 .balance-controls {
   display: flex;
   gap: 16px;
+}
+
+.scene--floor {
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 24px;
 }
 
 .building {
