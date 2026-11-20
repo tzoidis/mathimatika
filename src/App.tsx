@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { AppProvider, useApp } from './app/AppContext.tsx';
+import { useFit } from './app/fit.ts';
 import { themeFor } from './app/theme.ts';
 import { Home } from './screens/Home.tsx';
 import { Parent } from './screens/parent/Parent.tsx';
@@ -19,6 +20,7 @@ function Screens() {
   const { settings } = useApp();
   const [screen, setScreen] = useState<Screen>(trying ? { name: 'try' } : { name: 'start' });
   const home = () => setScreen({ name: 'home' });
+  useFit();
 
   useEffect(() => {
     document.documentElement.dataset.band = themeFor(settings.grade);

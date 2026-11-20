@@ -25,7 +25,7 @@ export function Home({ onPlay, onWorkshop, onParent }: { onPlay(): void; onWorks
   if (limitReached === null) return <main className="screen" />;
 
   return (
-    <main className="screen home">
+    <main className="screen home fit-light">
       <div className="top-bar">
         <button type="button" className="parent-lock" aria-label={t('nav.parent')} onClick={onParent}>
           <LockIcon />

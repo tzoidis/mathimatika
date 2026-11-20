@@ -2369,3 +2369,18 @@ button {
     box-shadow: 0 0 0 6px var(--accent-soft);
   }
 }
+
+/* ---------- the child's screens on a screen smaller than a tablet (src/app/fit.ts) ---------- */
+
+/* the same layout scaled down as a whole; last in the file, so its size wins over .screen's */
+.fit {
+  zoom: var(--fit, 1);
+  width: var(--fit-w, 100%);
+  height: var(--fit-h, 100%);
+}
+
+.fit-light {
+  zoom: var(--fit-light, 1);
+  width: var(--fit-light-w, 100%);
+  height: var(--fit-light-h, 100%);
+}

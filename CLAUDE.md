@@ -31,7 +31,7 @@ Node ≥ 22.18 (scripts in `scripts/` run as plain `.ts` via Node type stripping
 - **No string with a number built by template literal;** always `formatNumber`.
 - **Every new generator comes with** property tests, an independent check of the answer, detectors and their simulators.
 - **Problem text only from template + lexicon.** A change to a golden file needs the parent's approval.
-- **Every manipulative implements `Manipulative`,** with tap instead of drag and targets ≥ 96px.
+- **Every manipulative implements `Manipulative`,** with tap instead of drag and targets ≥ 96px (on a tablet; see «Any screen» below).
 - **Nothing visible about time or speed, anywhere.** No timers, streaks, leaderboards; never the word «λάθος» in audio, no red X, no shaking.
 - Instructions and praise always ship as clips in one voice (Eleni). Device TTS is only a fallback for numbers and joined phrases, only with a local `el-GR` voice.
 - In grades 1-2 every problem is read aloud automatically and «listen» does **not** count as help: the opposite of Glossa (PRD §7).
@@ -42,6 +42,11 @@ Node ≥ 22.18 (scripts in `scripts/` run as plain `.ts` via Node type stripping
 
 - Clips live in `src/audio/files/<kind>/<key>.mp3`, not `public/audio/` (PRD §9): Vite hashes them, they are precached, and `src/audio/bundled.test.ts` fails on a missing one. Decided with the user at ΜΘ0.
 - `src/` also has `app/` (context, theme, updates), `storage/` (Dexie) and `ui/`, which the PRD's folder list omits.
+
+## Any screen, phone to tablet
+
+- The app is meant for other families too, on devices we do not know. The child's screens are laid out once, for a tablet, and must fit 1024×768 and 768×1024; a smaller screen shows the same layout scaled down with CSS `zoom` (`src/app/fit.ts`): class `fit` on a question round, `fit-light` on the simple screens (home, break, end, Workshop), which keep bigger buttons. Never scaled up. Start and the parent's screens are documents and are not scaled.
+- On a phone the 96px targets become about 45-50px. Check a layout change with the try page at a tablet size; the phone then follows.
 
 ## PWA
 

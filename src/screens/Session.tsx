@@ -39,38 +39,43 @@ export function Session({ onHome, onWorkshop }: { onHome(): void; onWorkshop(): 
   switch (phase.kind) {
     case 'play':
       return (
-        <main className="screen session">
+        <main className="screen session fit">
           <RoundPlayer key={state.round} roundIndex={state.round} roundKind={phase.roundKind} onComplete={() => dispatch({ type: 'roundComplete' })} />
         </main>
       );
 
     case 'break':
       return (
-        <main className="screen screen--center">
+        <main className="screen screen--center fit-light">
           <BreakView onContinue={() => dispatch({ type: 'continue' })} />
         </main>
       );
 
     case 'done':
-      return (
-        <main className="screen screen--center done">
-          <Mascot mood={phase.reason === 'limit' ? 'encouraging' : 'happy'} size={220} />
-          {phase.reason === 'complete' && (
-            <div className="stars-row">
-              {state.played.map((_, i) => (
-                <StarIcon key={i} size={72} />
-              ))}
-            </div>
-          )}
-          <div className="done-actions">
-            <IconButton label={t('nav.home')} onClick={onHome}>
-              <HomeIcon />
-            </IconButton>
-            <IconButton label={t('nav.workshop')} variant="primary" onClick={onWorkshop}>
-              <WorkshopIcon />
-            </IconButton>
-          </div>
-        </main>
-      );
+      return <SessionDone reason={phase.reason} stars={state.played.length} onHome={onHome} onWorkshop={onWorkshop} />;
   }
+}
+
+/** The end of a session: a star per round played, or only the hedgehog when the day's time is up. */
+export function SessionDone({ reason, stars, onHome, onWorkshop }: { reason: 'complete' | 'limit'; stars: number; onHome(): void; onWorkshop(): void }) {
+  return (
+    <main className="screen screen--center done fit-light">
+      <Mascot mood={reason === 'limit' ? 'encouraging' : 'happy'} size={220} />
+      {reason === 'complete' && (
+        <div className="stars-row">
+          {Array.from({ length: stars }, (_, i) => (
+            <StarIcon key={i} size={72} />
+          ))}
+        </div>
+      )}
+      <div className="done-actions">
+        <IconButton label={t('nav.home')} onClick={onHome}>
+          <HomeIcon />
+        </IconButton>
+        <IconButton label={t('nav.workshop')} variant="primary" onClick={onWorkshop}>
+          <WorkshopIcon />
+        </IconButton>
+      </div>
+    </main>
+  );
 }

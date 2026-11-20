@@ -1,6 +1,7 @@
 // Development only: plays one exercise at one stage, so a change can be checked in the
 // browser without playing through a session. Opened with ?try=<generator id>&level=1|2|3
 // on `npm run dev`; it is not in the production build. Answers are not written anywhere.
+// ?try=screen:<name> shows one of the screens around the exercises instead (SCREENS).
 
 import { useState } from 'react';
 import { praiseKeys } from '../audio/recordings.ts';
@@ -9,6 +10,29 @@ import type { Level, Round } from '../engine/types.ts';
 import type { QuestionItem } from '../exercises/question/generate.ts';
 import { Question } from '../exercises/question/Question.tsx';
 import { GENERATORS, generatorById } from '../math-core/generators/index.ts';
+import { BreakView } from '../screens/BreakView.tsx';
+import { Home } from '../screens/Home.tsx';
+import { Parent } from '../screens/parent/Parent.tsx';
+import { SessionDone } from '../screens/Session.tsx';
+import { Start } from '../screens/Start.tsx';
+import { Workshop } from '../screens/workshop/Workshop.tsx';
+
+const none = () => undefined;
+
+/** The screens around the exercises, as ?try=screen:<name>. */
+export const SCREENS = {
+  start: () => <Start onGo={none} onParent={none} />,
+  home: () => <Home onPlay={none} onWorkshop={none} onParent={none} />,
+  break: () => (
+    <main className="screen screen--center fit-light">
+      <BreakView onContinue={none} />
+    </main>
+  ),
+  done: () => <SessionDone reason="complete" stars={3} onHome={none} onWorkshop={none} />,
+  limit: () => <SessionDone reason="limit" stars={0} onHome={none} onWorkshop={none} />,
+  workshop: () => <Workshop onHome={none} />,
+  parent: () => <Parent onClose={none} />,
+} as const;
 
 const QUESTIONS = 5;
 
@@ -39,6 +63,9 @@ export default function TryScreen({ search }: { search: string }) {
   const request = tryRequest(search)!;
   const [seed, setSeed] = useState(request.seed);
 
+  const screen = request.id.startsWith('screen:') ? SCREENS[request.id.slice('screen:'.length) as keyof typeof SCREENS] : undefined;
+  if (screen) return screen();
+
   if (!generatorById(request.id)) {
     return (
       <main className="screen">
@@ -58,7 +85,7 @@ export default function TryScreen({ search }: { search: string }) {
   }
 
   return (
-    <main className="screen session" data-try={request.id}>
+    <main className="screen session fit" data-try={request.id}>
       <Question key={seed} round={roundOf(request.id, request.level, seed)} onAnswer={() => undefined} onComplete={() => setSeed(seed + 1)} roundIndex={0} />
     </main>
   );

@@ -75,7 +75,7 @@ export function Workshop({ onHome }: { onHome(): void }) {
   const inShown = owned.filter((id) => workshop.items.find((i) => i.id === id)?.room === shown);
 
   return (
-    <main className="workshop">
+    <main className="workshop fit-light">
       <div className="top-bar">
         <IconButton label={t('nav.home')} onClick={onHome}>
           <HomeIcon />
