@@ -30,7 +30,15 @@ export function RoundPlayer({ roundKind, roundIndex, onComplete }: { roundKind: 
   useEffect(() => {
     let cancelled = false;
     void (async () => {
-      const answers = await db.answers.where('childId').equals(child.id).toArray();
+      // without the history the round still plays, at the first stage
+      const answers = await db.answers
+        .where('childId')
+        .equals(child.id)
+        .toArray()
+        .catch((e: unknown) => {
+          console.error('reading the answers', e);
+          return [];
+        });
       const adapt = {
         progress: progressBySkill(answers, (id) => generatorById(id)?.skill, localDate),
         today: localDate(Date.now()),

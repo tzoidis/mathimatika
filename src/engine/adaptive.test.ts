@@ -120,6 +120,18 @@ describe('the four states', () => {
     expect(progress([...toSymbolic, ...day(4, [true]), ...day(5, [true]), ...day(6, [true])]).state).toBe('stabilising');
     expect(progress([...toSymbolic, ...day(4, [true]), ...day(5, [true]), ...day(13, [true])]).state).toBe('mastered');
   });
+
+  it('does not count an easy question answered right toward mastery', () => {
+    const easy = (d: number) => [a(d, true, { level: 1 })];
+    expect(progress([...toSymbolic, ...easy(4), ...easy(5), ...easy(13)]).state).toBe('stabilising');
+  });
+
+  it('is no longer mastered once the skill falls back a stage', () => {
+    const mastered = [...toSymbolic, ...day(4, [true]), ...day(5, [true]), ...day(13, [true])];
+    const after = progress([...mastered, ...day(40, [false, false, false])]);
+    expect(after.stage).toBe(2);
+    expect(after.state).toBe('practising');
+  });
 });
 
 describe('what the parent sees', () => {

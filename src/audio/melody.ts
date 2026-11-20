@@ -19,11 +19,19 @@ export interface Melody {
 
 export const noteAt = (index: number): number => MELODY_NOTES[index % MELODY_NOTES.length]!;
 
+/**
+ * One context for the whole app: browsers allow only a few at a time (Safari about four),
+ * and an app left open for days plays many fluency rounds.
+ */
+let shared: AudioContext | null = null;
+
 export function createMelody(): Melody {
   let context: AudioContext | null = null;
 
   const tone = (hz: number, delay: number) => {
     if (!context) return;
+    // back from the background mid-round: the OS may have suspended it
+    if (context.state !== 'running') void context.resume();
     const start = context.currentTime + delay;
     const oscillator = context.createOscillator();
     const gain = context.createGain();
@@ -39,7 +47,9 @@ export function createMelody(): Melody {
   return {
     unlock() {
       try {
-        context ??= new AudioContext();
+        shared ??= new AudioContext();
+        context = shared;
+        // also wakes a context the OS suspended while the app was in the background
         void context.resume();
       } catch {
         context = null;

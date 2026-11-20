@@ -86,6 +86,8 @@ export interface AudioDeps {
   maxClipMs?: number;
   /** a clip that has not started playing by then is abandoned */
   maxStartMs?: number;
+  /** the app is in the background: nothing starts (the OS would pause it and leave it hanging) */
+  isHidden?: () => boolean;
 }
 
 /** Instructions are the longest clips (~6.5 s, ~9 s at slow speed); syllables and words are far shorter. */
@@ -193,6 +195,7 @@ export class BrowserAudioService implements AudioService {
   async play(req: AudioRequest): Promise<AudioSource | null> {
     const seq = ++this.playSeq;
     this.halt();
+    if (this.deps.isHidden?.()) return null;
     const key = audioKey(req.kind, req.key);
     // looking up a recording takes a moment: a newer play() or a stop() may come first
     const superseded = () => seq !== this.playSeq;
@@ -261,12 +264,21 @@ export class BrowserAudioService implements AudioService {
     u.lang = voice.lang;
     u.rate = slow ? SLOW_RATE : NORMAL_RATE;
     return new Promise((resolve) => {
-      u.onend = () => resolve();
-      u.onerror = () => resolve();
+      // Some engines drop an utterance without onend or onerror: never let it stall an exercise.
+      const done = () => {
+        clearTimeout(guard);
+        resolve();
+      };
+      const guard = setTimeout(() => {
+        speech.cancel();
+        done();
+      }, this.deps.maxClipMs ?? MAX_CLIP_MS);
+      u.onend = done;
+      u.onerror = done;
       this.current = {
         stop: () => {
           speech.cancel();
-          resolve();
+          done();
         },
       };
       speech.speak(u);
@@ -277,7 +289,7 @@ export class BrowserAudioService implements AudioService {
 /** Wires the service to the real browser and the recordings table. */
 export function createBrowserAudioService(getRecording: (key: string) => Promise<Blob | undefined>, bundledUrl: (key: string) => string | undefined): AudioService {
   const speech = typeof speechSynthesis === 'undefined' ? null : (speechSynthesis as unknown as SpeechLike);
-  return new BrowserAudioService({
+  const service = new BrowserAudioService({
     getRecording,
     bundledUrl,
     speech,
@@ -285,5 +297,12 @@ export function createBrowserAudioService(getRecording: (key: string) => Promise
     createPlayer: (src) => new Audio(src) as unknown as PlayerLike,
     createObjectUrl: (blob) => URL.createObjectURL(blob),
     revokeObjectUrl: (url) => URL.revokeObjectURL(url),
+    isHidden: () => document.visibilityState === 'hidden',
   });
+  // Sent to the background mid-clip, the OS pauses it without an 'ended': stop it, so
+  // whatever waits for it (the next question, the praise) goes on instead of hanging.
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') service.stop();
+  });
+  return service;
 }

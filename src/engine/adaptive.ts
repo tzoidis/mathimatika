@@ -67,21 +67,23 @@ export function skillProgress(skill: SkillId, answers: readonly AnswerLog[], dat
   let stage: Level = 1;
   let window: boolean[] = [];
   let goodDays = new Set<string>();
-  const symbolicDays: string[] = [];
+  /** days with a right answer given with symbols; a fall from stage 3 starts them over */
+  let symbolicDays: string[] = [];
   const byDay = new Map<string, boolean>();
 
   for (const a of firsts) {
     const day = dateOf(a.ts);
-    if (a.correct && stage === 3 && !symbolicDays.includes(day)) symbolicDays.push(day);
     byDay.set(day, (byDay.get(day) ?? true) && a.correct);
     // an easier question answered right says nothing about this stage; a miss there does
     if (a.correct && a.level !== undefined && a.level < stage) continue;
+    if (a.correct && stage === 3 && !symbolicDays.includes(day)) symbolicDays.push(day);
 
     window = [...window, a.correct].slice(-WINDOW);
     if (window.filter((r) => !r).length >= MISSES_TO_FALL) {
       stage = Math.max(1, stage - 1) as Level;
       window = [];
       goodDays = new Set();
+      symbolicDays = [];
       continue;
     }
     if (window.length === WINDOW && window.filter(Boolean).length >= WINDOW_RIGHT) goodDays.add(day);
@@ -129,7 +131,10 @@ export function progressBySkill(answers: readonly AnswerLog[], skillOf: (exercis
   const bySkill = new Map<SkillId, AnswerLog[]>();
   for (const a of answers) {
     const skill = skillOf(a.exerciseId);
-    if (skill) bySkill.set(skill, [...(bySkill.get(skill) ?? []), a]);
+    if (!skill) continue;
+    const list = bySkill.get(skill);
+    if (list) list.push(a);
+    else bySkill.set(skill, [a]);
   }
   return new Map([...bySkill].map(([skill, list]) => [skill, skillProgress(skill, list, dateOf)]));
 }

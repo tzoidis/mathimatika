@@ -423,7 +423,8 @@ export function Question({ round, onAnswer, onComplete, roundIndex = 0 }: Exerci
   };
 
   const submit = async (answer: string) => {
-    if (answer === '' || leaving.current) return;
+    // while the tiles light up to show how to answer, a tap is not yet an answer
+    if (answer === '' || leaving.current || tapDemo) return;
     const early = speaking.current;
     speech.current++;
     speaking.current = false;
