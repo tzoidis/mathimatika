@@ -1,6 +1,7 @@
 import 'fake-indexeddb/auto';
 import { afterEach, describe, expect, it } from 'vitest';
 import { backupDue, backupFileName, exportBackup, importBackup, InvalidBackup } from './backupFile.ts';
+import { listMigrationBackups } from './backup.ts';
 import { ensureChild, openDb, type MathDb } from './db.ts';
 import { DEFAULT_CHILD_ID } from './schema.ts';
 
@@ -28,7 +29,8 @@ describe('backup file', () => {
     const target = await freshDb();
     await importBackup(target, file);
 
-    expect(await target.settings.get(DEFAULT_CHILD_ID)).toEqual(await source.settings.get(DEFAULT_CHILD_ID));
+    // the file records itself as the latest backup
+    expect(await target.settings.get(DEFAULT_CHILD_ID)).toEqual({ ...(await source.settings.get(DEFAULT_CHILD_ID)), lastBackupAt: 99 });
     expect(await target.answers.toArray()).toEqual(await source.answers.toArray());
   });
 
@@ -41,6 +43,28 @@ describe('backup file', () => {
     await importBackup(target, file);
 
     expect(await target.settings.get(DEFAULT_CHILD_ID)).toMatchObject({ upToPosition: 0, dailyLimitMinutes: 20, leftHanded: true });
+  });
+
+  it('keeps a copy of the device first, and empties tables the file does not have', async () => {
+    const source = await seeded();
+    const file = JSON.parse(JSON.stringify(await exportBackup(source, 99)));
+    delete file.tables.world;
+    const target = await freshDb();
+    await ensureChild(target);
+    await target.world.add({ id: `${DEFAULT_CHILD_ID}:boat`, childId: DEFAULT_CHILD_ID, itemId: 'boat', placedAt: 1 });
+    await importBackup(target, file, 5, `bf-backups-${n}`);
+
+    expect(await target.world.count()).toBe(0);
+    const [kept] = await listMigrationBackups(`bf-backups-${n}`);
+    expect(kept?.data.world).toHaveLength(1);
+  });
+
+  it('rejects rows that are not records, and leaves the device as it was', async () => {
+    const db = await seeded();
+    const file = JSON.parse(JSON.stringify(await exportBackup(db, 99)));
+    file.tables.answers = [1, 2];
+    await expect(importBackup(db, file)).rejects.toBeInstanceOf(InvalidBackup);
+    expect(await db.answers.count()).toBe(1);
   });
 
   it('rejects files that are not backups, from Glossa, or from a newer app', async () => {

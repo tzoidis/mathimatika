@@ -19,15 +19,22 @@ export function Session({ onHome, onWorkshop }: { onHome(): void; onWorkshop(): 
   const { phase } = state;
 
   // Count play time while the app is visible; stored, so a reload does not reset it.
+  // The seconds since the last tick are added when the session ends, so many short visits add up.
   useEffect(() => {
     const limitMs = settings.dailyLimitMinutes * 60_000;
+    let last = Date.now();
     const id = setInterval(() => {
+      last = Date.now();
       if (document.visibilityState !== 'visible') return;
       void addDailyTime(db, child.id, TICK_MS).then((total) => {
         if (total >= limitMs) dispatch({ type: 'limitReached' });
       });
     }, TICK_MS);
-    return () => clearInterval(id);
+    return () => {
+      clearInterval(id);
+      const rest = Math.min(TICK_MS, Date.now() - last);
+      if (document.visibilityState === 'visible' && rest > 0) void addDailyTime(db, child.id, rest);
+    };
   }, [db, child.id, settings.dailyLimitMinutes]);
 
   useEffect(() => {

@@ -41,6 +41,7 @@ export function useFit() {
       // the layout viewport: unlike innerWidth, it does not grow when something spills over
       const w = root.clientWidth;
       const h = root.clientHeight;
+      if (w <= 0 || h <= 0) return; // not laid out yet (a hidden tab): wait for a real size
       set('fit', fitScale(w, h), w, h);
       set('fit-light', fitLightScale(w, h), w, h);
     };

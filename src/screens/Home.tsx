@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useApp } from '../app/AppContext.tsx';
+import { installUpdate, isUpdateReady } from '../app/appUpdate.ts';
 import { t } from '../i18n.ts';
 import { getDailyTime } from '../storage/db.ts';
 import { IconButton } from '../ui/IconButton.tsx';
@@ -11,6 +12,12 @@ import { Mascot } from '../ui/Mascot.tsx';
 export function Home({ onPlay, onWorkshop, onParent }: { onPlay(): void; onWorkshop(): void; onParent(): void }) {
   const { db, child, settings, audio } = useApp();
   const [limitReached, setLimitReached] = useState<boolean | null>(null);
+
+  // Arriving home is between rounds: a version that is already waiting is applied now.
+  // (Not while the child sits here: the screen would jump back to «Πάμε!» under their finger.)
+  useEffect(() => {
+    if (isUpdateReady()) installUpdate();
+  }, []);
 
   useEffect(() => {
     void getDailyTime(db, child.id).then((ms) => setLimitReached(ms >= settings.dailyLimitMinutes * 60_000));

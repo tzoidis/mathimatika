@@ -40,25 +40,38 @@ export interface AppProviderProps {
   audio?: AudioService;
   dbName?: string;
   fallback: ReactNode;
+  /** shown when the device does not let the app store anything */
+  failed: ReactNode;
 }
 
 // All audio is produced at build time, so no parent recordings exist (PRD §9).
 const noRecording = async () => undefined;
 
-export function AppProvider({ children, audio, dbName, fallback }: AppProviderProps) {
+export function AppProvider({ children, audio, dbName, fallback, failed }: AppProviderProps) {
   const [loaded, setLoaded] = useState<Loaded | null>(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
       const db = await openDb(dbName ? { name: dbName } : {});
+      // Another tab, or the app updated elsewhere, is upgrading the database: this copy's
+      // connection is closed and its writes would be lost, so reload into the new version.
+      db.on('versionchange', () => {
+        db.close();
+        location.reload();
+      });
       const settings = await ensureChild(db);
       const child = (await db.children.get(DEFAULT_CHILD_ID))!;
       const service = audio ?? createBrowserAudioService(noRecording, bundledUrl);
       if (!cancelled) setLoaded({ db, audio: service, child, settings, voice: null });
       const voice = await service.voice();
       if (!cancelled) setLoaded((l) => l && { ...l, voice });
-    })();
+    })().catch((e: unknown) => {
+      // private browsing, storage blocked, a full device…
+      console.error('could not open the database', e);
+      if (!cancelled) setError(true);
+    });
     return () => {
       cancelled = true;
     };
@@ -77,6 +90,7 @@ export function AppProvider({ children, audio, dbName, fallback }: AppProviderPr
 
   const app = useMemo<App | null>(() => (loaded ? { ...loaded, refresh, recheckVoice } : null), [loaded, refresh, recheckVoice]);
 
+  if (error && !app) return <>{failed}</>;
   if (!app) return <>{fallback}</>;
   return <AppContext.Provider value={app}>{children}</AppContext.Provider>;
 }

@@ -42,10 +42,16 @@ export async function openDb(options: OpenOptions = {}): Promise<MathDb> {
     try {
       await probe.open();
       if (probe.verno < target) {
-        await saveMigrationBackup(
-          { dbName: name, fromVersion: probe.verno, toVersion: target, createdAt: now(), data: await exportTables(probe) },
-          backupsName,
-        );
+        // Best effort: on a full device the copy may not fit, and an app that never opens
+        // again is worse than an upgrade without it (the upgrades only add defaults).
+        try {
+          await saveMigrationBackup(
+            { dbName: name, fromVersion: probe.verno, toVersion: target, createdAt: now(), data: await exportTables(probe) },
+            backupsName,
+          );
+        } catch (e) {
+          console.warn('pre-upgrade backup failed', e);
+        }
       }
     } finally {
       probe.close();

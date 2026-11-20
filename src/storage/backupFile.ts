@@ -1,7 +1,7 @@
 // The parent's backup file: all data as JSON.
 
 import type { Dexie } from 'dexie';
-import { exportTables, importTables, type Snapshot } from './backup.ts';
+import { exportTables, importTables, saveMigrationBackup, type Snapshot } from './backup.ts';
 import { defaultSettings, type Settings } from './schema.ts';
 
 export const BACKUP_APP = 'mathimatika';
@@ -13,14 +13,24 @@ export interface BackupFile {
   tables: Snapshot;
 }
 
+/**
+ * All data as a backup file. The file already records itself as the latest backup; the
+ * device records it only once the file is saved (see the parent's backup section).
+ */
 export async function exportBackup(db: Dexie, now = Date.now()): Promise<BackupFile> {
-  return { app: BACKUP_APP, schemaVersion: db.verno, exportedAt: now, tables: await exportTables(db) };
+  const tables = await exportTables(db);
+  tables.settings = (tables.settings ?? []).map((s) => ({ ...(s as Settings), lastBackupAt: now }));
+  return { app: BACKUP_APP, schemaVersion: db.verno, exportedAt: now, tables };
 }
 
 export class InvalidBackup extends Error {}
 
-/** Validates and restores a backup. Tables missing from the file are left as they are. */
-export async function importBackup(db: Dexie, file: unknown): Promise<void> {
+/**
+ * Validates and restores a backup. The file is the whole state: a table it does not have
+ * (one added since it was made) is emptied, so stars and Workshop items stay in step.
+ * What was on the device is kept first, like before a migration.
+ */
+export async function importBackup(db: Dexie, file: unknown, now = Date.now(), backupsName?: string): Promise<void> {
   const f = file as Partial<BackupFile> | null;
   if (!f || f.app !== BACKUP_APP || typeof f.schemaVersion !== 'number' || typeof f.tables !== 'object' || f.tables === null) {
     throw new InvalidBackup('not a backup of this app');
@@ -31,8 +41,11 @@ export async function importBackup(db: Dexie, file: unknown): Promise<void> {
   for (const [name, rows] of Object.entries(f.tables)) {
     if (!known.has(name)) continue;
     if (!Array.isArray(rows)) throw new InvalidBackup(`table ${name} is not a list`);
+    if (!rows.every((r) => typeof r === 'object' && r !== null && !Array.isArray(r))) throw new InvalidBackup(`table ${name} has rows that are not records`);
     tables[name] = rows;
   }
+  for (const name of known) tables[name] ??= [];
+  await saveMigrationBackup({ dbName: db.name, fromVersion: db.verno, toVersion: db.verno, createdAt: now, data: await exportTables(db) }, backupsName);
   await importTables(db, tables);
   // A backup from an older version has no value for settings added since.
   await db.table('settings').toCollection().modify((s: Settings) => {

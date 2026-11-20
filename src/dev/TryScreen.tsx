@@ -15,6 +15,7 @@ import { Home } from '../screens/Home.tsx';
 import { Parent } from '../screens/parent/Parent.tsx';
 import { SessionDone } from '../screens/Session.tsx';
 import { Start } from '../screens/Start.tsx';
+import { StorageFailed } from '../screens/StorageFailed.tsx';
 import { Workshop } from '../screens/workshop/Workshop.tsx';
 
 const none = () => undefined;
@@ -32,6 +33,7 @@ export const SCREENS = {
   limit: () => <SessionDone reason="limit" stars={0} onHome={none} onWorkshop={none} />,
   workshop: () => <Workshop onHome={none} />,
   parent: () => <Parent onClose={none} />,
+  failed: () => <StorageFailed />,
 } as const;
 
 const QUESTIONS = 5;

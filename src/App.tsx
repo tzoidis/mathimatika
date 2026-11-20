@@ -6,6 +6,7 @@ import { Home } from './screens/Home.tsx';
 import { Parent } from './screens/parent/Parent.tsx';
 import { Session } from './screens/Session.tsx';
 import { Start } from './screens/Start.tsx';
+import { StorageFailed } from './screens/StorageFailed.tsx';
 import { Workshop } from './screens/workshop/Workshop.tsx';
 import { ErrorBoundary } from './ui/ErrorBoundary.tsx';
 import { Mascot } from './ui/Mascot.tsx';
@@ -53,6 +54,7 @@ export function App() {
           <Mascot mood="thinking" />
         </main>
       }
+      failed={<StorageFailed />}
     >
       <Screens />
     </AppProvider>

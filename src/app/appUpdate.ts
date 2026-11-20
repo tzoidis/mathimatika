@@ -1,6 +1,7 @@
 // Service worker and app updates (PRD §7, §8). A new version is downloaded in the
-// background but applied only on the start screen or from the parent screen,
-// never in the middle of a round.
+// background but applied only on the start screen, on arriving home, or from the
+// parent screen, never in the middle of a round. An installed app may stay open in
+// the background for weeks, so it also looks for a new version each time it comes back.
 
 import { useSyncExternalStore } from 'react';
 import { registerSW } from 'virtual:pwa-register';
@@ -16,8 +17,17 @@ export function startServiceWorker(): void {
       updateReady = true;
       listeners.forEach((l) => l());
     },
+    onRegisteredSW(_url, registration) {
+      if (!registration) return;
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible' && !updateReady) void registration.update().catch(() => undefined);
+      });
+    },
   });
 }
+
+/** True once a new version is waiting. */
+export const isUpdateReady = (): boolean => updateReady;
 
 export function useUpdateReady(): boolean {
   return useSyncExternalStore(
