@@ -6,7 +6,8 @@ import { ROOM_ART, ROOM_PLACES, ROOM_SCENES } from '../screens/workshop/rooms.ts
 import { ensureChild, openDb, type MathDb } from './db.ts';
 import { buyItem, ownedItems } from './progress.ts';
 import { DEFAULT_CHILD_ID } from './schema.ts';
-import { currentRoom, justMoved, nextChoices, openRooms, roomChoices } from './workshop.ts';
+import { isReaction } from '../screens/workshop/react.ts';
+import { currentRoom, festivalDone, filledBy, justMoved, nextChoices, openRooms, roomChoices, roomProgress } from './workshop.ts';
 
 let n = 0;
 const dbs: MathDb[] = [];
@@ -121,5 +122,31 @@ describe('buying', () => {
     await buyItem(db, DEFAULT_CHILD_ID, 'mill', 3, 2000);
     await buyItem(db, DEFAULT_CHILD_ID, 'bench', 3, 3000);
     expect(await ownedItems(db, DEFAULT_CHILD_ID)).toEqual(['mill', 'bench']);
+  });
+});
+
+describe('the goal path', () => {
+  const rooms = workshop.rooms;
+  const items = workshop.items;
+  const inRoom = (room: string) => items.filter((i) => i.room === room).map((i) => i.id);
+
+  it('gives every thing a reaction to a tap, and every room a badge', () => {
+    for (const item of items) expect(isReaction(item.react), item.id).toBe(true);
+    for (const room of rooms) expect(items.some((i) => i.id === room.badge), room.id).toBe(true);
+  });
+
+  it('counts each room, and celebrates the choice that fills one', () => {
+    const almost = inRoom('workshop').slice(0, -1);
+    const last = inRoom('workshop').at(-1)!;
+    expect(roomProgress(rooms, items, almost)[0]).toEqual({ id: 'workshop', owned: almost.length, total: almost.length + 1 });
+    expect(filledBy(items, almost, last)).toBe('workshop');
+    expect(filledBy(items, almost.slice(1), last)).toBeNull();
+  });
+
+  it('holds the festival once every room is full', () => {
+    const all = items.map((i) => i.id);
+    expect(festivalDone(items, all.slice(1))).toBe(false);
+    expect(festivalDone(items, all)).toBe(true);
+    expect(filledBy(items, all.slice(0, -1), all.at(-1)!)).toBe('sky');
   });
 });

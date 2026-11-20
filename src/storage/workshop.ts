@@ -43,3 +43,21 @@ export function justMoved(rooms: readonly Room[], items: readonly Item[], owned:
   const room = currentRoom(rooms, items, owned);
   return room !== rooms[0] && !items.some((i) => i.room === room.id && owned.includes(i.id));
 }
+
+/** How far each room is: what the goal path at the top shows. */
+export function roomProgress(rooms: readonly Room[], items: readonly Item[], owned: readonly string[]): { id: string; owned: number; total: number }[] {
+  return rooms.map((r) => {
+    const inRoom = items.filter((i) => i.room === r.id);
+    return { id: r.id, owned: inRoom.filter((i) => owned.includes(i.id)).length, total: inRoom.length };
+  });
+}
+
+/** The room this choice has just filled, if it did: time to celebrate. */
+export function filledBy(items: readonly Item[], owned: readonly string[], chosen: string): string | null {
+  const room = items.find((i) => i.id === chosen)?.room;
+  if (!room) return null;
+  return items.filter((i) => i.room === room).every((i) => owned.includes(i.id) || i.id === chosen) ? room : null;
+}
+
+/** Every room full: the great festival has happened, and the rooms stay decorated. */
+export const festivalDone = (items: readonly Item[], owned: readonly string[]): boolean => items.every((i) => owned.includes(i.id));

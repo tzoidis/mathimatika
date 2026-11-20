@@ -677,6 +677,30 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "instruction/room-done-harbour": {
+    "text": "Το Λιμάνι γέμισε! Πάμε τώρα στο Αστεροσκοπείο. Η γιορτή πλησιάζει!",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/room-done-sky": {
+    "text": "Όλα είναι έτοιμα! Ώρα για τη μεγάλη γιορτή! Μπράβο για όλη τη δουλειά σου!",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/room-done-workshop": {
+    "text": "Το Εργαστήρι γέμισε! Πάμε τώρα στην Αυλή.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
+  "instruction/room-done-yard": {
+    "text": "Η Αυλή γέμισε! Πάμε τώρα στο Λιμάνι.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "instruction/round-complete": {
     "text": "Μπράβο! Τελείωσες τον γύρο!",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -899,6 +923,12 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
+  "instruction/workshop-goal": {
+    "text": "Ετοιμάζουμε μια μεγάλη γιορτή! Γέμισε τα μέρη ένα ένα, και στο τέλος θα γιορτάσουμε όλοι μαζί.",
+    "voice": "aTP4J5SJLQl74WTSRXKW",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_24000_48"
+  },
   "instruction/workshop-grows": {
     "text": "Ωραία! Το Εργαστήρι μεγαλώνει!",
     "voice": "aTP4J5SJLQl74WTSRXKW",
@@ -911,8 +941,8 @@
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"
   },
-  "instruction/workshop-move": {
-    "text": "Το Εργαστήρι γέμισε! Πάμε σε ένα καινούριο μέρος!",
+  "instruction/workshop-tap": {
+    "text": "Πάτησε τα πράγματα και δες τι κάνουν!",
     "voice": "aTP4J5SJLQl74WTSRXKW",
     "model": "eleven_multilingual_v2",
     "format": "mp3_24000_48"

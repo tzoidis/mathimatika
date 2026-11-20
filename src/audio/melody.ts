@@ -15,6 +15,8 @@ export interface Melody {
   /** the note for the nth right answer */
   note(index: number): void;
   finish(): void;
+  /** a few notes in a row, e.g. a Workshop thing answering a tap */
+  tune(notes: readonly number[]): void;
 }
 
 export const noteAt = (index: number): number => MELODY_NOTES[index % MELODY_NOTES.length]!;
@@ -57,5 +59,6 @@ export function createMelody(): Melody {
     },
     note: (index) => tone(noteAt(index), 0),
     finish: () => FINISH_NOTES.forEach((hz, i) => tone(hz, i * FINISH_STEP_SECONDS)),
+    tune: (notes) => notes.forEach((hz, i) => tone(hz, i * FINISH_STEP_SECONDS)),
   };
 }

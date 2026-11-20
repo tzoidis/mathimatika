@@ -145,3 +145,27 @@ export const ITEM_PLACES: Record<string, { x: number; y: number; scale: number }
   bird: { x: 860, y: 40, scale: 0.6 },
   mill: { x: 530, y: 330, scale: 1 },
 };
+
+/** The festival: balloons for the last stop of the goal path and the celebration. */
+export const BALLOONS: ReactNode = (
+  <>
+    <path d="M70 110 Q80 150 100 196 M130 104 Q118 150 100 196 M100 90 V196" stroke={INK} strokeWidth="3" fill="none" />
+    <ellipse cx="62" cy="70" rx="40" ry="48" fill={RED} stroke={INK} strokeWidth="4" />
+    <ellipse cx="138" cy="66" rx="40" ry="48" fill={BLUE} stroke={INK} strokeWidth="4" />
+    <ellipse cx="100" cy="48" rx="40" ry="48" fill={GOLD} stroke={INK} strokeWidth="4" />
+    <ellipse cx="88" cy="30" rx="8" ry="12" fill={CREAM} opacity="0.7" />
+  </>
+);
+
+/** Flags across the top of every room once the festival has been held. */
+export const GARLAND: ReactNode = (
+  <g aria-hidden>
+    <path d="M0 20 Q250 90 500 20 Q750 90 1000 20" stroke={INK} strokeWidth="3" fill="none" />
+    {Array.from({ length: 19 }, (_, i) => {
+      const x = 25 + i * 52;
+      const t = (x % 500) / 500;
+      const y = 20 + 70 * 4 * t * (1 - t) * 0.5 + 4;
+      return <path key={i} d={`M${x - 16} ${y} L${x + 16} ${y} L${x} ${y + 34} Z`} fill={[RED, GOLD, BLUE, GREEN][i % 4]} stroke={INK} strokeWidth="2" />;
+    })}
+  </g>
+);

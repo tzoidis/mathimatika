@@ -44,8 +44,9 @@ Date: ____________
 | 9 | «Δεν ξέρω ακόμα» | Tap it. The worked example is shown with its answer, and then a similar question comes. No star is lost, and nothing negative is said. | |
 | 10 | Calm pause | Tap three wrong answers fast. The breathing circle and the hedgehog appear, then the question is read again. No clock, no number of seconds, no red. | |
 | 11 | Workshop rooms | Spend stars. When a room is full, the child moves to the next one and its clip plays. The arrows let you visit the full rooms. Items in later rooms cost more stars. | |
+| 11β | Workshop: tap and festival | Tap things in the Workshop: each moves (hops, sways, glows, flies, swims) with a few notes. The path at the top shows the rooms and the balloons; the current room's ring fills as it does. Filling a room brings balloons, the hedgehog and its clip («Το Εργαστήρι γέμισε! Πάμε τώρα στην Αυλή.»), then the next room. Time spent in the Workshop counts toward the day's minutes. | |
 | 12 | Home cards | Parent screen → «Δραστηριότητες για το σπίτι». The cards up to the chapter you set are listed, the newest first. «Γράφουμε τους αριθμούς» (ch. 6) and «Φωτογραφίες και ημερολόγιο» (ch. 41) are among them. A ✓ stays after you close and reopen the app. | |
-| 13 | Teacher section | Parent screen → «Για συζήτηση με τη δασκάλα». After a few days of play it says «Δεν υπάρχει κάτι να σημειωθεί.» (it needs three weeks of answers before it says anything else). | |
+| 13 | Teacher section | Parent screen → «Για συζήτηση στο σχολείο». After a few days of play it says «Δεν υπάρχει κάτι να σημειωθεί.» (it needs three weeks of answers before it says anything else). | |
 | 14 | Offline again | Airplane mode, open from the home screen, play a session with sound: every new clip plays. | |
 | 15 | Back to the class's chapter | «Μέχρι πού έχει φτάσει η τάξη» is set back to the chapter noted at the top. | |
 

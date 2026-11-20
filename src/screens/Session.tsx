@@ -4,38 +4,22 @@ import { useEffect, useReducer } from 'react';
 import { useApp } from '../app/AppContext.tsx';
 import { sessionReducer, startSession } from '../engine/session.ts';
 import { t } from '../i18n.ts';
-import { addDailyTime } from '../storage/db.ts';
+import { usePlayTime } from '../app/playTime.ts';
 import { IconButton } from '../ui/IconButton.tsx';
 import { HomeIcon, StarIcon, WorkshopIcon } from '../ui/Icons.tsx';
 import { Mascot } from '../ui/Mascot.tsx';
 import { BreakView } from './BreakView.tsx';
 import { RoundPlayer } from './RoundPlayer.tsx';
 
-const TICK_MS = 15_000;
-
 export function Session({ onHome, onWorkshop }: { onHome(): void; onWorkshop(): void }) {
-  const { db, child, settings, audio } = useApp();
+  const { settings, audio } = useApp();
   const [state, dispatch] = useReducer(sessionReducer, undefined, startSession);
   const { phase } = state;
 
-  // Count play time while the app is visible; stored, so a reload does not reset it.
-  // The seconds since the last tick are added when the session ends, so many short visits add up.
-  useEffect(() => {
-    const limitMs = settings.dailyLimitMinutes * 60_000;
-    let last = Date.now();
-    const id = setInterval(() => {
-      last = Date.now();
-      if (document.visibilityState !== 'visible') return;
-      void addDailyTime(db, child.id, TICK_MS).then((total) => {
-        if (total >= limitMs) dispatch({ type: 'limitReached' });
-      });
-    }, TICK_MS);
-    return () => {
-      clearInterval(id);
-      const rest = Math.min(TICK_MS, Date.now() - last);
-      if (document.visibilityState === 'visible' && rest > 0) void addDailyTime(db, child.id, rest);
-    };
-  }, [db, child.id, settings.dailyLimitMinutes]);
+  // the current round finishes, then the session ends (engine/session.ts)
+  usePlayTime((total) => {
+    if (total >= settings.dailyLimitMinutes * 60_000) dispatch({ type: 'limitReached' });
+  });
 
   useEffect(() => {
     if (phase.kind !== 'done') return;

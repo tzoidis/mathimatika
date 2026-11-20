@@ -2384,3 +2384,178 @@ button {
   width: var(--fit-light-w, 100%);
   height: var(--fit-light-h, 100%);
 }
+
+/* ---------- the Workshop: the way to the festival, things that answer a tap, the celebration ---------- */
+
+.goal-path {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.goal-stop {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  border: 3px solid var(--card-edge);
+}
+
+/* the dotted way between two stops */
+.goal-stop + .goal-stop::before {
+  content: '';
+  position: absolute;
+  right: 100%;
+  width: 10px;
+  border-top: 3px dotted var(--card-edge);
+}
+
+.goal-stop--later svg {
+  opacity: 0.3;
+  filter: grayscale(1);
+}
+
+.goal-stop--done {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* the room being filled: a ring that fills as it does */
+.goal-stop--now {
+  border-color: transparent;
+  background:
+    linear-gradient(var(--card), var(--card)) padding-box,
+    conic-gradient(var(--accent) calc(var(--goal-fill, 0) * 360deg), var(--card-edge) 0) border-box;
+  border-width: 5px;
+}
+
+.workshop-thing {
+  cursor: pointer;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .react--hop { animation: thing-hop 900ms ease-out; }
+  .react--sway { animation: thing-sway 900ms ease-in-out; }
+  .react--wobble { animation: thing-wobble 900ms ease-in-out; transform-origin: 50% 50%; }
+  .react--spin { animation: thing-spin 900ms ease-in-out; transform-origin: 50% 50%; }
+  .react--fly { animation: thing-fly 900ms ease-in-out; }
+  .react--swim { animation: thing-swim 900ms ease-in-out; }
+}
+/* the glow needs no movement, so it stays when motion is reduced */
+.react--glow { animation: thing-glow 900ms ease-in-out; }
+
+@keyframes thing-hop {
+  0%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-18%); }
+  55% { transform: translateY(0); }
+  70% { transform: translateY(-6%); }
+}
+@keyframes thing-sway {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-6deg); }
+  75% { transform: rotate(6deg); }
+}
+@keyframes thing-wobble {
+  0%, 100% { transform: rotate(0); }
+  20% { transform: rotate(-8deg); }
+  40% { transform: rotate(7deg); }
+  60% { transform: rotate(-4deg); }
+  80% { transform: rotate(2deg); }
+}
+@keyframes thing-spin {
+  from { transform: rotate(0); }
+  to { transform: rotate(360deg); }
+}
+@keyframes thing-fly {
+  0%, 100% { transform: translate(0, 0); }
+  35% { transform: translate(8%, -22%); }
+  70% { transform: translate(-6%, -10%); }
+}
+@keyframes thing-swim {
+  0%, 100% { transform: translateX(0); }
+  30% { transform: translateX(-10%); }
+  70% { transform: translateX(10%); }
+}
+@keyframes thing-glow {
+  0%, 100% { filter: none; }
+  40% { filter: brightness(1.35) drop-shadow(0 0 24px #f6c443); }
+}
+
+.celebration {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+}
+
+.celebration-balloon {
+  position: absolute;
+  bottom: 10%;
+}
+.celebration-balloon--0 { left: 6%; }
+.celebration-balloon--1 { left: 24%; bottom: 22%; }
+.celebration-balloon--2 { right: 22%; bottom: 26%; }
+.celebration-balloon--3 { right: 6%; }
+.celebration-balloon--4 { left: 44%; bottom: 62%; }
+.celebration-balloon--5 { left: 14%; bottom: 52%; }
+.celebration-balloon--6 { right: 12%; bottom: 56%; }
+.celebration-balloon--7 { left: 32%; bottom: 76%; }
+.celebration-balloon--8 { right: 32%; bottom: 74%; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .celebration-balloon { animation: balloon-rise 1.6s ease-out both; }
+  .celebration-balloon:nth-child(2n) { animation-delay: 250ms; }
+  .celebration-balloon:nth-child(3n) { animation-delay: 500ms; }
+  .celebration .mascot { animation: thing-hop 900ms ease-out 2; }
+}
+
+@keyframes balloon-rise {
+  from { transform: translateY(40vh); opacity: 0; }
+  30% { opacity: 1; }
+  to { transform: translateY(0); }
+}
+
+/* a narrow phone held upright: the way to the festival gets its own row under the buttons */
+@media (max-width: 560px) {
+  .workshop .top-bar {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+  .workshop .goal-path {
+    order: 3;
+    flex-basis: 100%;
+    justify-content: center;
+    gap: 8px;
+  }
+  .workshop .goal-stop {
+    width: 50px;
+    height: 50px;
+  }
+  .workshop .goal-stop + .goal-stop::before {
+    width: 8px;
+  }
+  /* the scene takes the whole width; the arrows go under it */
+  .workshop-rooms {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    row-gap: 8px;
+  }
+  .workshop-rooms .workshop-scene {
+    order: -1;
+    flex-basis: 100%;
+  }
+}
